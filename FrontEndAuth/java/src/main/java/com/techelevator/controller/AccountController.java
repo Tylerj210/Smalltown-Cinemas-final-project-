@@ -43,7 +43,7 @@ public class AccountController {
 
     @RequestMapping(path="/register", method=RequestMethod.POST)
     public String register(
-        @RequestBody User user,
+        @Valid @RequestBody User user,
         BindingResult result
     ) throws UserCreationException {
         if(result.hasErrors()) {
@@ -54,7 +54,8 @@ public class AccountController {
             throw new UserCreationException(errorMessages);
         }
         auth.register(user.getUsername(), user.getPassword(), user.getRole());
-        return "{\"success\":true}";
+        auth.signIn(user.getUsername(), user.getPassword());
+        return "\"" + tokenHandler.createToken(user.getUsername(), user.getRole()) + "\"";
     }
 
 }

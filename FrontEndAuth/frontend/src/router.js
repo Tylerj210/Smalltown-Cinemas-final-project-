@@ -24,23 +24,16 @@ const router = new Router({
       name: "login",
       component: Login,
       meta: {
-        requiesAuth: false
+        requiresAuth: false
       }
     },
-    {
-      path: "/register",
-      name: "register",
-      component: Login,
-      meta: {
-        requiesAuth: false
-      }
-    },
+
     {
       path: "/",
       name: "home",
       component: Home,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     }
   ]
