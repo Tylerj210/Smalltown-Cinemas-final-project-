@@ -1,0 +1,12 @@
+/Users/jasonlawrie/workspace/java-final-capstone-team-smalltown-cinema/FrontEndAuth/java/src/main/java/com/techelevator/authentication/AuthProvider.java
+/Users/jasonlawrie/workspace/java-final-capstone-team-smalltown-cinema/FrontEndAuth/java/src/main/java/com/techelevator/authentication/JwtAuthInterceptor.java
+/Users/jasonlawrie/workspace/java-final-capstone-team-smalltown-cinema/FrontEndAuth/java/src/main/java/com/techelevator/authentication/JwtTokenHandler.java
+/Users/jasonlawrie/workspace/java-final-capstone-team-smalltown-cinema/FrontEndAuth/java/src/main/java/com/techelevator/model/JdbcUserDao.java
+/Users/jasonlawrie/workspace/java-final-capstone-team-smalltown-cinema/FrontEndAuth/java/src/main/java/com/techelevator/controller/AccountController.java
+/Users/jasonlawrie/workspace/java-final-capstone-team-smalltown-cinema/FrontEndAuth/java/src/main/java/com/techelevator/model/User.java
+/Users/jasonlawrie/workspace/java-final-capstone-team-smalltown-cinema/FrontEndAuth/java/src/main/java/com/techelevator/authentication/RequestAuthProvider.java
+/Users/jasonlawrie/workspace/java-final-capstone-team-smalltown-cinema/FrontEndAuth/java/src/main/java/com/techelevator/authentication/UserCreationException.java
+/Users/jasonlawrie/workspace/java-final-capstone-team-smalltown-cinema/FrontEndAuth/java/src/main/java/com/techelevator/authentication/PasswordHasher.java
+/Users/jasonlawrie/workspace/java-final-capstone-team-smalltown-cinema/FrontEndAuth/java/src/main/java/com/techelevator/controller/ApiController.java
+/Users/jasonlawrie/workspace/java-final-capstone-team-smalltown-cinema/FrontEndAuth/java/src/main/java/com/techelevator/model/UserDao.java
+/Users/jasonlawrie/workspace/java-final-capstone-team-smalltown-cinema/FrontEndAuth/java/src/main/java/com/techelevator/authentication/UnauthorizedException.java
