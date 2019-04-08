@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * AccountController
  */
 @RestController
+@CrossOrigin
 public class AccountController {
     @Autowired
     private AuthProvider auth;
@@ -32,7 +33,7 @@ public class AccountController {
     ) throws UnauthorizedException {
         if(auth.signIn(user.getUsername(), user.getPassword())) {
             User currentUser = auth.getCurrentUser();
-            return tokenHandler.createToken(user.getUsername(), currentUser.getRole());
+            return "\"" + tokenHandler.createToken(user.getUsername(), currentUser.getRole()) + "\"";
         } else {
             throw new UnauthorizedException();
         }
@@ -42,7 +43,7 @@ public class AccountController {
 
     @RequestMapping(path="/register", method=RequestMethod.POST)
     public String register(
-        @Valid @RequestBody User user,
+        @RequestBody User user,
         BindingResult result
     ) throws UserCreationException {
         if(result.hasErrors()) {
