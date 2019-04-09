@@ -61,6 +61,37 @@ public class JdbcMovieDao implements MovieDao {
         movie.setOfficialSite(results.getString("officialSite"));
         movie.setImage(results.getString("mainImage"));
         movie.setTrailerLink(results.getString("trailerLink"));
+        movie.setActors(getActorList(movie.getId()));
+        movie.setGenres(getGenreList(movie.getId()));
         return movie;
     }
+	
+	public List<String> getActorList(int id) {
+		List<String> actors = new ArrayList<String>();
+        String sqlSelectActorByMovieId = "SELECT actors.firstname, actors.lastname "
+        		+ "FROM actors "
+        		+ "JOIN movie_actor ON actors.actor_id = movie_actor.actor_id "
+        		+ "WHERE movie_actor.movie_id = ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectActorByMovieId, id);
+        while(results.next()) {
+        	actors.add(results.getString("firstname") + " " + results.getString("lastname"));
+        }
+        
+        return actors;
+	}
+	
+	public List<String> getGenreList(int id) {
+		List<String> genres = new ArrayList<String>();
+        String sqlSelectGenreByMovieId = "SELECT genre.genre "
+        		+ "FROM genre "
+        		+ "JOIN genre_movie ON genre.genre_id = genre_movie.genre_id "
+        		+ "WHERE genre_movie.movie_id = ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectGenreByMovieId, id);
+        while(results.next()) {
+        	genres.add(results.getString("genre"));
+        }
+        
+        return genres;
+	}
 }
+

@@ -1,6 +1,7 @@
 package com.techelevator.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class Movie {
 	
@@ -14,6 +15,8 @@ public class Movie {
 	private String officialSite;
 	private String image;
 	private	String trailerLink;
+	private List<String> actors;
+	private List<String> genres;
 	
 	public int getId() {
 		return id;
@@ -93,5 +96,35 @@ public class Movie {
 	public void setTrailerLink(String trailerLink) {
 		this.trailerLink = trailerLink;
 	}
+
+	/**
+	 * @return the actors
+	 */
+	public List<String> getActors() {
+		return actors;
+	}
+
+	/**
+	 * @param actors the actors to set
+	 */
+	public void setActors(List<String> actors) {
+		this.actors = actors;
+	}
+
+	/**
+	 * @return the genres
+	 */
+	public List<String> getGenres() {
+		return genres;
+	}
+
+	/**
+	 * @param genres the genres to set
+	 */
+	public void setGenres(List<String> genres) {
+		this.genres = genres;
+	}
+
+
 	
 }
