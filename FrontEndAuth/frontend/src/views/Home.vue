@@ -90,10 +90,87 @@ export default {
   box-shadow: 5px 10px 20px 4px rgba(255,215,0,80%);
   color: rgba(255,215,0,90%);
   text-align:center;
+    background-color: #000;
+    background-image:  
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff),  
+        linear-gradient(to right, #fff, #fff),       
+         
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff), 
+        linear-gradient(to right, #fff, #fff);
+
+    background-repeat:no-repeat;
+    background-position: 
+        5% 5%,
+        5% 15%,
+        5% 25%, 
+        5% 35%,
+        5% 45%,
+        5% 55%,
+        5% 65%,
+        5% 75%, 
+        5% 85%,
+        5% 95%,
+             
+        95% 5%,
+        95% 15%,
+        95% 25%, 
+        95% 35%,
+        95% 45%,
+        95% 55%,
+        95% 65%,
+        95% 75%, 
+        95% 85%,
+        95% 95%;
+    
+    background-size:
+        5% 6%,
+        5% 6%,
+        5% 6%,
+        5% 6%,
+        5% 6%,
+        5% 6%,
+        5% 6%,
+        5% 6%,
+        5% 6%,
+        5% 6%,
+        5% 6%,
+            
+        5% 6%,
+        5% 6%,
+        5% 6%,
+        5% 6%,
+        5% 6%,
+        5% 6%,
+        5% 6%,
+        5% 6%,
+        5% 6%,
+        5% 6%,
+        5% 6%;
 }
+
 .movie-wrapper *{
   color: rgba(255,215,0,90%);
 }
+
 .movie-wrapper img{
   width: 50%;
 }
