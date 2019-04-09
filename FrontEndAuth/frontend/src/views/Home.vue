@@ -7,9 +7,17 @@
 -->
 <template>
   <div id="home" class="container">
-    <span v-for="movie in movies" v-bind:key="movie.movie_id">
-      {{movie.title}}
-    </span>
+    <div id="all-movies">
+      <div v-for="movie in movies" v-bind:key="movie.id" class="movie-wrapper">
+        <img v-bind:src="movie.image">
+        <div class="movie-main-details">
+          <a v-bind:href="movie.officialSite"><h3>{{movie.title}}</h3></a>
+          <div class="description">
+            {{movie.description}}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -27,7 +35,20 @@ export default {
     };
   },
   methods: {
-    
+    buildMovieList(){
+      // this.movies.forEach((movie)=>{
+      //   let wrapper = document.getElementById('movie-wrapper');
+      //   let card = document.createElement("div");
+      //   card.classList.add("movie-card-wrapper");
+      //   let theImage = document.createElement("img");
+      //   let theTitle = document.createElement("p");
+
+      //   theImage.src=movie.image;
+      //   theTitle.innerText=movie.title;
+      //   wrapper.appendChild(theImage);
+      //   wrapper.appendChild(theTitle);
+      // })
+    }
   },
   
   created() {
@@ -43,7 +64,8 @@ export default {
     .then(moviesJSON => {
         this.movies = moviesJSON;
         console.log(moviesJSON);
-    });
+        this.buildMovieList();
+    })
   }
 };
 </script>
@@ -52,9 +74,27 @@ export default {
 #home {
   margin-top: 0.5rem;
 }
-
-.post {
-  border-bottom: 1px solid #eee;
-  margin-bottom: 0.5rem;
+#all-movies{
+  min-width:90%;
+  margin:20px;
+  padding:20px;
+  border:1px solid black;
+  background-color:black;
 }
+.movie-wrapper{
+  margin: 15px;
+  padding:10px;
+  border:1px solid #800020;
+  border-radius:5px;
+  box-shadow:5px 10px 20px 0px rgba(255,215,0,80%);
+  color: rgba(255,215,0,90%);
+  text-align:center;
+}
+.movie-wrapper *{
+  color: rgba(255,215,0,90%);
+}
+.movie-wrapper img{
+  width:100%;
+}
+
 </style>
