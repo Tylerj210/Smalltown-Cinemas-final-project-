@@ -87,21 +87,28 @@ CREATE TABLE tickets(
 
 -- INSERTIONS INTO OUR MOVIES TABLE
 INSERT INTO movies(movie_id, title, releaseDate, rating, runtime, director, synopsis, mainImage, trailerLink, officialSite) VALUES (1, 'Avengers: Endgame', '04/26/2019'::DATE, 'PG-13', 182,'Anthony Russo', 'Great movie much respek', 'https://upload.wikimedia.org/wikipedia/en/0/0d/Avengers_Endgame_poster.jpg', 'https://www.imdb.com/title/tt4154796/videoplayer/vi3703880217', 'https://www.marvel.com/movies/avengers-endgame');
+INSERT INTO movies(movie_id, title, releaseDate, rating, runtime, director, synopsis, mainImage, trailerLink, officialSite) VALUES (2, 'Us', '03/22/2019'::DATE, 'R', 116,'Jordan Peele', 'Loved it!', 'https://upload.wikimedia.org/wikipedia/en/0/00/Us_%282019%29_theatrical_poster.png', 'https://youtu.be/1tzFRIQfwXg', 'https://www.usmovie.com/');
 
 
 --INSERTIONS INTO OUR ACTORS TABLE
 INSERT INTO actors(actor_id, firstName, lastName) VALUES (1, 'Robert', 'Downey Jr.');
 INSERT INTO actors(actor_id, firstName, lastName) VALUES (2, 'Brie', 'Larson');
+INSERT INTO actors(actor_id, firstName, lastName) VALUES (3, 'Lupita', 'Nyongo''o');
+INSERT INTO actors(actor_id, firstName, lastName) VALUES (4, 'Winston', 'Duke');
 
 --INSERTIONS INTO OUR MOVIE_ACTOR TABLE
 INSERT INTO movie_actor(actor_id, movie_id) VALUES (1,1);
 INSERT INTO movie_actor(actor_id, movie_id) VALUES (2,1);
+INSERT INTO movie_actor(actor_id, movie_id) VALUES (3,2);
+INSERT INTO movie_actor(actor_id, movie_id) VALUES (4,2);
+
 
 --INSERTIONS INTO OUR GENRE TABLE
 INSERT INTO genre(genre_id, genre) VALUES (1, 'Action');
+INSERT INTO genre(genre_id, genre) VALUES (2, 'Horror');
 
 --INSERTIONS INTO OUR GENRE_MOVIE TABLE
-INSERT INTO genre_movie(genre_id, movie_id) VALUES (1,1);
+INSERT INTO genre_movie(genre_id, movie_id) VALUES (2,2);
 
 -- PROVIDES OUR TABLE LINKS FOR SHOWTIMES AND MOVIES
 ALTER TABLE showtime_movie
@@ -129,5 +136,17 @@ REFERENCES movies(movie_id);
 ALTER TABLE genre_movie
 ADD FOREIGN KEY(genre_id)
 REFERENCES genre(genre_id);
+
+SELECT actors.firstName, actors.lastName 
+FROM actors 
+JOIN movie_actor ON actors.actor_id = movie_actor.actor_id 
+JOIN movies ON movies.movie_id = movie_actor.movie_id
+WHERE movies.title = 'Us';
+
+SELECT genre.genre
+FROM genre 
+JOIN genre_movie ON genre.genre_id = genre_movie.genre_id 
+JOIN movies ON genre_movie.movie_id = movies.movie_id
+WHERE movies.title = 'Us';
 
 COMMIT TRANSACTION;
