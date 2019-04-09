@@ -4,9 +4,6 @@ import javax.validation.constraints.AssertTrue;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-/**
- * User
- */
 public class User {
     @NotBlank(message="Username is required")
     private String username;

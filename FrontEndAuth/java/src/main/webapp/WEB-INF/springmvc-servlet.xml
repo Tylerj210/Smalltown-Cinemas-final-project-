@@ -34,6 +34,7 @@
 					<!-- Every url in the app must be authenticated
 						except /login -->
 						<value>/login</value>
+						<value>/register</value>
 					</list>
 				</property>
 			</bean>
@@ -42,9 +43,9 @@
 
 	<mvc:cors>
 
-	<mvc:mapping path="/**" />
+		<mvc:mapping path="/**" />
 
-</mvc:cors>
+	</mvc:cors>
 
 	<!-- This view resolver contains logic for translating a logical view name
 		(e.g. "homePage") into a JSP file path (e.g. "/WEB-INF/jsp/homePage.jsp") -->

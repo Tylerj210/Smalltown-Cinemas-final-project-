@@ -146,7 +146,6 @@ export default {
        */
       try {
         const url = `${process.env.VUE_APP_REMOTE_API}/login`;
-        
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -185,7 +184,6 @@ export default {
             "Content-Type": "application/json"
           },
           body: JSON.stringify(this.signupForm)
-          
         });
 
         // We definitely need the response if success or not.
