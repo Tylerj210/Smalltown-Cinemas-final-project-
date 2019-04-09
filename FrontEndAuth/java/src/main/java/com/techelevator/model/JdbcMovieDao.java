@@ -51,16 +51,16 @@ public class JdbcMovieDao implements MovieDao {
 	
 	private Movie mapResultToMovie(SqlRowSet results) {
         Movie movie = new Movie();
-        movie.setId(results.getInt("id"));
+        movie.setId(results.getInt("movie_id"));
         movie.setTitle(results.getString("title"));
-        movie.setReleaseDate(results.getDate("release_date"));
+        movie.setReleaseDate(results.getDate("releaseDate"));
         movie.setRating(results.getString("rating"));
         movie.setRuntime(results.getInt("runtime"));
         movie.setDirector(results.getString("director"));
-        movie.setDescription(results.getString("description"));
-        movie.setOfficialSite(results.getString("official_site"));
-        movie.setImage(results.getString("image"));
-        movie.setTrailerLink(results.getString("trailer_link"));
+        movie.setDescription(results.getString("synopsis"));
+        movie.setOfficialSite(results.getString("officialSite"));
+        movie.setImage(results.getString("mainImage"));
+        movie.setTrailerLink(results.getString("trailerLink"));
         return movie;
     }
 }
