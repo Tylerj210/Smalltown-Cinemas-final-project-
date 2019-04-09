@@ -9,9 +9,9 @@
 <template>
   <header>
     <div class="container">
-      <h1>TEgram</h1>
+      <h1 id="theaterName">Smalltown Cinemas</h1>
       <nav>
-        <ul>
+        <ul id="nav-bar">
           <li class="left-nav">
             <router-link to="/">Home</router-link>
           </li>
@@ -19,7 +19,7 @@
             <router-link to="/post">Post</router-link>
           </li>
           <li>
-            <router-link to="/favorites">Favorites</router-link>
+            <router-link to="/favorites">Tickets</router-link>
           </li>
           <li v-if="isAuthenticated">
             <a href="/logout" v-on:click.prevent="logout">Logout</a>
@@ -63,17 +63,23 @@ export default {
 
 <style scoped>
 header {
-  background-color: #fff;
-  border-bottom: 1px solid #eee;
+  background-color: #800020;
+  border-bottom: 1px solid #800020;
+  box-shadow: inset -1px 2px 38px 22px rgba(0,0,0,0.3);
+ 
 }
 
-h1 {
+#theaterName {
+  font-family: 'Fascinate Inline', cursive;
   text-align: center;
   margin-top: 0;
   margin-bottom: 0;
+  font-size: 55px;
+  color: rgba(255,215,0,80%);
+  text-shadow: 2px 2px black;
 }
 
-ul {
+#nav-bar {
   display: flex;
   justify-content: space-between;
   padding-left: 0;
@@ -88,6 +94,8 @@ li {
 li a {
   font-weight: bold;
   font-size: 1.3rem;
+  color: rgba(255,215,0,80%);
+  text-shadow: 2px 2px black;
 }
 
 li.left-nav {
