@@ -82,11 +82,12 @@ export default {
   background-color:black;
 }
 .movie-wrapper{
-  margin: 15px;
-  padding:10px;
-  border:1px solid #800020;
-  border-radius:5px;
-  box-shadow:5px 10px 20px 0px rgba(255,215,0,80%);
+  margin: 25px;
+  margin-bottom: 60px;
+  padding: 40px;
+  border: 3px solid #800020;
+  border-radius: 12px;
+  box-shadow: 5px 10px 20px 4px rgba(255,215,0,80%);
   color: rgba(255,215,0,90%);
   text-align:center;
 }
@@ -94,7 +95,7 @@ export default {
   color: rgba(255,215,0,90%);
 }
 .movie-wrapper img{
-  width:100%;
+  width: 50%;
 }
 
 </style>

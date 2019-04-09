@@ -15,7 +15,7 @@ html {
 
 body {
   margin: 0;
-  background-color: white;
+  background-color: black;
 }
 
 h1,
@@ -92,6 +92,6 @@ button {
 
 @media screen and (min-width: 1220px) {
   .container {
-    max-width: 980px;
+    max-width: 1200px;
   }
 }
