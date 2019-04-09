@@ -63,14 +63,15 @@ export default {
 
 <style scoped>
 header {
-  background-color: #fff;
-  border-bottom: 1px solid #eee;
+  background-color: #800020;
+  border-bottom: 1px solid #800020;
 }
 
 h1 {
   text-align: center;
   margin-top: 0;
   margin-bottom: 0;
+  color:black;
 }
 
 ul {
