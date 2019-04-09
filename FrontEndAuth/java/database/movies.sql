@@ -4,20 +4,24 @@ DROP TABLE IF EXISTS users                                      cascade;
 DROP TABLE IF EXISTS movies                                     cascade;    
 DROP TABLE IF EXISTS movie_actor                                cascade;
 DROP TABLE IF EXISTS actors                                     cascade;
-DROP TABLE IF EXISTS showtime_movie                             cascade;
 DROP TABLE IF EXISTS showtime                                   cascade;
 DROP TABLE IF EXISTS genre_movie                                cascade;
 DROP TABLE IF EXISTS genre                                      cascade;
 DROP TABLE IF EXISTS tickets                                    cascade;
-DROP TABLE IF EXISTS showtime_ticket                            cascade;
+DROP TABLE IF EXISTS theater                                    cascade;
+DROP TABLE IF EXISTS seats                                      cascade;
+DROP TABLE IF EXISTS reservations                               cascade;
+
+
 
 
 CREATE TABLE users (
-  id serial PRIMARY KEY,
+  id serial NOT NULL,
   username varchar(255) NOT NULL UNIQUE,                -- Username
   password varchar(32) NOT NULL,                        -- Password
   salt varchar(256) NOT NULL,                           -- Password Salt
-  role varchar(255) NOT NULL default('user')
+  role varchar(255) NOT NULL default('user'),
+  CONSTRAINT pk_users_id PRIMARY KEY (id)
 );
 
 CREATE TABLE movies (
@@ -50,16 +54,25 @@ CREATE TABLE actors(
 
 );
 
-CREATE TABLE showtime_movie(
-      showtime_id INTEGER NOT NULL,
-      movie_id INTEGER NOT NULL,
-      CONSTRAINT pk_showtime_movie_showtime_id_movie_id PRIMARY KEY (showtime_id, movie_id)
-);
-
 CREATE TABLE showtime(
         showtime_id serial NOT NULL,
-        showtime TIME NOT NULL,
+        movie_id INTEGER NOT NULL,
+        theater_id INTEGER NOT NULL,
+        dateTime TIMESTAMP NOT NULL,
         CONSTRAINT pk_showtime_showtime_id PRIMARY KEY (showtime_id)
+);
+
+CREATE TABLE theater(
+        theater_id serial NOT NULL,
+        totalSeats INTEGER NOT NULL,
+        CONSTRAINT pk_theater_theater_id PRIMARY KEY (theater_id)
+);
+
+CREATE TABLE seats(
+        seat_id serial NOT NULL,
+        theater_id INTEGER NOT NULL,
+        seatNumber INTEGER NOT NULL,
+        CONSTRAINT pk_seats_seat_id PRIMARY KEY (seat_id)
 );
 
 CREATE TABLE genre_movie(
@@ -76,13 +89,18 @@ CREATE TABLE genre(
 
 CREATE TABLE tickets(
         ticket_id serial NOT NULL,
-        user_id INTEGER NOT NULL,
-        movie_id INTEGER NOT NULL,
-        theater_id INTEGER NOT NULL,
-        seatNumber INTEGER NOT NULL,
-        bookingTime TIME NOT NULL,
-        finalized BOOLEAN NOT NULL,
+        reservation_id INTEGER NOT NULL,
+        seat_id INTEGER NOT NULL,
         CONSTRAINT pk_tickets_ticket_id PRIMARY KEY (ticket_id)
+);
+
+CREATE TABLE reservations(
+        reservation_id serial NOT NULL,
+        bookingTime TIMESTAMP NOT NULL,
+        finalized BOOLEAN NOT NULL,
+        id INTEGER NOT NULL,
+        showtime_id INTEGER NOT NULL,
+        CONSTRAINT pk_reservations_reservation_id PRIMARY KEY (reservation_id)
 );
 
 -- INSERTIONS INTO OUR MOVIES TABLE
@@ -136,6 +154,34 @@ REFERENCES movies(movie_id);
 ALTER TABLE genre_movie
 ADD FOREIGN KEY(genre_id)
 REFERENCES genre(genre_id);
+
+ALTER TABLE showtime
+ADD FOREIGN KEY(movie_id)
+REFERENCES movies(movie_id);
+
+ALTER TABLE showtime
+ADD FOREIGN KEY(theater_id)
+REFERENCES theater(theater_id);
+
+ALTER TABLE seats
+ADD FOREIGN KEY(theater_id)
+REFERENCES theater(theater_id);
+
+ALTER TABLE tickets
+ADD FOREIGN KEY(seat_id)
+REFERENCES seats(seat_id);
+
+ALTER TABLE tickets
+ADD FOREIGN KEY(reservation_id)
+REFERENCES reservations(reservation_id);
+
+ALTER TABLE reservations
+ADD FOREIGN KEY(id)
+REFERENCES users(id);
+
+ALTER TABLE reservations
+ADD FOREIGN KEY(showtime_id)
+REFERENCES showtime(showtime_id);
 
 SELECT actors.firstName, actors.lastName 
 FROM actors 
