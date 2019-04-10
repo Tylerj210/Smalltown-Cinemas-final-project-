@@ -63,7 +63,7 @@ export default {
   },
   created() {
     // Call the Api to get the featured movies
-    fetch(`${process.env.VUE_APP_REMOTE_API}/api/movies`, {
+    fetch(`${process.env.VUE_APP_REMOTE_API}/movie/viewings`, {
       method: "GET",
       headers: {
         // A Header with our authentication token.
@@ -85,7 +85,7 @@ export default {
   margin-top: 0.5rem;
 }
 #all-movies{
-  min-width:90%;
+  min-width:100%;
   margin:20px;
   padding:20px;
   border:1px solid black;
@@ -96,6 +96,7 @@ export default {
   margin:auto;
 }
 .movie-wrapper{
+  /* max-height: 500px;*/
   margin: 25px;
   margin-bottom: 60px;
   padding: 40px;
@@ -185,37 +186,54 @@ export default {
   color: rgba(255,215,0,90%);
 }
 
-@media screen and (min-width: 768px) {
-  
-  .movie-wrapper img{
-    width: 100%;
+.movie {
+  padding: 10px 15px;
+}
+
+.movieHead {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-left: 25%;
+    height: 10%;
+    
   }
+
+  .movieHead h3 {
+    text-decoration: underline;
+  }
+
+  .movieHead p {
+    display: block;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 2.5px;
+    font-size: .5em;
+  }
+
+  .image img {
+    width: 90%;
+    object-fit: cover;
+  }
+
+@media screen and (min-width: 768px) {
 
   .movie {
     display: flex;
     justify-content: space-around;
     flex-wrap: nowrap;
-    width: 80%;
+    max-width: 80%;
     margin: auto;
-    padding: 40px 5px;
+    padding: 20px 5px;
     border-top: 1px solid white;
     border-bottom: 1px solid white;
   }
 
-  .movieHead {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: nowrap;
-    margin-left: 15px;
+  .movie-main-details,
+  .image {
+    width: 50%; 
   }
 
-  .movieHead h3 {
-    font-size: 100%;
-  }
-
-  .movieHead p {
-    min-width: 52px;
-  }
 }
 </style>

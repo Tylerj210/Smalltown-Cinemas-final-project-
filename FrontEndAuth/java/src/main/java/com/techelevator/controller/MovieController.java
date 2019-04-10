@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +20,7 @@ import com.techelevator.model.Viewing;
 
 @RestController
 @RequestMapping("/movie")
+@CrossOrigin
 public class MovieController {
 
 	@Autowired
@@ -43,7 +45,7 @@ public class MovieController {
 	
 	@RequestMapping(path="/viewings", method=RequestMethod.GET)
 	public List<Viewing> getTodayViewings(){
-		List<Viewing> viewings = showtimeDao.groupTimesWithMovies(LocalDateTime.now());
+		List<Viewing> viewings = showtimeDao.groupTimesWithMovies(LocalDateTime.now().plusDays(1));
 		
 		return viewings;
 	}
