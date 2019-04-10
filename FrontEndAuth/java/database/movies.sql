@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS movies                                     cascade;
 DROP TABLE IF EXISTS movie_actor                                cascade;
 DROP TABLE IF EXISTS actors                                     cascade;
 DROP TABLE IF EXISTS showtime                                   cascade;
+DROP TABLE IF EXISTS showtime_movie                             cascade;
 DROP TABLE IF EXISTS genre_movie                                cascade;
 DROP TABLE IF EXISTS genre                                      cascade;
 DROP TABLE IF EXISTS tickets                                    cascade;
@@ -187,7 +188,28 @@ INSERT INTO genre_movie(genre_id, movie_id) VALUES (3,7);
 INSERT INTO genre_movie(genre_id, movie_id) VALUES (4,7);
 
 --INSERTIONS INTO OUR SHOWTIME TABLE
-INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (1, 1, 1, 'Apr 10 2019 10:00AM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (1, 1, 1, 'Apr 11 2019 10:00AM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (2, 1, 1, 'Apr 11 2019 1:30PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (3, 1, 1, 'Apr 11 2019 5:00PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (4, 1, 1, 'Apr 11 2019 9:00PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (5, 2, 2, 'Apr 11 2019 10:45AM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (6, 2, 2, 'Apr 11 2019 2:00PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (7, 2, 2, 'Apr 11 2019 5:15PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (8, 2, 2, 'Apr 11 2019 9:00PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (9, 3, 3, 'Apr 11 2019 12:00PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (10, 3, 3, 'Apr 11 2019 3:15PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (11, 3, 3, 'Apr 11 2019 6:15PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (12, 4, 4, 'Apr 11 2019 12:30PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (13, 4, 4, 'Apr 11 2019 3:45PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (14, 4, 4, 'Apr 11 2019 6:30PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (15, 5, 5, 'Apr 11 2019 1:00PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (16, 5, 5, 'Apr 11 2019 4:15PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (17, 5, 5, 'Apr 11 2019 7:00PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (18, 6, 6, 'Apr 11 2019 1:30PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (19, 6, 6, 'Apr 11 2019 4:00PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (20, 6, 6, 'Apr 11 2019 6:45PM');
+
+
 
 --INSERTIONS INTO OUR THEATER TABLE 
 INSERT INTO theater(theater_id, totalSeats) VALUES (1, 160);
