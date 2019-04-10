@@ -31,10 +31,17 @@ CREATE TABLE movies (
   rating varchar(5) DEFAULT 'G',         -- rating of movie 
   runtime INTEGER NOT NULL,              -- length of movie in minutes
   director varchar(255) NOT NULL,        -- director of the movie
+<<<<<<< HEAD
   synopsis varchar(600) NOT NULL,        -- short summary of the movie
   mainImage varchar NOT NULL,       -- ability to access movie poster
   trailerLink varchar NOT NULL,     -- ability to access movie trailer
   officialSite varchar NOT NULL     -- ability to access the official site for the movie
+=======
+  synopsis varchar NOT NULL,        -- short summary of the movie
+  mainImage varchar(100) NOT NULL,       -- ability to access movie poster
+  trailerLink varchar(100) NOT NULL,     -- ability to access movie trailer
+  officialSite varchar(100) NOT NULL     -- ability to access the official site for the movie
+>>>>>>> ee1c254ec18d3f96a5a6c64d66874be81c240175
   CONSTRAINT ck_film_rating CHECK (rating IN ('G', 'PG', 'PG-13', 'R', 'NC-17', 'NR')),
   CONSTRAINT pk_movies_movie_id PRIMARY KEY (movie_id)
 

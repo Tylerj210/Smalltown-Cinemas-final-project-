@@ -14,13 +14,13 @@
 
 <template>
   <div id="login">
-    <section id="content">
+    <!-- <section id="content">
       <h1>TEGram</h1>
       <p>
         Create an account or log in to TEGram &mdash; A simple, fun &amp; creative way to capture,
         edit &amp; share photos, videos &amp; messages with friends &amp; family.
       </p>
-    </section>
+    </section> -->
     <section id="login-signup" v-bind:class="{ showSignupForm: !showLoginForm }">
       <form v-if="showLoginForm" v-on:submit.prevent="login">
         <h1>Welcome Back!</h1>
@@ -163,6 +163,7 @@ export default {
           const token = await response.json();
           auth.saveToken(token);
           this.goHome();
+          location.reload();
         }
       } catch (error) {
         console.error(error);
@@ -194,6 +195,7 @@ export default {
         } else {
           auth.saveToken(data);
           this.goHome();
+          location.reload();
         }
       } catch (error) {
         console.error(error);
@@ -209,6 +211,7 @@ export default {
   display: flex;
   height: 100vh;
   flex-direction: column;
+  
 }
 
 #content {
@@ -220,6 +223,7 @@ export default {
 #content,
 #login-signup {
   padding: 5vh 1rem 1rem 1rem;
+  
 }
 
 #content h1,
@@ -229,11 +233,13 @@ export default {
 
 form h1 {
   margin-left: 0;
+  color:gold;
 }
 
 form label {
   font-size: 1rem;
   margin-bottom: 0.5rem;
+  color:gold;
 }
 
 form input {
@@ -252,13 +258,22 @@ form input {
 
 form button {
   padding: 0.8rem 1rem;
-  background: var(--primary-color);
+  background: #800020;
 
   color: #fff;
 
   border-radius: 3px;
 }
-
+form {
+  border: 3px solid #800020;
+  border-radius: 12px;
+  /* box-shadow: 5px 10px 20px 4px rgba(255,215,0,80%); */
+  /* background:black; */
+  background:#800020;
+  box-shadow: inset -1px 2px 38px 22px rgba(0,0,0,0.3);
+  padding: 5%;
+  border-radius:8px;
+}
 .form-actions {
   display: flex;
 }
@@ -270,6 +285,10 @@ form button {
 .form-actions .extras {
   text-align: right;
   align-self: center;
+  
+}
+.form-actions .extras a{
+  color:gold;
 }
 
 @media screen and (min-width: 768px) {
