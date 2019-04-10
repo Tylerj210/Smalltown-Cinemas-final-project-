@@ -15,14 +15,15 @@
           <li class="left-nav">
             <router-link to="/">Home</router-link>
           </li>
+          <!-- <li v-if="isAuthenticated">
+            <p>Hi, {{auth.getUser().sub()}}</p>
+          </li> -->
           <li>
-            <router-link to="/post">Post</router-link>
+            <router-link to="/tickets">Tickets</router-link>
           </li>
-          <li>
-            <router-link to="/favorites">Tickets</router-link>
-          </li>
+          
           <li v-if="isAuthenticated">
-            <a href="/logout" v-on:click.prevent="logout">Logout</a>
+            <a href="/" v-on:click.prevent="logout">Logout</a>
           </li>
           <li v-else>
             <router-link to="/login">Login</router-link>
@@ -50,7 +51,8 @@ export default {
      */
     logout() {
       auth.destroyToken();
-      this.$router.push("/login");
+      this.$router.push("/");
+      location.reload();
     }
   },
   computed: {
@@ -66,7 +68,9 @@ header {
   background-color: #800020;
   border-bottom: 1px solid #800020;
   box-shadow: inset -1px 2px 38px 22px rgba(0,0,0,0.3);
- 
+
+  width:100%;
+
 }
 
 #theaterName {

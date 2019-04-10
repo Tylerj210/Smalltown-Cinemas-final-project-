@@ -50,7 +50,9 @@ export default {
       // })
     }
   },
-  
+  computed:{
+    
+  },
   created() {
     // Call the Api to get the featured movies
     fetch(`${process.env.VUE_APP_REMOTE_API}/api/movies`, {
@@ -80,6 +82,10 @@ export default {
   padding:20px;
   border:1px solid black;
   background-color:black;
+}
+.description{
+  width:80%;
+  margin:auto;
 }
 .movie-wrapper{
   margin: 25px;

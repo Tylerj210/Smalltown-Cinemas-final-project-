@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <the-header v-if="showHeader"></the-header>
+    <the-header></the-header>
     <router-view />
   </div>
 </template>
@@ -31,4 +31,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+
 </style>

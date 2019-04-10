@@ -31,7 +31,7 @@ CREATE TABLE movies (
   rating varchar(5) DEFAULT 'G',         -- rating of movie 
   runtime INTEGER NOT NULL,              -- length of movie in minutes
   director varchar(255) NOT NULL,        -- director of the movie
-  synopsis varchar(600) NOT NULL,        -- short summary of the movie
+  synopsis varchar NOT NULL,        -- short summary of the movie
   mainImage varchar(100) NOT NULL,       -- ability to access movie poster
   trailerLink varchar(100) NOT NULL,     -- ability to access movie trailer
   officialSite varchar(100) NOT NULL     -- ability to access the official site for the movie
