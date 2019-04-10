@@ -18,7 +18,7 @@ import com.techelevator.model.ShowtimeDao;
 import com.techelevator.model.Viewing;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/movie")
 public class MovieController {
 
 	@Autowired

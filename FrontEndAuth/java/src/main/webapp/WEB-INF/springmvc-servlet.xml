@@ -35,7 +35,7 @@
 						except /login -->
 						<value>/login</value>
 						<value>/register</value>
-						<value>/api/movies</value>
+						<value>/movie/*</value>
 					</list>
 				</property>
 			</bean>
