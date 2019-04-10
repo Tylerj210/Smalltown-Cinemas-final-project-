@@ -43,7 +43,7 @@ private JdbcMovieDao movieDao;
 	@Override
 	public List<Showtime> getShowtimesByMovieId(int id) {
 		List<Showtime> showtimes = new ArrayList<Showtime>();
-		String sqlSelectShowtimesByMovieId = "Select * From showtime JOIN showtime_movie ON showtime.showtime_id=showtime_movie.showtime_id WHERE movie_id=?";
+		String sqlSelectShowtimesByMovieId = "Select * From showtime WHERE movie_id=?";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectShowtimesByMovieId,id);
 		
 		while(results.next()) {
@@ -57,7 +57,7 @@ private JdbcMovieDao movieDao;
 	@Override
 	public List<Showtime> getShowtimesByTheaterAndDay(int theaterId, LocalDateTime day) {
 		List<Showtime> showtimes = new ArrayList<Showtime>();
-		String sqlSelectShowtimesByTheaterAndDay="SELECT * FROM showtime JOIN showtime_movie ON showtime.showtime_id=showtime_movie.showtime_id WHERE theater_id=? AND datetime > ? AND datetime < ?";
+		String sqlSelectShowtimesByTheaterAndDay="SELECT * FROM showtime WHERE theater_id=? AND datetime > ? AND datetime < ?";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectShowtimesByTheaterAndDay,theaterId,day.truncatedTo(ChronoUnit.DAYS),day.truncatedTo(ChronoUnit.DAYS).plusDays(1));
 		while(results.next()) {
 			Showtime showtime = mapResultToShowtime(results);
