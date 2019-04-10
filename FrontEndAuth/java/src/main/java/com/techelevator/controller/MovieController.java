@@ -1,5 +1,6 @@
 package com.techelevator.controller;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,31 +14,39 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.techelevator.model.Movie;
 import com.techelevator.model.MovieDao;
+import com.techelevator.model.ShowtimeDao;
+import com.techelevator.model.Viewing;
 
 @RestController
 @RequestMapping("/api")
 public class MovieController {
 
 	@Autowired
-	private MovieDao moviedao;
+	private MovieDao movieDao;
+	private ShowtimeDao showtimeDao;
 	
-	 @RequestMapping(path="/movies", method=RequestMethod.GET)
-	    public List<Movie> getAllMovies() {
-		 	List<Movie> movies = new ArrayList<Movie>();
-		 	
-		 	movies = moviedao.getAllMovies();
-		 	System.out.print(movies.size());
-		 	return movies;
-	 }
+	@RequestMapping(path="/movies", method=RequestMethod.GET)
+    public List<Movie> getAllMovies() {
+	 	List<Movie> movies = new ArrayList<Movie>();
+	 	
+	 	movies = movieDao.getAllMovies();
+	 	System.out.print(movies.size());
+	 	return movies;
+	}
 	 
-	 @RequestMapping(path="/movies/{id}", method=RequestMethod.GET)
-		public Movie getMovieById(@PathVariable int id, HttpServletRequest request) {
-			Movie movie = new Movie();
-			movie = moviedao.getMovieById(id);
-		 	return movie;
-		}
+	@RequestMapping(path="/movies/{id}", method=RequestMethod.GET)
+	public Movie getMovieById(@PathVariable int id, HttpServletRequest request) {
+		Movie movie = new Movie();
+		movie = movieDao.getMovieById(id);
+	 	return movie;
+	}
 	
-	
+	@RequestMapping(path="/viewings", method=RequestMethod.GET)
+	public List<Viewing> getTodayViewings(){
+		List<Viewing> viewings = showtimeDao.groupTimesWithMovies(LocalDateTime.now());
+		
+		return viewings;
+	}
 	
 	
 	
