@@ -8,12 +8,20 @@
 <template>
   <div id="home" class="container">
     <div id="all-movies">
-      <div v-for="movie in movies" v-bind:key="movie.id" class="movie-wrapper">
-        <img v-bind:src="movie.image">
-        <div class="movie-main-details">
-          <a v-bind:href="movie.officialSite"><h3>{{movie.title}}</h3></a>
-          <div class="description">
-            {{movie.description}}
+      <div v-for="movie in movies" v-bind:key="movie.id"  class="movie-wrapper">
+        <div  class="movie">
+          <div class="image">
+            <img v-bind:src="movie.image">
+          </div>
+          <div class="movie-main-details">
+            <div class="movieHead">
+            <a v-bind:href="movie.officialSite"><h3>{{movie.title}}</h3></a>
+            <p>{{movie.rating}}</p>
+            </div>
+            <!-- <div class="description">
+              {{movie.description}}
+            </div> -->
+            
           </div>
         </div>
       </div>
@@ -177,8 +185,37 @@ export default {
   color: rgba(255,215,0,90%);
 }
 
-.movie-wrapper img{
-  width: 50%;
-}
+@media screen and (min-width: 768px) {
+  
+  .movie-wrapper img{
+    width: 100%;
+  }
 
+  .movie {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+    width: 80%;
+    margin: auto;
+    padding: 40px 5px;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+  }
+
+  .movieHead {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin-left: 15px;
+  }
+
+  .movieHead h3 {
+    font-size: 100%;
+  }
+
+  .movieHead p {
+    min-width: 52px;
+  }
+}
 </style>
