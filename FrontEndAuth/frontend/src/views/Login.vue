@@ -39,7 +39,7 @@
         <input
           v-model.trim="loginForm.password"
           type="password"
-          placeholder="password"
+          placeholder="shamballa"
           id="password"
         />
 
