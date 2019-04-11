@@ -1,6 +1,8 @@
 package com.techelevator.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Showtime {
 	
@@ -8,6 +10,19 @@ public class Showtime {
 	private int movieId;
 	private int theaterId;
 	private LocalDate date;
+	private LocalTime time;
+	/**
+	 * @return the time
+	 */
+	public LocalTime getTime() {
+		return time;
+	}
+	/**
+	 * @param time the time to set
+	 */
+	public void setTime(LocalTime time) {
+		this.time = time;
+	}
 	/**
 	 * @return the showtimeId
 	 */

@@ -53,7 +53,7 @@ public class JdbcMovieDao implements MovieDao {
         Movie movie = new Movie();
         movie.setId(results.getInt("movie_id"));
         movie.setTitle(results.getString("title"));
-        movie.setReleaseDate(results.getDate("releaseDate"));
+        movie.setReleaseDate(results.getDate("releaseDate").toLocalDate());
         movie.setRating(results.getString("rating"));
         movie.setRuntime(results.getInt("runtime"));
         movie.setDirector(results.getString("director"));

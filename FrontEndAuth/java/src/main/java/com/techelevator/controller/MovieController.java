@@ -25,6 +25,7 @@ public class MovieController {
 
 	@Autowired
 	private MovieDao movieDao;
+	@Autowired
 	private ShowtimeDao showtimeDao;
 	
 	@RequestMapping(path="/movies", method=RequestMethod.GET)
@@ -45,7 +46,7 @@ public class MovieController {
 	
 	@RequestMapping(path="/viewings", method=RequestMethod.GET)
 	public List<Viewing> getTodayViewings(){
-		List<Viewing> viewings = showtimeDao.groupTimesWithMovies(LocalDateTime.now(),movieDao);
+		List<Viewing> viewings = showtimeDao.groupTimesWithMovies(LocalDateTime.now().plusDays(1),movieDao);
 		
 		return viewings;
 	}

@@ -1,5 +1,6 @@
 package com.techelevator.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -36,9 +37,7 @@ private JdbcTemplate jdbcTemplate;
 		return showtimes;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.techelevator.model.ShowtimeDao#getShowtimesByMovieId(int)
-	 */
+
 	@Override
 	public List<Showtime> getShowtimesByMovieId(int id) {
 		List<Showtime> showtimes = new ArrayList<Showtime>();
@@ -89,6 +88,8 @@ private JdbcTemplate jdbcTemplate;
 			if(showtimes.size()>0) {
 				
 				viewings.add(new Viewing(movieDao.getMovieById(showtimes.get(0).getMovieId()),showtimes,i));
+			} else {
+				viewings.add(new Viewing(new Movie(0, "", LocalDate.ofYearDay(1900, 1), "", 0, "", "No description available", "", "https://image.flaticon.com/icons/png/512/21/21174.png", "", new ArrayList<String>(), new ArrayList<String>()),showtimes,i));
 			}
 			
 			
@@ -102,6 +103,7 @@ private JdbcTemplate jdbcTemplate;
 	     showtime.setMovieId(results.getInt("movie_id"));
 	     showtime.setTheaterId(results.getInt("theater_id"));
 	     showtime.setDate(results.getDate("datetime").toLocalDate());
+	     showtime.setTime(results.getTime("datetime").toLocalTime());
 		return showtime;
 	}
 
