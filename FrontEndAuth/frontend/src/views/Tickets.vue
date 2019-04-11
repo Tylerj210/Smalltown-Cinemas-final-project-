@@ -3,7 +3,7 @@
         <h1> Purchase tickets  </h1>
             <div id="ticketList">
                 <div v-for="seat in seats" v-bind:key="seat.id" class="seatWrapper">
-                    
+
                 </div>
             </div>
     </div>
@@ -26,6 +26,7 @@ return {
 },
 methods: {
     viewAvailableSeats(){
+
     }
 
 },
