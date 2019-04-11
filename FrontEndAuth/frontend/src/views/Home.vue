@@ -197,7 +197,6 @@ export default {
     flex-wrap: nowrap;
     margin-left: 25%;
     height: 10%;
-    
   }
 
   .movieHead h3 {
@@ -209,12 +208,14 @@ export default {
     border: 1px solid white;
     border-radius: 5px;
     padding: 2.5px;
-    font-size: .5em;
+    font-size: 1em;
+    margin-left: 5%;
   }
 
   .image img {
     width: 90%;
     object-fit: cover;
+
   }
 
 @media screen and (min-width: 768px) {
@@ -228,6 +229,10 @@ export default {
     padding: 20px 5px;
     border-top: 1px solid white;
     border-bottom: 1px solid white;
+  }
+
+    .movieHead p {
+    float: bottom;
   }
 
   .movie-main-details,

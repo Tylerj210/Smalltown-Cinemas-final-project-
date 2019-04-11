@@ -234,12 +234,16 @@ export default {
 form h1 {
   margin-left: 0;
   color:gold;
+  text-shadow: 2px 2px black;
+  font-family: 'Fascinate Inline', cursive;
 }
 
 form label {
   font-size: 1rem;
   margin-bottom: 0.5rem;
   color:gold;
+  text-shadow: 2px 2px black;
+  font-family: 'Fascinate Inline', cursive;
 }
 
 form input {
@@ -257,11 +261,12 @@ form input {
 }
 
 form button {
-  padding: 0.8rem 1rem;
-  background: #800020;
+  padding: 0.8rem 0.2rem;
+  background: #80002000;
 
-  color: #fff;
-
+  color: gold;
+  text-shadow: 2px 2px black;
+  font-family: 'Fascinate Inline', cursive;
   border-radius: 3px;
 }
 form {
@@ -273,13 +278,16 @@ form {
   box-shadow: inset -1px 2px 38px 22px rgba(0,0,0,0.3);
   padding: 5%;
   border-radius:8px;
+  
 }
 .form-actions {
+
   display: flex;
 }
 
 .form-actions .extras {
   flex: 2;
+
 }
 
 .form-actions .extras {
@@ -288,6 +296,9 @@ form {
   
 }
 .form-actions .extras a{
+
+  text-shadow: 2px 2px black;
+  font-family: 'Fascinate Inline', cursive;
   color:gold;
 }
 

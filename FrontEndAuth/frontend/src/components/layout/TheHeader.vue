@@ -64,11 +64,13 @@ export default {
 </script>
 
 <style scoped>
+
+
 header {
   background-color: #800020;
   border-bottom: 1px solid #800020;
   box-shadow: inset -1px 2px 38px 22px rgba(0,0,0,0.3);
-
+  
   width:100%;
 
 }
@@ -100,6 +102,7 @@ li a {
   font-size: 1.3rem;
   color: rgba(255,215,0,80%);
   text-shadow: 2px 2px black;
+  font-family: 'Fascinate Inline', cursive;
 }
 
 li.left-nav {
