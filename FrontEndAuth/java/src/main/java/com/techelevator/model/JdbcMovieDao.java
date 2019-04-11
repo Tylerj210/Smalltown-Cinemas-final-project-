@@ -39,7 +39,7 @@ public class JdbcMovieDao implements MovieDao {
 	@Override
     public Movie getMovieById(int id) {
         Movie movie = new Movie();
-        String sqlSelectMovieById = "SELECT * FROM movies WHERE movies.id = ?";
+        String sqlSelectMovieById = "SELECT * FROM movies WHERE movies.movie_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectMovieById, id);
 
         if(results.next()) {

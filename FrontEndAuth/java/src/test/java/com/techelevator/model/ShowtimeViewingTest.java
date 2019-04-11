@@ -18,6 +18,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 public class ShowtimeViewingTest {
 	protected static SingleConnectionDataSource dataSource;
 	protected ShowtimeDao showtimeDao;
+	protected MovieDao movieDao;
 	
 	
 	/* Before any tests are run, this method initializes the datasource for testing. */
@@ -42,6 +43,7 @@ public class ShowtimeViewingTest {
 	@Before
 	public void setup() {
 		showtimeDao = new JdbcShowtimeDao(dataSource);
+		movieDao= new JdbcMovieDao(dataSource);
 	}
 
 	@Test
@@ -51,6 +53,20 @@ public class ShowtimeViewingTest {
 	
 	@Test
 	public void Get_Showtime_By_Theater_And_Day_Test() {
-		assertEquals(4, showtimeDao.getShowtimesByTheaterAndDay(1, LocalDateTime.now().plusDays(1)).size());
+		assertEquals(4, showtimeDao.getShowtimesByTheaterAndDay(1, LocalDateTime.now()).size());
 	}
+	
+	@Test
+	public void Get_Movie_By_Id_Test() {
+		assertEquals("Avengers: Endgame",movieDao.getMovieById(1).getTitle());
+	}
+	
+	@Test
+	public void Group_Times_With_Movies_Test() {
+		assertEquals(1,showtimeDao.groupTimesWithMovies(LocalDateTime.now(),movieDao).get(0).getTheaterNum());
+		assertEquals(2,showtimeDao.groupTimesWithMovies(LocalDateTime.now(),movieDao).get(1).getTheaterNum());
+		assertEquals(3,showtimeDao.groupTimesWithMovies(LocalDateTime.now(),movieDao).get(2).getTheaterNum());
+		assertEquals(4,showtimeDao.groupTimesWithMovies(LocalDateTime.now(),movieDao).get(3).getTheaterNum());
+	}
+	
 }

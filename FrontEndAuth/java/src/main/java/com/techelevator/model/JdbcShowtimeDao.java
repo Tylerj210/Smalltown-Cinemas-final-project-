@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 public class JdbcShowtimeDao implements ShowtimeDao {
 
 private JdbcTemplate jdbcTemplate;
-private JdbcMovieDao movieDao;
 	
 	@Autowired
     public JdbcShowtimeDao(DataSource dataSource) {
@@ -81,11 +80,18 @@ private JdbcMovieDao movieDao;
 
 	
 	@Override
-	public List<Viewing> groupTimesWithMovies(LocalDateTime day) {
+	public List<Viewing> groupTimesWithMovies(LocalDateTime day,MovieDao movieDao) {
 		List<Viewing> viewings = new ArrayList<Viewing>();
-		for(Integer i:getTheaterIds()) {
+		List<Integer> theaters = getTheaterIds();
+		for(Integer i:theaters) {
 			List<Showtime> showtimes=getShowtimesByTheaterAndDay(i, day);
-			viewings.add(new Viewing(movieDao.getMovieById(showtimes.get(0).getMovieId()),showtimes,i));
+			
+			if(showtimes.size()>0) {
+				
+				viewings.add(new Viewing(movieDao.getMovieById(showtimes.get(0).getMovieId()),showtimes,i));
+			}
+			
+			
 		}
 		return viewings;
 	}
