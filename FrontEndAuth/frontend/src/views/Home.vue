@@ -63,7 +63,7 @@ export default {
   },
   created() {
     // Call the Api to get the featured movies
-    fetch(`${process.env.VUE_APP_REMOTE_API}/movie/viewings`, {
+    fetch(`${process.env.VUE_APP_REMOTE_API}/movie/movies`, {
       method: "GET",
       headers: {
         // A Header with our authentication token.
