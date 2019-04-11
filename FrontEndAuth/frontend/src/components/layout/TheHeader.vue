@@ -102,7 +102,6 @@ li a {
   font-size: 1.3rem;
   color: rgba(255,215,0,80%);
   text-shadow: 2px 2px black;
-  font-family: 'Fascinate Inline', cursive;
 }
 
 li.left-nav {

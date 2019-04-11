@@ -16,7 +16,9 @@
           <div class="movie-main-details">
             <div class="movieHead">
             <a v-bind:href="movie.officialSite"><h3>{{movie.title}}</h3></a>
+            <div class="rating">
             <p>{{movie.rating}}</p>
+            </div>
             </div>
             <!-- <div class="description">
               {{movie.description}}
@@ -188,6 +190,8 @@ export default {
 
 .movie {
   padding: 10px 15px;
+  border-top: 1px solid white;
+    border-bottom: 1px solid white;
 }
 
 .movieHead {
@@ -199,17 +203,18 @@ export default {
     height: 10%;
   }
 
+
   .movieHead h3 {
-    text-decoration: underline;
+    text-decoration: none;
   }
 
   .movieHead p {
     display: block;
-    border: 1px solid white;
+    border: 1px solid white ;
     border-radius: 5px;
-    padding: 2.5px;
+    padding: 3px;
     font-size: 1em;
-    margin-left: 5%;
+    /*margin-left: 5%;*/
   }
 
   .image img {
@@ -231,14 +236,11 @@ export default {
     border-bottom: 1px solid white;
   }
 
-    .movieHead p {
-    float: bottom;
-  }
+   
 
   .movie-main-details,
   .image {
     width: 50%; 
   }
-
 }
 </style>

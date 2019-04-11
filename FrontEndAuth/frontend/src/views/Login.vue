@@ -243,7 +243,6 @@ form label {
   margin-bottom: 0.5rem;
   color:gold;
   text-shadow: 2px 2px black;
-  font-family: 'Fascinate Inline', cursive;
 }
 
 form input {
@@ -263,11 +262,10 @@ form input {
 form button {
   padding: 0.8rem 0.2rem;
   background: #80002000;
-
   color: gold;
   text-shadow: 2px 2px black;
-  font-family: 'Fascinate Inline', cursive;
   border-radius: 3px;
+  font-weight: bold;
 }
 form {
   border: 3px solid #800020;
@@ -278,10 +276,9 @@ form {
   box-shadow: inset -1px 2px 38px 22px rgba(0,0,0,0.3);
   padding: 5%;
   border-radius:8px;
-  
+  font-weight: bold;
 }
 .form-actions {
-
   display: flex;
 }
 
@@ -296,9 +293,8 @@ form {
   
 }
 .form-actions .extras a{
-
+  font-weight: bold;
   text-shadow: 2px 2px black;
-  font-family: 'Fascinate Inline', cursive;
   color:gold;
 }
 
