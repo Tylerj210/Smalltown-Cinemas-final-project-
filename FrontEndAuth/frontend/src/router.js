@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
 import auth from "./shared/auth";
+import Tickets from "./views/Tickets.vue";
 
 Vue.use(Router);
 
@@ -34,6 +35,15 @@ const router = new Router({
       component: Home,
       meta: {
         requiresAuth: false
+      }
+    },
+
+    {
+      path: "/",
+      name:"tickets",
+      component: Tickets,
+      meta: {
+        requiresAuth: true
       }
     }
   ]
