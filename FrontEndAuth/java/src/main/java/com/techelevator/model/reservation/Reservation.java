@@ -1,4 +1,4 @@
-package com.techelevator.model;
+package com.techelevator.model.reservation;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,7 +12,20 @@ public class Reservation {
 	private boolean finalized;
 	private int userId;
 	private int showtimeId;
+	private int confirmationNum;
 	
+	/**
+	 * @return the confirmationNum
+	 */
+	public int getConfirmationNum() {
+		return confirmationNum;
+	}
+	/**
+	 * @param confirmationNum the confirmationNum to set
+	 */
+	public void setConfirmationNum(int confirmationNum) {
+		this.confirmationNum = confirmationNum;
+	}
 	/**
 	 * @return the reservationId
 	 */

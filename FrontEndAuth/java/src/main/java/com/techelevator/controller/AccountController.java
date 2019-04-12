@@ -17,7 +17,7 @@ import com.techelevator.authentication.AuthProvider;
 import com.techelevator.authentication.JwtTokenHandler;
 import com.techelevator.authentication.UnauthorizedException;
 import com.techelevator.authentication.UserCreationException;
-import com.techelevator.model.User;
+import com.techelevator.model.user.User;
 
 /**
  * AccountController

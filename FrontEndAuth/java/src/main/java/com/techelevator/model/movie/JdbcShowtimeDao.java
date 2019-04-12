@@ -1,4 +1,4 @@
-package com.techelevator.model;
+package com.techelevator.model.movie;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -53,10 +53,10 @@ private JdbcTemplate jdbcTemplate;
 	
 	
 	@Override
-	public List<Showtime> getShowtimesByTheaterAndDay(int theaterId, LocalDateTime day) {
+	public List<Showtime> getShowtimesByTheaterAndDay(int theaterId, LocalDate day) {
 		List<Showtime> showtimes = new ArrayList<Showtime>();
 		String sqlSelectShowtimesByTheaterAndDay="SELECT * FROM showtime WHERE theater_id=? AND datetime > ? AND datetime < ?";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectShowtimesByTheaterAndDay,theaterId,day.truncatedTo(ChronoUnit.DAYS),day.truncatedTo(ChronoUnit.DAYS).plusDays(1));
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectShowtimesByTheaterAndDay,theaterId,day,day.plusDays(1));
 		while(results.next()) {
 			Showtime showtime = mapResultToShowtime(results);
 			showtimes.add(showtime);
@@ -79,7 +79,7 @@ private JdbcTemplate jdbcTemplate;
 
 	
 	@Override
-	public List<Viewing> groupTimesWithMovies(LocalDateTime day,MovieDao movieDao) {
+	public List<Viewing> groupTimesWithMovies(LocalDate day,MovieDao movieDao) {
 		List<Viewing> viewings = new ArrayList<Viewing>();
 		List<Integer> theaters = getTheaterIds();
 		for(Integer i:theaters) {

@@ -3,6 +3,7 @@ package com.techelevator.model;
 import static org.junit.Assert.assertEquals;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.junit.AfterClass;
@@ -12,6 +13,11 @@ import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+
+import com.techelevator.model.movie.JdbcMovieDao;
+import com.techelevator.model.movie.JdbcShowtimeDao;
+import com.techelevator.model.movie.MovieDao;
+import com.techelevator.model.movie.ShowtimeDao;
 
 
 
@@ -53,7 +59,7 @@ public class ShowtimeViewingTest {
 	
 	@Test
 	public void Get_Showtime_By_Theater_And_Day_Test() {
-		assertEquals(4, showtimeDao.getShowtimesByTheaterAndDay(1, LocalDateTime.now()).size());
+		assertEquals(4, showtimeDao.getShowtimesByTheaterAndDay(1, LocalDate.now()).size());
 	}
 	
 	@Test
@@ -63,10 +69,10 @@ public class ShowtimeViewingTest {
 	
 	@Test
 	public void Group_Times_With_Movies_Test() {
-		assertEquals(1,showtimeDao.groupTimesWithMovies(LocalDateTime.now(),movieDao).get(0).getTheaterNum());
-		assertEquals(2,showtimeDao.groupTimesWithMovies(LocalDateTime.now(),movieDao).get(1).getTheaterNum());
-		assertEquals(3,showtimeDao.groupTimesWithMovies(LocalDateTime.now(),movieDao).get(2).getTheaterNum());
-		assertEquals(4,showtimeDao.groupTimesWithMovies(LocalDateTime.now(),movieDao).get(3).getTheaterNum());
+		assertEquals(1,showtimeDao.groupTimesWithMovies(LocalDate.now(),movieDao).get(0).getTheaterNum());
+		assertEquals(2,showtimeDao.groupTimesWithMovies(LocalDate.now(),movieDao).get(1).getTheaterNum());
+		assertEquals(3,showtimeDao.groupTimesWithMovies(LocalDate.now(),movieDao).get(2).getTheaterNum());
+		assertEquals(4,showtimeDao.groupTimesWithMovies(LocalDate.now(),movieDao).get(3).getTheaterNum());
 	}
 	
 }

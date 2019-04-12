@@ -1,4 +1,4 @@
-package com.techelevator.model;
+package com.techelevator.model.movie;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

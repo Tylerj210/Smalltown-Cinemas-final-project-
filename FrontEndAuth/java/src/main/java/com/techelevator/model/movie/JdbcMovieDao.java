@@ -1,4 +1,4 @@
-package com.techelevator.model;
+package com.techelevator.model.movie;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.techelevator.authentication;
 
-import com.techelevator.model.User;
+import com.techelevator.model.user.User;
 
 public interface AuthProvider {
     /**

@@ -6,11 +6,11 @@ import java.util.Date;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
-import com.techelevator.model.User;
-import com.techelevator.model.UserDao;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.techelevator.model.user.User;
+import com.techelevator.model.user.UserDao;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;

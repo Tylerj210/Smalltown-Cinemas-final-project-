@@ -11,11 +11,11 @@ import static org.mockito.Mockito.when;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.techelevator.model.User;
-import com.techelevator.model.UserDao;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import com.techelevator.model.user.User;
+import com.techelevator.model.user.UserDao;
 
 /**
  * RequestAuthProviderTest

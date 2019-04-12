@@ -32,11 +32,12 @@
 				<property name="excludedUrls">
 					<list>
 					<!-- Every url in the app must be authenticated
-						except /login -->
+						except /login, /registration, and any request for a list of movies -->
 						<value>/login</value>
 						<value>/register</value>
 						<value>/movie/movies</value>
 						<value>/movie/viewings</value>
+						<value>/movie/viewings/{date}</value>
 					</list>
 				</property>
 			</bean>

@@ -1,5 +1,6 @@
 package com.techelevator.controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.techelevator.model.Movie;
-import com.techelevator.model.MovieDao;
-import com.techelevator.model.ShowtimeDao;
-import com.techelevator.model.Viewing;
+import com.techelevator.model.movie.Movie;
+import com.techelevator.model.movie.MovieDao;
+import com.techelevator.model.movie.ShowtimeDao;
+import com.techelevator.model.movie.Viewing;
 
 @RestController
 @RequestMapping("/movie")
@@ -38,7 +39,7 @@ public class MovieController {
 	}
 	 
 	@RequestMapping(path="/movies/{id}", method=RequestMethod.GET)
-	public Movie getMovieById(@PathVariable int id, HttpServletRequest request) {
+	public Movie getMovieById(@PathVariable int id) {
 		Movie movie = new Movie();
 		movie = movieDao.getMovieById(id);
 	 	return movie;
@@ -46,11 +47,15 @@ public class MovieController {
 	
 	@RequestMapping(path="/viewings", method=RequestMethod.GET)
 	public List<Viewing> getTodayViewings(){
-		List<Viewing> viewings = showtimeDao.groupTimesWithMovies(LocalDateTime.now().plusDays(1),movieDao);
+		List<Viewing> viewings = showtimeDao.groupTimesWithMovies(LocalDate.now(),movieDao);
 		
 		return viewings;
 	}
-	
+	@RequestMapping(path="/viewings/{days}", method=RequestMethod.POST)
+	public List<Viewing> getDayViewings(@PathVariable int days){
+		List<Viewing> viewings = showtimeDao.groupTimesWithMovies(LocalDate.now().plusDays(days),movieDao);
+		return viewings;
+	}
 	
 	
 	
