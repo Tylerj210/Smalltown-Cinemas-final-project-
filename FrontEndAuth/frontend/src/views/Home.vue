@@ -32,14 +32,14 @@
               </section>
               <section>
                 <h4>Cast:</h4>
-                <ul v-for="actor in viewing.movie.actors">
-                  <li>{{actor}}</li>
+                <ul>
+                  <li v-for="actor in viewing.movie.actors">{{actor}}</li>
                 </ul>
               </section>
               <section>
                 <h4>Genres:</h4>
-                <ul v-for="genre in viewing.movie.genres">
-                  <li>{{genre}}</li>
+                <ul>
+                  <li v-for="genre in viewing.movie.genres">{{genre}}</li>
                 </ul>
               </section>
             </div>
@@ -50,7 +50,7 @@
               <h3>Showtimes</h3>
               <ul class="showtimesList">
                 <li v-for="showtime in viewing.showtimes" v-bind:key="showtime.showtimeId" class="showtime">
-                  <a href="#">{{setTime(showtime.time)}}</a>
+                  <a href="/tickets" v-on:click="getTickets(showtime)">{{setTime(showtime.time)}}</a>
                 </li>
               </ul>
             </div>
@@ -72,7 +72,8 @@ export default {
   data() {
     return {
       viewings: [], 
-      selectedDay: 0
+      selectedDay: 0,
+      currentShowing: {}
     };
   },
   methods: {
@@ -134,6 +135,11 @@ export default {
         theDates[i] = dateObj;
       }  
       return theDates;
+    }, 
+    getTickets(viewing){
+      console.log(viewing);
+      this.currentShowing = viewing;
+      this.$emit("getTickets");
     }
   },
   computed:{
@@ -339,6 +345,7 @@ export default {
   .showtimesList {
     padding: 0;
     display: flex;
+
     justify-content: space-around;
 
   }
