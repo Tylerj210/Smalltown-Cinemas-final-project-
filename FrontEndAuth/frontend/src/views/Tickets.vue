@@ -24,6 +24,10 @@ return {
     };
 
 },
+props: {
+    showtime: Object
+},
+
 methods: {
     viewAvailableSeats(){
 
@@ -34,7 +38,7 @@ computed: {
 
 },
 created() {
-  fetch(`${process.env.VUE_APP_REMOTE_API}/movie/movies`, {
+  fetch(`${process.env.VUE_APP_REMOTE_API}/seats/${theaterId}`, {
       method: "GET",
       headers: {
         // A Header with our authentication token.

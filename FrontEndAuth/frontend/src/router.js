@@ -39,12 +39,14 @@ const router = new Router({
     },
 
     {
-      path: "/",
+      path: "/tickets",
       name:"tickets",
       component: Tickets,
+      props:{showtime},
       meta: {
         requiresAuth: true
       }
+    
     }
   ]
 });
