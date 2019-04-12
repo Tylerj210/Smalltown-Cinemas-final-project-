@@ -11,6 +11,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import com.techelevator.model.movie.Movie;
+import com.techelevator.model.movie.Showtime;
 import com.techelevator.model.user.User;
 
 @Component
@@ -30,7 +31,7 @@ public class JdbcReservationDao implements ReservationDao {
 	@Override
 	public List<Seat> getSeatsByTheater(int theater) {
 		List<Seat> seats = new ArrayList<Seat>();
-		String sqlGetSeatsByTheater = "SELECT * FROM seats WHERE theater_id=?";
+		String sqlGetSeatsByTheater = "SELECT * FROM seats WHERE theater_id=? ORDER BY seat_id";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetSeatsByTheater,theater);
 		while(results.next()) {
 			seats.add(mapResultToSeats(results));
@@ -42,9 +43,23 @@ public class JdbcReservationDao implements ReservationDao {
 	 * @see com.techelevator.model.reservation.ReservationDao#getAvailableSeats(int, int, int, int, int)
 	 */
 	@Override
-	public List<Seat> getAvailableSeats(int theater, int movieId, int dayOfYear, int hour, int minute) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Seat> setSeatAvailability(int showtime, List<Seat> seats) {
+		List<Integer> seatIds = new ArrayList<Integer>();
+		String sqlGetReservedSeats = "SELECT seat_id FROM tickets JOIN "+
+								"reservations ON tickets.reservation_id=reservations.reservation_id "+
+								"WHERE reservations.showtime_id=?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetReservedSeats,showtime);
+		while(results.next()) {
+			seatIds.add(results.getInt("seat_id"));
+		}
+		for(int seatId : seatIds) {
+			for(Seat seat : seats) {
+				if(seatId==seat.getSeatId()) {
+					seat.setAvailable(false);
+				}
+			}
+		}
+		return seats;
 	}
 
 	/* (non-Javadoc)

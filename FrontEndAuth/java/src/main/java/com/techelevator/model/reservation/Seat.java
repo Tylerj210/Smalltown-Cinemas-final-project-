@@ -5,7 +5,20 @@ public class Seat {
 	private int seatId;
 	private int theaterId;
 	private int seatNumber;
+	private boolean isAvailable=true;
 	
+	/**
+	 * @return the isAvailable
+	 */
+	public boolean isAvailable() {
+		return isAvailable;
+	}
+	/**
+	 * @param isAvailable the isAvailable to set
+	 */
+	public void setAvailable(boolean isAvailable) {
+		this.isAvailable = isAvailable;
+	}
 	/**
 	 * @return the seatId
 	 */
