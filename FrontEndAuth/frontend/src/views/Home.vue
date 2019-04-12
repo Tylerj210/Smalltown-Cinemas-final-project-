@@ -77,20 +77,6 @@ export default {
     };
   },
   methods: {
-    buildMovieList(){
-      // this.movies.forEach((movie)=>{
-      //   let wrapper = document.getElementById('movie-wrapper');
-      //   let card = document.createElement("div");
-      //   card.classList.add("movie-card-wrapper");
-      //   let theImage = document.createElement("img");
-      //   let theTitle = document.createElement("p");
-
-      //   theImage.src=movie.image;
-      //   theTitle.innerText=movie.title;
-      //   wrapper.appendChild(theImage);
-      //   wrapper.appendChild(theTitle);
-      // })
-    },
     showMovies(){
       fetch(`${process.env.VUE_APP_REMOTE_API}/movie/viewings/${this.selectedDay}`, {
       method: "POST",
@@ -105,7 +91,6 @@ export default {
     .then(viewingsJSON => {
         this.viewings = viewingsJSON;
         console.log(viewingsJSON);
-        this.buildMovieList();
     })
     }, 
     setTime(showtime){
@@ -158,7 +143,6 @@ export default {
     .then(viewingsJSON => {
         this.viewings = viewingsJSON;
         console.log(viewingsJSON);
-        this.buildMovieList();
     })
   }
 };

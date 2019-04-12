@@ -55,32 +55,13 @@ a:hover {
   text-decoration: underline;
 }
 
-/* button {
-  border: 0;
-  outline: 0;
-} */
-
 /* Container Styles for Auto Margins */
 .container {
-  /* max-width: 576px; */
   margin-left: auto;
   margin-right: auto;
- /* padding-left: 1rem;
-  padding-right: 1rem; */
+ padding-left: 1rem;
+  padding-right: 1rem;
 }
-/*
-.profile-photo {
-  border-radius: 50%;
-}
-
-.profile-photo.small {
-  height: 40px;
-  width: 40px;
-}
-
-.description {
-  display: none;
-} */
 
 @media screen and (min-width: 768px) {
   .container {
