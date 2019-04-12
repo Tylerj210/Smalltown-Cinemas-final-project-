@@ -8,22 +8,50 @@
 <template>
   <div id="home" class="container">
     <div id="all-movies">
-      <div v-for="movie in movies" v-bind:key="movie.id"  class="movie-wrapper">
+      <div v-for="viewing in viewings" v-bind:key="viewing.theater"  class="movie-wrapper">
         <div  class="movie">
           <div class="image">
-            <img v-bind:src="movie.image">
+            <img v-bind:src="viewing.movie.image">
           </div>
           <div class="movie-main-details">
             <div class="movieHead">
-            <a v-bind:href="movie.officialSite"><h3>{{movie.title}}</h3></a>
-            <div class="rating">
-            <p>{{movie.rating}}</p>
+              <a v-bind:href="viewing.movie.officialSite"><h3>{{viewing.movie.title}}</h3></a>
+              <div class="rating">
+                <p>{{viewing.movie.rating}}</p>
+              </div>
             </div>
+            <div class="details">
+              <section> 
+                <h4>Director:</h4> 
+                <p>{{viewing.movie.director}} </p>
+              </section>
+              <section>
+                <h4>Cast:</h4>
+                <ul>
+                  <li v-for="actor in viewing.movie.actors">{{actor}}</li>
+                </ul>
+              </section>
+              <section>
+                <h4>Genres:</h4>
+                <ul>
+                  <li v-for="genre in viewing.movie.genres">{{genre}}</li>
+                </ul>
+              </section>
             </div>
-            <!-- <div class="description">
-              {{movie.description}}
-            </div> -->
-            
+            <div class="videoTrailer">
+              <video  controls>
+                <source src="viewing.movie.trailerLink" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+            <div class="mainShowtimes">
+              <h3>Showtimes</h3>
+              <ul class="showtimesList">
+                <li v-for="showtime in viewing.showtimes" v-bind:key="showtime.showtimeId" class="showtime">
+                  <a href="#">{{setTime(showtime.time)}}</a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -41,7 +69,7 @@ export default {
   },
   data() {
     return {
-      movies: []
+      viewings: []
     };
   },
   methods: {
@@ -58,6 +86,20 @@ export default {
       //   wrapper.appendChild(theImage);
       //   wrapper.appendChild(theTitle);
       // })
+    }, 
+    setTime(showtime){
+      let hour = showtime.hour;
+      let minutes = showtime.minute;
+      if(minutes < 10){
+        minutes = minutes + "0";
+      }
+      if(hour >= 12){
+        if(hour > 12){
+        hour = hour - 12;
+        }
+        return hour + ":" + minutes + " pm";
+      }
+      return hour + ":" + minutes + " am";
     }
   },
   computed:{
@@ -65,7 +107,7 @@ export default {
   },
   created() {
     // Call the Api to get the featured movies
-    fetch(`${process.env.VUE_APP_REMOTE_API}/movie/movies`, {
+    fetch(`${process.env.VUE_APP_REMOTE_API}/movie/viewings`, {
       method: "GET",
       headers: {
         // A Header with our authentication token.
@@ -73,9 +115,9 @@ export default {
       }
     })
     .then(response => response.json())
-    .then(moviesJSON => {
-        this.movies = moviesJSON;
-        console.log(moviesJSON);
+    .then(viewingsJSON => {
+        this.viewings = viewingsJSON;
+        console.log(viewingsJSON);
         this.buildMovieList();
     })
   }
@@ -88,8 +130,8 @@ export default {
 }
 #all-movies{
   min-width:100%;
-  margin:20px;
-  padding:20px;
+  /* margin:20px; */
+  /* padding:20px; */
   border:1px solid black;
   background-color:black;
 }
@@ -189,38 +231,99 @@ export default {
 }
 
 .movie {
-  padding: 10px 15px;
+  padding: 10px 10px;
   border-top: 1px solid white;
-    border-bottom: 1px solid white;
+  border-bottom: 1px solid white;
+  width: 100%;
+  margin: auto;
 }
 
 .movieHead {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: center;
     flex-wrap: nowrap;
-    margin-left: 25%;
-    height: 10%;
+    width: 90%;
+    margin: auto;
   }
 
-
-  .movieHead h3 {
-    text-decoration: none;
+  .rating {
+    margin-left: 10px;
   }
 
   .movieHead p {
-    display: block;
     border: 1px solid white ;
     border-radius: 5px;
     padding: 3px;
-    font-size: 1em;
-    /*margin-left: 5%;*/
+    font-size: .5em;
+    
+    
   }
 
   .image img {
     width: 90%;
     object-fit: cover;
 
+  }
+
+ .details {
+   border-top: 1px solid white;
+   border-bottom: 1px solid white;
+   width: 90%;
+   margin: auto;
+ }
+
+  .details h4 {
+    margin-top: 6px;
+    margin-bottom: 3px;
+    color: white;
+  }
+
+  .details p {
+    margin: 0;
+    color: white;
+  }
+
+  .details ul {
+    padding: 0;
+    margin-top: 0;
+  }
+
+  .details li {
+    font-size: .8em;
+    list-style: none;
+    color: white;
+  }
+
+  .videoTrailer {
+    display: none;
+  }
+
+  .mainShowtimes h3 {
+    text-decoration: underline;
+  }
+
+  .showtimesList {
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+
+  }
+
+  .showtime {
+    list-style: none;
+    border: 1px solid white ;
+    border-radius: 5px;
+    padding: 7px;
+    font-size: .7em;
+  }
+
+  .showtime:hover {
+    background-color: #800020;
+  }
+
+  .showtime a:hover {
+    text-decoration: none;
+    /* font-weight: 800; */
   }
 
 @media screen and (min-width: 768px) {
@@ -241,6 +344,30 @@ export default {
   .movie-main-details,
   .image {
     width: 50%; 
+  }
+}
+@media screen and (min-width: 992px) {
+
+  .movie-main-details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-grow: 1;
+    align-content: center;
+  }
+
+  .videoTrailer {
+    display: block;
+    flex-grow: 1;
+  }
+
+  video {
+    margin-top: 20px;
   }
 }
 </style>

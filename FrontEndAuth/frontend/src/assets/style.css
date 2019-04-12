@@ -18,15 +18,15 @@ body {
   background-color: black;
 }
 
-h1,
+/* h1,
 h2,
 h3,
 h4,
 h5,
 p {
   margin: 0.5rem;
-}
-
+} */
+/* 
 h1 {
   font-size: 2rem;
   color: black;
@@ -39,7 +39,7 @@ p {
 button,
 input {
   font-size: 1rem;
-}
+} */
 
 a,
 button {
@@ -55,20 +55,20 @@ a:hover {
   text-decoration: underline;
 }
 
-button {
+/* button {
   border: 0;
   outline: 0;
-}
+} */
 
 /* Container Styles for Auto Margins */
 .container {
-  max-width: 576px;
+  /* max-width: 576px; */
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+ /* padding-left: 1rem;
+  padding-right: 1rem; */
 }
-
+/*
 .profile-photo {
   border-radius: 50%;
 }
@@ -80,7 +80,7 @@ button {
 
 .description {
   display: none;
-}
+} */
 
 @media screen and (min-width: 768px) {
   .container {
