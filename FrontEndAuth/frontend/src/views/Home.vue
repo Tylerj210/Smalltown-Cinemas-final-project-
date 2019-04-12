@@ -32,19 +32,19 @@
               </section>
               <section>
                 <h4>Cast:</h4>
-                <ul>
-                  <li v-for="actor in viewing.movie.actors">{{actor}}</li>
+                <ul v-for="actor in viewing.movie.actors">
+                  <li>{{actor}}</li>
                 </ul>
               </section>
               <section>
                 <h4>Genres:</h4>
-                <ul>
-                  <li v-for="genre in viewing.movie.genres">{{genre}}</li>
+                <ul v-for="genre in viewing.movie.genres">
+                  <li>{{genre}}</li>
                 </ul>
               </section>
             </div>
             <div class="videoTrailer">
-              <iframe width="560" height="315" src="viewing.movie.trailerLink" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe width="560" height="315" v-bind:src="viewing.movie.trailerLink" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="mainShowtimes">
               <h3>Showtimes</h3>
