@@ -50,7 +50,7 @@
               <h3>Showtimes</h3>
               <ul class="showtimesList">
                 <li v-for="showtime in viewing.showtimes" v-bind:key="showtime.showtimeId" class="showtime">
-                  <a href="/tickets" v-on:click="getTickets(showtime)">{{setTime(showtime.time)}}</a>
+                  <a v-bind:href="'/tickets/' + showtime.showtimeId">{{setTime(showtime.time)}}</a>
                 </li>
               </ul>
             </div>

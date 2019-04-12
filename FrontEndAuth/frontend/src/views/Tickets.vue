@@ -38,7 +38,8 @@ computed: {
 
 },
 created() {
-  fetch(`${process.env.VUE_APP_REMOTE_API}/seats/${theaterId}`, {
+    const showtimeId = this.$route.params.showtime;
+  fetch(`${process.env.VUE_APP_REMOTE_API}/seats/${showtimeId}`, {
       method: "GET",
       headers: {
         // A Header with our authentication token.
@@ -48,8 +49,6 @@ created() {
     .then(response => response.json())
     .then(moviesJSON => {
         this.movies = moviesJSON;
-        console.log(moviesJSON);
-        this.buildMovieList();
     })
 },
 }
