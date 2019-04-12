@@ -15,9 +15,9 @@
           <li class="left-nav">
             <router-link to="/">Home</router-link>
           </li>
-          <!-- <li v-if="isAuthenticated">
-            <p>Hi, {{auth.getUser().sub()}}</p>
-          </li> -->
+           <li v-if="isAuthenticated">
+            <p>Hi, {{getUser}}</p>
+          </li> 
           <li>
             <router-link to="/tickets">Tickets</router-link>
           </li>
@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     getUser() {
-      return auth.getUser();
+      return auth.getUser().sub;
     }
   }
 };
