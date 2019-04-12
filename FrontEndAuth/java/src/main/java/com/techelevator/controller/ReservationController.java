@@ -32,15 +32,15 @@ public class ReservationController {
 	
 	@RequestMapping(path="/seats/{showtime}",method=RequestMethod.GET)
 	public Map<String, Object> allSeats(@PathVariable int showtime){
+		
 		Map<String, Object> showtimeData = new HashMap<>();
-		Showtime theShowtime = new Showtime();
-		theShowtime=showtimeDao.getShowtimeById(showtime);
-		List<Seat> seats = new ArrayList<Seat>();
-		Movie movie = new Movie();
-		int theater = 0;
-		theater = theShowtime.getTheaterId();
-		seats=reservationDao.getSeatsByTheater(theater);
-		movie=movieDao.getMovieById(theShowtime.getMovieId());
+		Showtime theShowtime = showtimeDao.getShowtimeById(showtime);
+		Movie movie = movieDao.getMovieById(theShowtime.getMovieId());
+		int theater = theShowtime.getTheaterId();
+		List<Seat> seats = reservationDao.setSeatAvailability(showtime,reservationDao.getSeatsByTheater(theater));
+		
+		
+		
 		showtimeData.put("seats", seats);
 		showtimeData.put("showtime", theShowtime);
 		showtimeData.put("movie", movie);
