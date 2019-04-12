@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import com.techelevator.model.movie.Movie;
 import com.techelevator.model.user.User;
 
 @Component
@@ -29,8 +30,11 @@ public class JdbcReservationDao implements ReservationDao {
 	@Override
 	public List<Seat> getSeatsByTheater(int theater) {
 		List<Seat> seats = new ArrayList<Seat>();
-		String sqlGetSeatsByTheater = "SELECT * FROM seat WHERE theater_id=?";
+		String sqlGetSeatsByTheater = "SELECT * FROM seats WHERE theater_id=?";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetSeatsByTheater,theater);
+		while(results.next()) {
+			seats.add(mapResultToSeats(results));
+		}
 		return seats;
 	}
 
@@ -78,5 +82,13 @@ public class JdbcReservationDao implements ReservationDao {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	private Seat mapResultToSeats(SqlRowSet results) {
+        Seat seat = new Seat();
+        seat.setSeatId(results.getInt("seat_id"));
+        seat.setTheaterId(results.getInt("theater_id"));
+        seat.setSeatNumber(results.getInt("seatNumber"));
+        return seat;
+    }
 
 }
