@@ -100,6 +100,7 @@ CREATE TABLE reservations(
         finalized BOOLEAN NOT NULL,
         id INTEGER NOT NULL,
         showtime_id INTEGER NOT NULL,
+        confirmationNumber INTEGER NOT NULL,
         CONSTRAINT pk_reservations_reservation_id PRIMARY KEY (reservation_id)
 );
 
