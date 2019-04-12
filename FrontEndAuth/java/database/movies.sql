@@ -264,7 +264,7 @@ INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (70, 3,
 INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (71, 3, 3, 'Apr 14 2019 6:15PM');
 INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (72, 4, 4, 'Apr 14 2019 12:30PM');
 INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (73, 4, 4, 'Apr 14 2019 3:45PM');
-INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (74, 4, 4, 'Apr 14 2019 6:30PM');
+INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (74, 4, 4, 'Apr 14 2019 6:41PM');
 INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (75, 5, 5, 'Apr 14 2019 1:00PM');
 INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (76, 5, 5, 'Apr 14 2019 4:15PM');
 INSERT INTO showtime(showtime_id, movie_id, theater_id, dateTime) VALUES (77, 5, 5, 'Apr 14 2019 7:00PM');

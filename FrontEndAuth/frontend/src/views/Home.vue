@@ -7,13 +7,11 @@
 -->
 <template>
   <div id="home" class="container">
-    <form action="">
-      <select name="searchDate">
-        <option v-for="date in getDates()" value="">{{date}}</option>
+      <select v-on:change="showMovies" v-model="selectedDay" name="searchDate">
+        <option v-for="date in getDates()" v-bind:value="date.day">{{date.date.toDateString()}}</option>
       </select>
-
-      <input type="submit">
-    </form>
+      <p>{{selectedDay}}</p>
+      <!-- <input type="submit"> -->
     <div id="all-movies">
       <div v-for="viewing in viewings" v-bind:key="viewing.theater"  class="movie-wrapper">
         <div  class="movie">
@@ -34,19 +32,19 @@
               </section>
               <section>
                 <h4>Cast:</h4>
-                <ul>
-                  <li v-for="actor in viewing.movie.actors">{{actor}}</li>
+                <ul v-for="actor in viewing.movie.actors">
+                  <li>{{actor}}</li>
                 </ul>
               </section>
               <section>
                 <h4>Genres:</h4>
-                <ul>
-                  <li v-for="genre in viewing.movie.genres">{{genre}}</li>
+                <ul v-for="genre in viewing.movie.genres">
+                  <li>{{genre}}</li>
                 </ul>
               </section>
             </div>
             <div class="videoTrailer">
-              <iframe width="560" height="315" src="viewing.movie.trailerLink" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe width="560" height="315" v-bind:src="viewing.movie.trailerLink" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="mainShowtimes">
               <h3>Showtimes</h3>
@@ -73,7 +71,8 @@ export default {
   },
   data() {
     return {
-      viewings: []
+      viewings: [], 
+      selectedDay: 0
     };
   },
   methods: {
@@ -90,6 +89,23 @@ export default {
       //   wrapper.appendChild(theImage);
       //   wrapper.appendChild(theTitle);
       // })
+    },
+    showMovies(){
+      fetch(`${process.env.VUE_APP_REMOTE_API}/movie/viewings/${this.selectedDay}`, {
+      method: "POST",
+      headers: {
+        // A Header with our authentication token.
+        "Content-Type": "application/json",
+        // Authorization: "Bearer " + auth.getToken()
+      }, 
+      body: JSON.stringify(this.selectedDay)
+    })
+    .then(response => response.json())
+    .then(viewingsJSON => {
+        this.viewings = viewingsJSON;
+        console.log(viewingsJSON);
+        this.buildMovieList();
+    })
     }, 
     setTime(showtime){
       let hour = showtime.hour;
@@ -107,11 +123,15 @@ export default {
     }, 
     getDates(){
       let theDates = [];
+      let today = new Date();
       for(let i = 0; i < 7; i++){
-        let today = new Date();
         let newdate = new Date();
         newdate.setDate(today.getDate()+i);
-        theDates[i] = newdate.toDateString();
+        let dateObj = {
+          date: newdate,
+          day: i
+        }
+        theDates[i] = dateObj;
       }  
       return theDates;
     }
