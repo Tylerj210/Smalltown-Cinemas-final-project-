@@ -2,6 +2,7 @@ package com.techelevator.model.movie;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
@@ -95,6 +96,23 @@ private JdbcTemplate jdbcTemplate;
 			
 		}
 		return viewings;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.techelevator.model.movie.ShowtimeDao#getShowtimeById(int)
+	 */
+	@Override
+	public Showtime getShowtimeById(int id) {
+		Showtime showtime = new Showtime();
+		String sqlGetShowtimeByShowtimeId = "SELECT * FROM showtime WHERE showtime_id=?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetShowtimeByShowtimeId, id);
+		if(results.next()) {
+			showtime = mapResultToShowtime(results);
+		}
+		else {
+			showtime = new Showtime(id, 0, 0, LocalDate.ofYearDay(1900, 1), LocalTime.of(0, 00));
+		}
+		return showtime;
 	}
 
 	private Showtime mapResultToShowtime(SqlRowSet results) {

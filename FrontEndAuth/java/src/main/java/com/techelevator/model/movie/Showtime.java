@@ -11,6 +11,20 @@ public class Showtime {
 	private int theaterId;
 	private LocalDate date;
 	private LocalTime time;
+	
+	
+	public Showtime(int showtimeId, int movieId, int theaterId, LocalDate date, LocalTime time) {
+		super();
+		this.showtimeId = showtimeId;
+		this.movieId = movieId;
+		this.theaterId = theaterId;
+		this.date = date;
+		this.time = time;
+	}
+	
+	public Showtime() {
+		
+	}
 	/**
 	 * @return the time
 	 */
