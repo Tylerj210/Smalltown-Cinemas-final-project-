@@ -37,7 +37,13 @@
 						<value>/register</value>
 						<value>/movie/movies</value>
 						<value>/movie/viewings</value>
-						<value>/movie/viewings/{date}</value>
+						<value>/movie/viewings/0</value>
+						<value>/movie/viewings/1</value>
+						<value>/movie/viewings/2</value>
+						<value>/movie/viewings/3</value>
+						<value>/movie/viewings/4</value>
+						<value>/movie/viewings/5</value>
+						<value>/movie/viewings/6</value>
 					</list>
 				</property>
 			</bean>
