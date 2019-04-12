@@ -7,6 +7,13 @@
 -->
 <template>
   <div id="home" class="container">
+    <form action="">
+      <select name="searchDate">
+        <option v-for="date in getDates()" value="">{{date}}</option>
+      </select>
+
+      <input type="submit">
+    </form>
     <div id="all-movies">
       <div v-for="viewing in viewings" v-bind:key="viewing.theater"  class="movie-wrapper">
         <div  class="movie">
@@ -39,10 +46,7 @@
               </section>
             </div>
             <div class="videoTrailer">
-              <video  controls>
-                <source src="viewing.movie.trailerLink" type="video/mp4">
-                Your browser does not support the video tag.
-              </video>
+              <iframe width="560" height="315" src="viewing.movie.trailerLink" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="mainShowtimes">
               <h3>Showtimes</h3>
@@ -100,6 +104,16 @@ export default {
         return hour + ":" + minutes + " pm";
       }
       return hour + ":" + minutes + " am";
+    }, 
+    getDates(){
+      let theDates = [];
+      for(let i = 0; i < 7; i++){
+        let today = new Date();
+        let newdate = new Date();
+        newdate.setDate(today.getDate()+i);
+        theDates[i] = newdate.toDateString();
+      }  
+      return theDates;
     }
   },
   computed:{
@@ -366,7 +380,7 @@ export default {
     flex-grow: 1;
   }
 
-  video {
+  iframe {
     width: 100%;
     height: auto;
     margin-top: 20px;
