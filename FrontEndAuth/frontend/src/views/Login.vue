@@ -260,12 +260,14 @@ form input {
 }
 
 form button {
+  font-size: 15px;
   padding: 0.8rem 0.2rem;
   background: #80002000;
   color: gold;
   text-shadow: 2px 2px black;
   border-radius: 3px;
   font-weight: bold;
+  border: none;
 }
 form {
   border: 3px solid #800020;
@@ -280,11 +282,12 @@ form {
 }
 .form-actions {
   display: flex;
+  border: none;
 }
 
 .form-actions .extras {
   flex: 2;
-
+  border: none;
 }
 
 .form-actions .extras {
@@ -318,6 +321,7 @@ form {
 
   #login {
     flex-direction: row;
+    border: none;
   }
 
   #content,
