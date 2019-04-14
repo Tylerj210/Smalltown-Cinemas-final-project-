@@ -99,10 +99,10 @@ CREATE TABLE tickets(
 CREATE TABLE reservations(
         reservation_id serial NOT NULL,
         bookingTime TIMESTAMP NOT NULL,
-        finalized BOOLEAN NOT NULL,
+        finalized BOOLEAN,
         id INTEGER NOT NULL,
         showtime_id INTEGER NOT NULL,
-        confirmationNumber INTEGER NOT NULL,
+        confirmationNumber INTEGER,
         CONSTRAINT pk_reservations_reservation_id PRIMARY KEY (reservation_id)
 );
 
