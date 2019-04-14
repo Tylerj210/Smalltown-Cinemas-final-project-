@@ -7,10 +7,9 @@
 -->
 <template>
   <div id="home" class="container">
-      <select v-on:change="showMovies" v-model="selectedDay" name="searchDate">
+      <select id="datePicker" v-on:change="showMovies" v-model="selectedDay" name="searchDate">
         <option v-for="date in getDates()" v-bind:value="date.day">{{date.date.toDateString()}}</option>
       </select>
-      <p>{{selectedDay}}</p>
       <!-- <input type="submit"> -->
     <div id="all-movies">
       <div v-for="viewing in viewings" v-bind:key="viewing.theater"  class="movie-wrapper">
@@ -50,7 +49,7 @@
               <h3>Showtimes</h3>
               <ul class="showtimesList">
                 <li v-for="showtime in viewing.showtimes" v-bind:key="showtime.showtimeId" class="showtime">
-                  <a v-bind:href="'/tickets/' + showtime.showtimeId">{{setTime(showtime.time)}}</a>
+                  <a v-bind:href="'/tickets/' + showtime.showtimeId" class="showTimeAnchor">{{setTime(showtime.time)}}</a>
                 </li>
               </ul>
             </div>
@@ -152,6 +151,14 @@ export default {
 #home {
   margin-top: 0.5rem;
 }
+
+#datePicker {
+  height: 40px;
+  background-color: lightgray;
+  color: black;
+  font-size: 1em;
+}
+
 #all-movies{
   min-width:100%;
   /* margin:20px; */
@@ -339,7 +346,7 @@ export default {
     border: 1px solid white ;
     border-radius: 5px;
     padding: 7px;
-    font-size: .7em;
+    font-size: .6em;
   }
 
   .showtime:hover {
