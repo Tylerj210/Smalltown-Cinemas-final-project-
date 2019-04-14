@@ -122,6 +122,7 @@ private JdbcTemplate jdbcTemplate;
 	     showtime.setTheaterId(results.getInt("theater_id"));
 	     showtime.setDate(results.getDate("datetime").toLocalDate());
 	     showtime.setTime(results.getTime("datetime").toLocalTime());
+	     showtime.setPrice(results.getDouble("price"));
 		return showtime;
 	}
 

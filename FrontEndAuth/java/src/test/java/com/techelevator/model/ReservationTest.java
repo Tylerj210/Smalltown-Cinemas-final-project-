@@ -2,6 +2,7 @@ package com.techelevator.model;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
 import java.sql.SQLException;
 
 import org.junit.AfterClass;
@@ -12,13 +13,18 @@ import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
 import com.techelevator.model.movie.JdbcMovieDao;
 import com.techelevator.model.movie.JdbcShowtimeDao;
+import com.techelevator.model.movie.Showtime;
+import com.techelevator.model.movie.ShowtimeDao;
 import com.techelevator.model.reservation.JdbcReservationDao;
 import com.techelevator.model.reservation.ReservationDao;
+import com.techelevator.model.reservation.Seat;
+import com.techelevator.model.user.User;
 
 public class ReservationTest {
 
 	protected static SingleConnectionDataSource dataSource;
 	private ReservationDao reservationDao;
+	private ShowtimeDao showtimeDao;
 	
 	
 	/* Before any tests are run, this method initializes the datasource for testing. */
@@ -43,14 +49,41 @@ public class ReservationTest {
 	@Before
 	public void setup() {
 		reservationDao = new JdbcReservationDao(dataSource);
+		showtimeDao = new JdbcShowtimeDao(dataSource);
 	}
 	
 	@Test
-	public void Return_Seats_By_Theater() {
+	public void Return_Seats_By_Theater_Test() {
 		assertEquals(120, reservationDao.getSeatsByTheater(3).size());
 	}
 	
+	@Test
+	public void Set_Seat_Availability_Test() {
+		assertEquals(false,reservationDao.setSeatAvailability(82,reservationDao.getSeatsByTheater(1)).get(0).isAvailable());
+		assertEquals(true,reservationDao.setSeatAvailability(82,reservationDao.getSeatsByTheater(1)).get(1).isAvailable());
+	}
 	
+	@Test
+	public void Get_Reservation_By_Id_Test() {
+		assertEquals(82,reservationDao.getReservationByResId(1).getShowtimeId());
+	}
 	
+	@Test
+	public void Get_Tickets_By_Reservation_Id_Test() {
+		assertEquals(1,reservationDao.getReservationByResId(1).getTickets().get(0).getSeatId());
+	}
+	
+	@Test
+	public void Get_Next_Res_Id_Test() {
+		Seat[] seats = new Seat[2];
+		List<Seat> theaterOneSeats = reservationDao.getSeatsByTheater(1);
+		seats[0]=theaterOneSeats.get(3);
+		seats[1]=theaterOneSeats.get(4);
+		User theUser = new User();
+		theUser.setId(1);
+		Showtime showtime = showtimeDao.getShowtimeById(82);
+		
+		assertEquals(82,reservationDao.requestSeats(seats, theUser, showtime).getShowtimeId());
+	}
 	
 }

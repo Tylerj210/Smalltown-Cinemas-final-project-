@@ -3,6 +3,7 @@ package com.techelevator.model.reservation;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 public class Reservation {
 	
@@ -13,12 +14,25 @@ public class Reservation {
 	private int userId;
 	private int showtimeId;
 	private int confirmationNum;
+	private List<Ticket> tickets;
 	
 	/**
 	 * @return the confirmationNum
 	 */
 	public int getConfirmationNum() {
 		return confirmationNum;
+	}
+	/**
+	 * @return the tickets
+	 */
+	public List<Ticket> getTickets() {
+		return tickets;
+	}
+	/**
+	 * @param tickets the tickets to set
+	 */
+	public void setTickets(List<Ticket> tickets) {
+		this.tickets = tickets;
 	}
 	/**
 	 * @param confirmationNum the confirmationNum to set

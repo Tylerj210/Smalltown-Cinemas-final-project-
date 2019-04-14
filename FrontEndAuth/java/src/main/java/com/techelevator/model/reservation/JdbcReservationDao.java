@@ -1,5 +1,8 @@
 package com.techelevator.model.reservation;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,19 +79,82 @@ public class JdbcReservationDao implements ReservationDao {
 	 */
 	@Override
 	public Reservation getReservationByResId(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Reservation theReservation = new Reservation();
+		String sqlGetResById = "SELECT * FROM reservations WHERE reservation_id=?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetResById,id);
+		if(results.next()) {
+			theReservation=mapResultToReservation(results);
+		}
+		addTicketsToRes(theReservation);
+		return theReservation;
+	}
+	
+	public void addTicketsToRes(Reservation reservation) {
+		List<Ticket> tickets = new ArrayList<Ticket>();
+		String sqlGetTickets = "SELECT * FROM tickets WHERE reservation_id=?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetTickets,reservation.getReservationId());
+		while(results.next()) {
+			tickets.add(mapResultToTicket(results));
+		}
+		reservation.setTickets(tickets);
 	}
 
 	/* (non-Javadoc)
 	 * @see com.techelevator.model.reservation.ReservationDao#requestSeats(java.util.List)
 	 */
 	@Override
-	public Reservation requestSeats(List<Integer> seatIds) {
-		// TODO Auto-generated method stub
-		return null;
+	public Reservation requestSeats(Seat[] seats, User user, Showtime showtime) {
+
+		//Find the next reservaiton ID so the inserted reservation doesn't get lost
+		int resId = getNextResId();
+		
+		//make sure the entire transaction is legal
+		boolean isReservable = confirmAvailability(showtime,seats);
+		
+		if(isReservable) {
+			
+			
+			//insert the reservation into the reservation table
+			String sqlInsertNonfinalReservation = "INSERT INTO reservations (reservation_id,id,showtime_id,bookingtime,finalized,confirmationnumber) "+
+												"VALUES (?,?,?,?,?,?)";
+			jdbcTemplate.update(sqlInsertNonfinalReservation,resId,user.getId(),showtime.getShowtimeId(),LocalDateTime.now(),false,resId);
+
+			//insert all the seats into the ticket table
+			for(Seat seat: seats) {
+				String sqlAddTickets = "INSERT INTO tickets (reservation_id,seat_id,price) "+
+										"VALUES (?,?,?)";
+				jdbcTemplate.update(sqlAddTickets,resId,seat.getSeatId(),showtime.getPrice());
+			}
+		}
+
+		return getReservationByResId(resId);
+	}
+	
+	public int getNextResId() {
+		String sqlGetNextResId = "SELECT max(reservation_id) as max FROM reservations";
+		int resId = 0;
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetNextResId);
+		if(results.next()) {
+			resId=results.getInt("max");
+		}
+		resId++;
+		return resId;
 	}
 
+	public boolean confirmAvailability(Showtime showtime,Seat[] seats) {
+		boolean isReservable = true;
+		for(Seat seat : seats) {
+			String sqlCheckSeatAvailability = "SELECT seat_id FROM tickets WHERE reservation_id "+
+											"IN (SELECT reservation_id FROM reservations WHERE showtime_id=?) "+
+											"AND seat_id = ?";
+			SqlRowSet results = jdbcTemplate.queryForRowSet(sqlCheckSeatAvailability,showtime.getShowtimeId(),seat.getSeatId());
+			if(results.next()) {
+				isReservable=false;
+				break;
+			}
+		}
+		return isReservable;
+	}
 	/* (non-Javadoc)
 	 * @see com.techelevator.model.reservation.ReservationDao#confirmReservation(com.techelevator.model.reservation.Reservation)
 	 */
@@ -105,5 +171,21 @@ public class JdbcReservationDao implements ReservationDao {
         seat.setSeatNumber(results.getInt("seatNumber"));
         return seat;
     }
-
+	private Reservation mapResultToReservation(SqlRowSet results) {
+		Reservation reservation = new Reservation();
+		reservation.setBookingDate(results.getDate("bookingTime").toLocalDate());
+		reservation.setBookingTime(results.getTime("bookingTime").toLocalTime());
+		reservation.setReservationId(results.getInt("reservation_id"));
+		reservation.setShowtimeId(results.getInt("showtime_id"));
+		reservation.setUserId(results.getInt("id"));
+		return reservation;
+	}
+	private Ticket mapResultToTicket(SqlRowSet results) {
+		Ticket ticket = new Ticket();
+		ticket.setPrice(results.getDouble("price"));
+		ticket.setReservationId(results.getInt("reservation_id"));
+		ticket.setSeatId(results.getInt("seat_id"));
+		ticket.setTicketId(results.getInt("ticket_id"));
+		return ticket;
+	}
 }

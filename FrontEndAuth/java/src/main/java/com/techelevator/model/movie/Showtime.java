@@ -11,8 +11,23 @@ public class Showtime {
 	private int theaterId;
 	private LocalDate date;
 	private LocalTime time;
+	private double price;
 	
 	
+	/**
+	 * @return the price
+	 */
+	public double getPrice() {
+		return price;
+	}
+
+	/**
+	 * @param price the price to set
+	 */
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 	public Showtime(int showtimeId, int movieId, int theaterId, LocalDate date, LocalTime time) {
 		super();
 		this.showtimeId = showtimeId;
