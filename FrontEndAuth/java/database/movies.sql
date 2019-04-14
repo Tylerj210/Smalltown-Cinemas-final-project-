@@ -59,7 +59,7 @@ CREATE TABLE showtime(
         movie_id INTEGER NOT NULL,
         theater_id INTEGER NOT NULL,
         dateTime TIMESTAMP NOT NULL,
-        price INTEGER,
+        price DECIMAL,
         CONSTRAINT pk_showtime_showtime_id PRIMARY KEY (showtime_id)
 );
 
@@ -92,6 +92,7 @@ CREATE TABLE tickets(
         ticket_id serial NOT NULL,
         reservation_id INTEGER NOT NULL,
         seat_id INTEGER NOT NULL,
+        price decimal,
         CONSTRAINT pk_tickets_ticket_id PRIMARY KEY (ticket_id)
 );
 
@@ -1518,11 +1519,11 @@ WHERE movies.title = 'Us';
 SELECT * FROM movies;
 
 UPDATE showtime 
-SET price = 10 
+SET price = 10.00 
 WHERE CAST(dateTime AS time) >= '12:00PM';
 
 UPDATE showtime 
-SET price = 8 
+SET price = 8.00
 WHERE CAST(dateTime AS time) <= '12:00PM';
 
 COMMIT TRANSACTION;
