@@ -405,7 +405,7 @@ created() {
 
 .formLayout {
     width: 90%;
-    height: 900px;
+    height: 800px;
     margin: auto;
     display: flex;
     flex-direction: column;

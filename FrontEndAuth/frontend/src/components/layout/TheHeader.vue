@@ -15,15 +15,25 @@
           <li class="left-nav">
             <router-link to="/">Home</router-link>
           </li>
-           <li v-if="isAuthenticated">
-            <p>Hi, {{getUser}}</p>
+          <!-- <li v-if="isAuthenticated" id="userName">
+            Hi, {{getUser}}
           </li> 
           <li>
             <router-link to="/tickets">Tickets</router-link>
           </li>
-          
           <li v-if="isAuthenticated">
             <a href="/" v-on:click.prevent="logout">Logout</a>
+          </li> -->
+          <li v-if="isAuthenticated" id="userName" v-on:click="seeOptions">
+            Hey, {{getUser}}!
+            <ul id="userOptions">
+              <li>
+                <router-link to="/tickets" id="userOption-ticket">Tickets</router-link>
+              </li>
+              <li v-if="isAuthenticated">
+                <a href="/" v-on:click.prevent="logout" id="userOption-logout">Logout</a>
+              </li>
+            </ul>
           </li>
           <li v-else>
             <router-link to="/login">Login</router-link>
@@ -53,6 +63,15 @@ export default {
       auth.destroyToken();
       this.$router.push("/");
       location.reload();
+    }, 
+    seeOptions(){
+      let optionsList = document.getElementById('userOptions')
+      let displaying = optionsList.style.display != "none";
+      if (displaying) {
+        optionsList.style.display = "none";
+      } else {
+        optionsList.style.display = "block";
+      }
     }
   },
   computed: {
@@ -70,7 +89,6 @@ header {
   background-color: #800020;
   border-bottom: 1px solid #800020;
   box-shadow: inset -1px 2px 38px 22px rgba(0,0,0,0.3);
-  
   width:100%;
 
 }
@@ -97,7 +115,7 @@ li {
   line-height: 2rem;
 }
 
-li a {
+li a, #userName {
   font-weight: bold;
   font-size: 1.3rem;
   color: rgba(255,215,0,80%);
@@ -111,4 +129,35 @@ li.left-nav {
 li:not(.left-nav) {
   margin-left: 1.5rem;
 }
+
+#userName {
+  align-content: center;
+}
+
+#userOptions, #userOptions * {
+  margin: 0px;
+  padding: 0px;
+}
+
+#userOptions {
+  display: none;
+  width: 97px;
+  margin: auto;
+  position: absolute;
+  background-color: #800020;
+  border-bottom: 1px solid #800020;
+  border-radius: 5px;
+  box-shadow: inset -1px 2px 38px 22px rgba(0,0,0,0.3);
+}
+
+#userOptions li {
+  border-top: 1px solid #000
+}
+
+#userOption-ticket,
+#userOption-logout {
+  margin-left: 10px;
+  padding: 2%;
+}
+
 </style>
