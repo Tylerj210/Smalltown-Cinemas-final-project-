@@ -39,12 +39,12 @@ public class ReservationController {
 		int theater = theShowtime.getTheaterId();
 		List<Seat> seats = reservationDao.setSeatAvailability(showtime,reservationDao.getSeatsByTheater(theater));
 		
-		
-		
 		showtimeData.put("seats", seats);
 		showtimeData.put("showtime", theShowtime);
 		showtimeData.put("movie", movie);
 		return showtimeData;
 		
 	}
+	//@RequestMapping(path="")
+	
 }

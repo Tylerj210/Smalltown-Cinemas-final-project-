@@ -54,7 +54,7 @@ public class JdbcReservationDao implements ReservationDao {
 		}
 		for(int seatId : seatIds) {
 			for(Seat seat : seats) {
-				if(seatId==seat.getSeatId()) {
+				if((int)seatId==(int)seat.getSeatId()) {
 					seat.setAvailable(false);
 				}
 			}
