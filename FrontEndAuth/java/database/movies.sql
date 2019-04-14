@@ -59,6 +59,7 @@ CREATE TABLE showtime(
         movie_id INTEGER NOT NULL,
         theater_id INTEGER NOT NULL,
         dateTime TIMESTAMP NOT NULL,
+        price INTEGER,
         CONSTRAINT pk_showtime_showtime_id PRIMARY KEY (showtime_id)
 );
 
@@ -1515,5 +1516,13 @@ JOIN movies ON genre_movie.movie_id = movies.movie_id
 WHERE movies.title = 'Us';
 
 SELECT * FROM movies;
+
+UPDATE showtime 
+SET price = 10 
+WHERE CAST(dateTime AS time) >= '12:00PM';
+
+UPDATE showtime 
+SET price = 8 
+WHERE CAST(dateTime AS time) <= '12:00PM';
 
 COMMIT TRANSACTION;
