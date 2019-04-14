@@ -1451,6 +1451,9 @@ INSERT INTO seats(seat_id, theater_id, seatNumber) VALUES (798, 6 ,118);
 INSERT INTO seats(seat_id, theater_id, seatNumber) VALUES (799, 6 ,119);
 INSERT INTO seats(seat_id, theater_id, seatNumber) VALUES (800, 6 ,120);
 
+--INSERTIONS INTO RESERVATIONS/TICKETS
+INSERT INTO reservations(reservation_id, bookingTime, finalized, id, showtime_id, confirmationNumber) VALUES (1, 'Apr 15 2019 10:00AM', TRUE, 1, 82, 600678);
+INSERT INTO tickets(ticket_id, reservation_id, seat_id) VALUES (1, 1, 1);
 
 
 -- PROVIDES OUR TABLE LINKS FOR ACTORS AND MOVIES
