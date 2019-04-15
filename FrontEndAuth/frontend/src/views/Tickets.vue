@@ -1,6 +1,6 @@
 <template>
     <div id="tickets">
-        <h1> Purchase tickets  </h1>
+        <h1 id="mainTicketHeading"> Purchase tickets  </h1>
         <div class="progress-bar">
             <div class="step active"></div>
             <div class="step"></div>
@@ -229,7 +229,7 @@ created() {
 <style>
 
 #tickets {
-    margin-top: 50px;
+    margin-top: 30px;
     text-align: center;
     color: white;
 }
@@ -237,7 +237,7 @@ created() {
 #ticket-wrapper{
   max-width: 90%;
   min-height: 500px;
-  margin: 25px auto;
+  margin: 20px auto;
   margin-bottom: 60px;
   padding: 40px none;
   border: 3px solid #800020;
@@ -246,6 +246,10 @@ created() {
   color: rgba(255,215,0,90%);
   text-align:center;
   background-color: #000;  
+}
+
+#mainTicketHeading {
+    margin: 0;
 }
 
 #heading {
@@ -439,8 +443,47 @@ input::placeholder {
     
 } */
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 592px) {
+
+    .progress-bar {
+        margin: 5% auto;
+    }
+
+    .seat {
+        /* flex: 1 1 9%; */
+        /* font-size: .6em; */
+        /* border: 1px solid white; */
+        /* border-bottom-left-radius: 10px; */
+        /* border-bottom-right-radius: 10px; */
+        /* margin: .5%; */
+        padding: 1% .5%;
+
+    }
 
 }
 
+@media screen and (min-width: 768px) {
+
+    .seat {
+        /* flex: 1 1 9%; */
+        /* font-size: .6em; */
+        /* border: 1px solid white; */
+        /* border-bottom-left-radius: 10px; */
+        /* border-bottom-right-radius: 10px; */
+        margin: .2%;
+        padding: 1% .5%;
+
+    }
+
+    #heading {
+        /* display: block; */
+        width: 90%;
+        margin: 20px auto 5px auto;
+        padding-top: 2%;
+        border-top: 3px solid white;
+        border-radius: 40%;
+        font-size: 3em;
+}
+
+}
 </style>

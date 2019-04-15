@@ -15,16 +15,7 @@
           <li class="left-nav">
             <router-link to="/">Home</router-link>
           </li>
-          <!-- <li v-if="isAuthenticated" id="userName">
-            Hi, {{getUser}}
-          </li> 
-          <li>
-            <router-link to="/tickets">Tickets</router-link>
-          </li>
-          <li v-if="isAuthenticated">
-            <a href="/" v-on:click.prevent="logout">Logout</a>
-          </li> -->
-          <li v-if="isAuthenticated" id="userName" v-on:click="seeOptions">
+          <li v-if="isAuthenticated" id="userName" v-on:mouseover="seeOptions()" v-on:mouseout="hideOptions()">
             Hey, {{getUser}}!
             <ul id="userOptions">
               <li>
@@ -66,12 +57,11 @@ export default {
     }, 
     seeOptions(){
       let optionsList = document.getElementById('userOptions')
-      let displaying = optionsList.style.display != "none";
-      if (displaying) {
-        optionsList.style.display = "none";
-      } else {
-        optionsList.style.display = "block";
-      }
+      optionsList.style.display = "block";
+    },
+    hideOptions(){
+      let optionsList = document.getElementById('userOptions')
+      optionsList.style.display = "none";
     }
   },
   computed: {
@@ -134,6 +124,10 @@ li:not(.left-nav) {
   align-content: center;
 }
 
+#userName:hover {
+  cursor: pointer;
+}
+
 #userOptions, #userOptions * {
   margin: 0px;
   padding: 0px;
@@ -143,6 +137,7 @@ li:not(.left-nav) {
   display: none;
   width: 97px;
   margin: auto;
+  margin-top: 3px;
   position: absolute;
   background-color: #800020;
   border-bottom: 1px solid #800020;
