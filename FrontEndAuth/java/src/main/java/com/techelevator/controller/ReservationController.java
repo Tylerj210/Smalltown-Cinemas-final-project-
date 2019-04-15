@@ -1,6 +1,8 @@
 package com.techelevator.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.techelevator.authentication.RequestAuthProvider;
 import com.techelevator.authentication.UnauthorizedException;
 import com.techelevator.authentication.UserCreationException;
@@ -28,6 +34,7 @@ import com.techelevator.model.movie.ShowtimeDao;
 import com.techelevator.model.reservation.Reservation;
 import com.techelevator.model.reservation.ReservationDao;
 import com.techelevator.model.reservation.Seat;
+import com.techelevator.model.reservation.SeatData;
 
 @RestController
 @CrossOrigin
@@ -56,21 +63,22 @@ public class ReservationController {
 		
 	}
 	@RequestMapping(path="/seats/book",method=RequestMethod.POST)
-	public String bookSeats(@RequestBody int showtime,
-			@RequestBody int[] seats,
+	public String bookSeats(@RequestBody SeatData seatData,
 		    HttpServletRequest request
-		    ) throws UnauthorizedException {
-        
-		User currentUser = (User) request.getAttribute(RequestAuthProvider.USER_KEY);
-		Showtime theShowtime = showtimeDao.getShowtimeById(showtime);
+		    ) throws UnauthorizedException, JsonParseException, IOException {
 		
-		Reservation placedRes = reservationDao.requestSeats(seats,currentUser,theShowtime);
+		User currentUser = (User) request.getAttribute(RequestAuthProvider.USER_KEY);
+		Showtime theShowtime = showtimeDao.getShowtimeById(seatData.getShowtime());
+		
+		Reservation placedRes = reservationDao.requestSeats(seatData.getSeats(),currentUser,theShowtime);
 		
 		if(placedRes.getReservationId()==0) {
 			throw new UnauthorizedException();
 		} 
 		
-		return "success";
+		return "\"success\"";
 	}
+	
+
 	
 }

@@ -13,10 +13,12 @@
             <div v-show="views[0].show" id="seatChart">
                 <span id="heading"> Seats </span>
                 <div id="seats">
-                    <span v-for="seat in showtime.seats" class="seat" v-bind:class="{ notAvailable: !seat.available }" v-on:click="toggleSelected(seat, $event)">{{seat.seatNumber}}</span>
+                    <span v-for="seat in showtime.seats" class="seat" v-bind:key="seat.seatId" v-bind:class="{ notAvailable: !seat.available }" v-on:click="toggleSelected(seat, $event)">
+                        {{seat.seatNumber}}
+                    </span>
                 </div>
-                    <p v-show="message != ''">{{message}}</p>
-                    <button class="btn" v-on:click="verifySeats()">Next</button>
+                <p v-show="message != ''">{{message}}</p>
+                <button class="btn" v-on:click="verifySeats()">Next</button>
             </div>
             <div v-show="views[1].show" id="payment">
                 <span id="heading">Payment</span>
@@ -53,6 +55,22 @@
             </div>
             <div v-show="views[2].show" id="confirmation">
                 <span id="heading"> Confirmation </span>
+                <div id="ticketData">
+                    <p>
+                        Tickets Selected: {{selectedSeats.length}}
+                    </p>
+                    <p>
+                        Seat Numbers:
+                    </p>
+                    <ul>
+                        <li v-for="ticket in selectedSeatNumbers" v-bind:key="ticket">
+                            {{ticket}} - ${{showtime.showtime.price}}
+                        </li>
+                    </ul>
+                    <p>
+                        Total Price: ${{selectedSeats.length*showtime.showtime.price}}
+                    </p>
+                </div>
                 <div id="confirmForm" class="formLayout">
                     <div id="name" class="section">
                         <label for="firstName">First Name: </label>
@@ -148,11 +166,12 @@ methods: {
         if(!seatSelected.classList.contains('notAvailable')){
             if(seatSelected.classList.contains('selected')){
                 seatSelected.classList.remove('selected');
-                let seatIndex = Array.from(this.selectedSeats).indexOf(seatId);
-                Array.from(this.selectedSeats).splice(seatIndex, 1);
+                let seatIndex = (this.selectedSeats).indexOf(seatId);
+                (this.selectedSeats).splice(seatIndex, 1);
             } else {
                 seatSelected.classList.add('selected');
-                this.selectedSeats = seatId;          
+                this.selectedSeats.push(seatId);    
+                     
             }
         }
     },
@@ -205,19 +224,18 @@ methods: {
         }
     },
     claimSeats() {
-        const reservation = [this.selectedSeats, this.showtime];
+        const reservation = this.seatData;
+        
+        console.log(reservation);
         fetch(`${process.env.VUE_APP_REMOTE_API}/seats/book`, {
             method: "POST",
+            body: JSON.stringify(reservation),
             headers: {
             // A Header with our authentication token.
-            Authorization: "Bearer " + auth.getToken()
-            },
-            body: JSON.stringify(this.reservation)
-        })
-        .then(response => response.json())
-        .then(showtimeJSON => {
-            this.showtime = showtimeJSON;
-            console.log(this.showtime);
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type":"application/json"
+            }
+            
         })
         .catch(error => {
             console.error(error)
@@ -226,7 +244,24 @@ methods: {
 
 },
 computed: {
-    
+    seatData:function(){
+        return {
+            seats:this.selectedSeats,
+            showtime:this.showtime.showtime.showtimeId
+        }
+    },
+    selectedSeatNumbers:function(){
+        let selected=[];
+        this.showtime.seats.forEach(seat=>{
+            this.selectedSeats.forEach(inList=>{
+                if(seat.seatId==inList){
+                    selected.push(seat.seatNumber)
+                }
+            })
+        })
+        return selected;
+        
+    }
 },
 created() {
   const showtimeId = this.$route.params.showtime;

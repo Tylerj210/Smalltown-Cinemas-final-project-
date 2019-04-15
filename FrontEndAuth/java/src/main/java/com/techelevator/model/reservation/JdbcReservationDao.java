@@ -51,8 +51,8 @@ public class JdbcReservationDao implements ReservationDao {
 		String sqlGetReservedSeats = "SELECT seat_id FROM tickets JOIN "+
 								"reservations ON tickets.reservation_id=reservations.reservation_id "+
 								"WHERE reservations.showtime_id=? "+
-								"AND reservations.finalized=true "+
-								"OR current_time::time without time zone -(interval '15 minutes')<reservations.bookingtime::time";
+								"AND (reservations.finalized=true "+
+								"OR current_time::time without time zone -(interval '15 minutes')<reservations.bookingtime::time)";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetReservedSeats,showtime);
 		while(results.next()) {
 			seatIds.add(results.getInt("seat_id"));
@@ -105,7 +105,7 @@ public class JdbcReservationDao implements ReservationDao {
 	 * @see com.techelevator.model.reservation.ReservationDao#requestSeats(java.util.List)
 	 */
 	@Override
-	public Reservation requestSeats(int[] seats, User user, Showtime showtime) {
+	public Reservation requestSeats(List<Integer> seats, User user, Showtime showtime) {
 
 		//Find the next reservaiton ID so the inserted reservation doesn't get lost
 		int resId = getNextResId();
@@ -141,13 +141,13 @@ public class JdbcReservationDao implements ReservationDao {
 		return resId;
 	}
 
-	public boolean confirmAvailability(Showtime showtime,int[] seats) {
+	public boolean confirmAvailability(Showtime showtime,List<Integer> seats) {
 		boolean isReservable = true;
 		for(int seat : seats) {
 			String sqlCheckSeatAvailability = "SELECT seat_id FROM tickets WHERE seat_id = ? AND reservation_id "+
 											"IN (SELECT reservation_id FROM reservations WHERE showtime_id=? "+
-											"AND reservations.finalized=true "+
-											"OR current_time::time without time zone -(interval '15 minutes')<reservations.bookingtime::time)";
+											"AND (reservations.finalized=true "+
+											"OR current_time::time without time zone -(interval '15 minutes')<reservations.bookingtime::time))";
 			SqlRowSet results = jdbcTemplate.queryForRowSet(sqlCheckSeatAvailability,showtime.getShowtimeId(),seat);
 			if(results.next()) {
 				isReservable=false;
