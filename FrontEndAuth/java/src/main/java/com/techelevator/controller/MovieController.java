@@ -53,7 +53,8 @@ public class MovieController {
 	}
 	@RequestMapping(path="/viewings/{days}", method=RequestMethod.POST)
 	public List<Viewing> getDayViewings(@PathVariable int days){
-		List<Viewing> viewings = showtimeDao.groupTimesWithMovies(LocalDate.now().plusDays(days),movieDao);
+		List<Viewing> viewings = new ArrayList<Viewing>();
+		viewings=		showtimeDao.groupTimesWithMovies(LocalDate.now().plusDays(days),movieDao);
 		return viewings;
 	}
 	
