@@ -74,11 +74,11 @@ public class ReservationTest {
 	}
 	
 	@Test
-	public void Get_Next_Res_Id_Test() {
-		Seat[] seats = new Seat[2];
+	public void Request_Tickets_Test() {
+		int[] seats = new int[2];
 		List<Seat> theaterOneSeats = reservationDao.getSeatsByTheater(1);
-		seats[0]=theaterOneSeats.get(3);
-		seats[1]=theaterOneSeats.get(4);
+		seats[0]=theaterOneSeats.get(3).getSeatId();
+		seats[1]=theaterOneSeats.get(4).getSeatId();
 		User theUser = new User();
 		theUser.setId(1);
 		Showtime showtime = showtimeDao.getShowtimeById(82);

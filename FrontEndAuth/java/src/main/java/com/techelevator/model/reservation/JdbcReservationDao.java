@@ -105,7 +105,7 @@ public class JdbcReservationDao implements ReservationDao {
 	 * @see com.techelevator.model.reservation.ReservationDao#requestSeats(java.util.List)
 	 */
 	@Override
-	public Reservation requestSeats(Seat[] seats, User user, Showtime showtime) {
+	public Reservation requestSeats(int[] seats, User user, Showtime showtime) {
 
 		//Find the next reservaiton ID so the inserted reservation doesn't get lost
 		int resId = getNextResId();
@@ -120,10 +120,10 @@ public class JdbcReservationDao implements ReservationDao {
 			jdbcTemplate.update(sqlInsertNonfinalReservation,resId,user.getId(),showtime.getShowtimeId(),LocalDateTime.now(),false,resId);
 
 			//insert all the seats into the ticket table
-			for(Seat seat: seats) {
+			for(int seat: seats) {
 				String sqlAddTickets = "INSERT INTO tickets (reservation_id,seat_id,price) "+
 										"VALUES (?,?,?)";
-				jdbcTemplate.update(sqlAddTickets,resId,seat.getSeatId(),showtime.getPrice());
+				jdbcTemplate.update(sqlAddTickets,resId,seat,showtime.getPrice());
 			}
 		}
 
@@ -141,14 +141,14 @@ public class JdbcReservationDao implements ReservationDao {
 		return resId;
 	}
 
-	public boolean confirmAvailability(Showtime showtime,Seat[] seats) {
+	public boolean confirmAvailability(Showtime showtime,int[] seats) {
 		boolean isReservable = true;
-		for(Seat seat : seats) {
+		for(int seat : seats) {
 			String sqlCheckSeatAvailability = "SELECT seat_id FROM tickets WHERE seat_id = ? AND reservation_id "+
 											"IN (SELECT reservation_id FROM reservations WHERE showtime_id=? "+
 											"AND reservations.finalized=true "+
 											"OR current_time::time without time zone -(interval '15 minutes')<reservations.bookingtime::time)";
-			SqlRowSet results = jdbcTemplate.queryForRowSet(sqlCheckSeatAvailability,showtime.getShowtimeId(),seat.getSeatId());
+			SqlRowSet results = jdbcTemplate.queryForRowSet(sqlCheckSeatAvailability,showtime.getShowtimeId(),seat);
 			if(results.next()) {
 				isReservable=false;
 				break;

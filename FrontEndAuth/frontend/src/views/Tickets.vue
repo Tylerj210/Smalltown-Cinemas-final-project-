@@ -159,6 +159,7 @@ methods: {
     verifySeats(){
         let seats = document.getElementsByClassName("selected");
         if(seats.length > 0){
+            this.claimSeats();
             this.message = '';
             this.getView(1);
         } else {
@@ -202,6 +203,25 @@ methods: {
                     steps[i].classList.remove('completed');
             }
         }
+    },
+    claimSeats() {
+        const reservation = [this.selectedSeats, this.showtime];
+        fetch(`${process.env.VUE_APP_REMOTE_API}/seats/book`, {
+            method: "POST",
+            headers: {
+            // A Header with our authentication token.
+            Authorization: "Bearer " + auth.getToken()
+            },
+            body: JSON.stringify(this.reservation)
+        })
+        .then(response => response.json())
+        .then(showtimeJSON => {
+            this.showtime = showtimeJSON;
+            console.log(this.showtime);
+        })
+        .catch(error => {
+            console.error(error)
+        })
     }
 
 },

@@ -57,7 +57,7 @@ public class ReservationController {
 	}
 	@RequestMapping(path="/seats/book",method=RequestMethod.POST)
 	public String bookSeats(@RequestBody int showtime,
-			@RequestBody Seat[] seats,
+			@RequestBody int[] seats,
 		    HttpServletRequest request
 		    ) throws UnauthorizedException {
         
