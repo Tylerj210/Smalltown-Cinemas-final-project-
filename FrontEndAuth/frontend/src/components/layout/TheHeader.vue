@@ -18,8 +18,8 @@
           <li v-if="isAuthenticated" id="userName" v-on:mouseover="seeOptions()" v-on:mouseout="hideOptions()">
             Hey, {{getUser}}!
             <ul id="userOptions">
-              <li>
-                <router-link to="/tickets" id="userOption-ticket">Tickets</router-link>
+              <li v-if="getRole=='admin'">
+                <router-link to="/manage" id="userOption-manage">Manage Movies</router-link>
               </li>
               <li v-if="isAuthenticated">
                 <a href="/" v-on:click.prevent="logout" id="userOption-logout">Logout</a>
@@ -67,6 +67,9 @@ export default {
   computed: {
     getUser() {
       return auth.getUser().sub;
+    },
+    getRole(){
+      return auth.getUser().rol;
     }
   }
 };
@@ -149,7 +152,7 @@ li:not(.left-nav) {
   border-top: 1px solid #000
 }
 
-#userOption-ticket,
+#userOption-manage,
 #userOption-logout {
   margin-left: 10px;
   padding: 2%;

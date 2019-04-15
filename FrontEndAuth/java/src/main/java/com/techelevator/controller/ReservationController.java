@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.techelevator.authentication.AuthProvider;
 import com.techelevator.authentication.RequestAuthProvider;
 import com.techelevator.authentication.UnauthorizedException;
 import com.techelevator.authentication.UserCreationException;
@@ -46,6 +47,8 @@ public class ReservationController {
 	ShowtimeDao showtimeDao;
 	@Autowired 
 	MovieDao movieDao;
+	@Autowired
+    private AuthProvider authProvider;
 	
 	@RequestMapping(path="/seats/{showtime}",method=RequestMethod.GET)
 	public Map<String, Object> allSeats(@PathVariable int showtime){
@@ -67,7 +70,7 @@ public class ReservationController {
 		    HttpServletRequest request
 		    ) throws UnauthorizedException, JsonParseException, IOException {
 		
-		User currentUser = (User) request.getAttribute(RequestAuthProvider.USER_KEY);
+		User currentUser = (User) authProvider.getCurrentUser();
 		Showtime theShowtime = showtimeDao.getShowtimeById(seatData.getShowtime());
 		
 		Reservation placedRes = reservationDao.requestSeats(seatData.getSeats(),currentUser,theShowtime);
@@ -86,7 +89,7 @@ public class ReservationController {
 	
 	@RequestMapping(path="/seats/book",method=RequestMethod.DELETE)
 	public Reservation undoSeats(@RequestBody Reservation reservation,HttpServletRequest request) {
-		return null;
+		return reservationDao.removeSeats(reservation);
 	}
 	
 }

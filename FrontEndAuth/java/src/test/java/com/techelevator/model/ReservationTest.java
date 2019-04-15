@@ -2,6 +2,7 @@ package com.techelevator.model;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.sql.SQLException;
 
@@ -75,10 +76,10 @@ public class ReservationTest {
 	
 	@Test
 	public void Request_Tickets_Test() {
-		int[] seats = new int[2];
+		List<Integer> seats = new ArrayList<Integer>();
 		List<Seat> theaterOneSeats = reservationDao.getSeatsByTheater(1);
-		seats[0]=theaterOneSeats.get(3).getSeatId();
-		seats[1]=theaterOneSeats.get(4).getSeatId();
+		seats.add(theaterOneSeats.get(3).getSeatId());
+		seats.add(theaterOneSeats.get(4).getSeatId());
 		User theUser = new User();
 		theUser.setId(1);
 		Showtime showtime = showtimeDao.getShowtimeById(82);

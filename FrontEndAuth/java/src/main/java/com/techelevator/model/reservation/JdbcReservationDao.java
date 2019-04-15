@@ -173,8 +173,10 @@ public class JdbcReservationDao implements ReservationDao {
 	 */
 	@Override
 	public Reservation removeSeats(Reservation theReservation) {
-		// TODO Auto-generated method stub
-		return null;
+		String sqlRemoveSeats = "DELETE FROM tickets WHERE reservation_id IN (SELECT reservation_id FROM reservations WHERE reservation_id=? AND finalized=false";
+		jdbcTemplate.execute(sqlRemoveSeats);
+		
+		return getReservationByResId(theReservation.getReservationId());
 	}
 
 

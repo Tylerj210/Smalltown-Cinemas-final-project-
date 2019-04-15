@@ -4,6 +4,7 @@ import Home from "./views/Home.vue";
 import Login from "./views/Login.vue";
 import auth from "./shared/auth";
 import Tickets from "./views/Tickets.vue";
+import Manage from "./views/Manage.vue";
 
 Vue.use(Router);
 
@@ -40,12 +41,19 @@ const router = new Router({
 
     {
       path: "/tickets/:showtime",
-      name:"tickets",
+      name: "tickets",
       component: Tickets,
       meta: {
         requiresAuth: true
       }
-    
+    },
+    {
+      path: "/manage",
+      name: "manage",
+      component: Manage,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 });
