@@ -56,7 +56,7 @@ private JdbcTemplate jdbcTemplate;
 	@Override
 	public List<Showtime> getShowtimesByTheaterAndDay(int theaterId, LocalDate day) {
 		List<Showtime> showtimes = new ArrayList<Showtime>();
-		String sqlSelectShowtimesByTheaterAndDay="SELECT * FROM showtime WHERE theater_id=? AND datetime > ? AND datetime < ?";
+		String sqlSelectShowtimesByTheaterAndDay="SELECT * FROM showtime WHERE theater_id=? AND datetime > ? AND datetime < ? ORDER BY datetime";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlSelectShowtimesByTheaterAndDay,theaterId,day,day.plusDays(1));
 		while(results.next()) {
 			Showtime showtime = mapResultToShowtime(results);

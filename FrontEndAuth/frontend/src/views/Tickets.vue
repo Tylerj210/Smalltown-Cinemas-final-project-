@@ -63,7 +63,7 @@
                         Seat Numbers:
                     </p>
                     <ul>
-                        <li v-for="ticket in selectedSeatNumbers" v-bind:key="ticket">
+                        <li v-for="ticket in selectedSeatNumbers()" v-bind:key="ticket">
                             {{ticket}} - ${{showtime.showtime.price}}
                         </li>
                     </ul>
@@ -154,7 +154,8 @@ return {
         exp: '',
         secNum: ''
     }, 
-    message: ''
+    message: '',
+    reservation:[]
     };
 
 },
@@ -224,7 +225,7 @@ methods: {
         }
     },
     claimSeats() {
-        const reservation = this.seatData;
+        const reservation = this.seatData();
         
         console.log(reservation);
         fetch(`${process.env.VUE_APP_REMOTE_API}/seats/book`, {
@@ -237,20 +238,21 @@ methods: {
             }
             
         })
+        .then(response => response.json())
+        .then(reservationJSON => {
+            this.reservation = reservationJSON;
+        })
         .catch(error => {
             console.error(error)
         })
-    }
-
-},
-computed: {
-    seatData:function(){
+    },
+    seatData(){
         return {
             seats:this.selectedSeats,
             showtime:this.showtime.showtime.showtimeId
         }
     },
-    selectedSeatNumbers:function(){
+    selectedSeatNumbers(){
         let selected=[];
         this.showtime.seats.forEach(seat=>{
             this.selectedSeats.forEach(inList=>{
@@ -259,9 +261,12 @@ computed: {
                 }
             })
         })
-        return selected;
-        
+        return selected;  
     }
+
+},
+computed: {
+    
 },
 created() {
   const showtimeId = this.$route.params.showtime;
@@ -275,7 +280,7 @@ created() {
     .then(response => response.json())
     .then(showtimeJSON => {
         this.showtime = showtimeJSON;
-        console.log(this.showtime);
+        
     })
 },
 }

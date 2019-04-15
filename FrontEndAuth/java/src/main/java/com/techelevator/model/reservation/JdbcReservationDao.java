@@ -160,11 +160,24 @@ public class JdbcReservationDao implements ReservationDao {
 	 * @see com.techelevator.model.reservation.ReservationDao#confirmReservation(com.techelevator.model.reservation.Reservation)
 	 */
 	@Override
-	public int confirmReservation(Reservation theReservation) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Reservation confirmReservation(Reservation theReservation) {
+		String sqlFinalizeReservation = "UPDATE reservations SET finalized=true "+
+										"WHERE reservation_id=?";
+		jdbcTemplate.update(sqlFinalizeReservation);
+		
+		return getReservationByResId(theReservation.getReservationId());
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.techelevator.model.reservation.ReservationDao#removeSeats(com.techelevator.model.reservation.Reservation)
+	 */
+	@Override
+	public Reservation removeSeats(Reservation theReservation) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 	private Seat mapResultToSeats(SqlRowSet results) {
         Seat seat = new Seat();
         seat.setSeatId(results.getInt("seat_id"));

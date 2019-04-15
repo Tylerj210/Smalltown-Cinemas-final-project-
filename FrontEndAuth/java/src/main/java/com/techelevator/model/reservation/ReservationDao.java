@@ -12,6 +12,7 @@ public interface ReservationDao {
 	List<Reservation> getReservationsByUser(User user);
 	Reservation getReservationByResId(int id);
 	Reservation requestSeats(List<Integer> seats, User user, Showtime showtime);
-	int confirmReservation(Reservation theReservation);
+	Reservation confirmReservation(Reservation theReservation);
+	Reservation removeSeats(Reservation theReservation);
 	
 }

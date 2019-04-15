@@ -63,7 +63,7 @@ public class ReservationController {
 		
 	}
 	@RequestMapping(path="/seats/book",method=RequestMethod.POST)
-	public String bookSeats(@RequestBody SeatData seatData,
+	public Reservation bookSeats(@RequestBody SeatData seatData,
 		    HttpServletRequest request
 		    ) throws UnauthorizedException, JsonParseException, IOException {
 		
@@ -76,9 +76,17 @@ public class ReservationController {
 			throw new UnauthorizedException();
 		} 
 		
-		return "\"success\"";
+		return placedRes;
 	}
 	
-
+	@RequestMapping(path="/seats/book",method=RequestMethod.PUT)
+	public Reservation confirmSeats(@RequestBody Reservation reservation,HttpServletRequest request) {
+		return reservationDao.confirmReservation(reservation);
+	}
+	
+	@RequestMapping(path="/seats/book",method=RequestMethod.DELETE)
+	public Reservation undoSeats(@RequestBody Reservation reservation,HttpServletRequest request) {
+		return null;
+	}
 	
 }
