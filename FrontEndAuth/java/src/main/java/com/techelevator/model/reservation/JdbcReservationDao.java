@@ -50,7 +50,9 @@ public class JdbcReservationDao implements ReservationDao {
 		List<Integer> seatIds = new ArrayList<Integer>();
 		String sqlGetReservedSeats = "SELECT seat_id FROM tickets JOIN "+
 								"reservations ON tickets.reservation_id=reservations.reservation_id "+
-								"WHERE reservations.showtime_id=?";
+								"WHERE reservations.showtime_id=? "+
+								"AND reservations.finalized=true "+
+								"OR current_time::time without time zone -(interval '15 minutes')<reservations.bookingtime::time";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetReservedSeats,showtime);
 		while(results.next()) {
 			seatIds.add(results.getInt("seat_id"));
@@ -112,8 +114,6 @@ public class JdbcReservationDao implements ReservationDao {
 		boolean isReservable = confirmAvailability(showtime,seats);
 		
 		if(isReservable) {
-			
-			
 			//insert the reservation into the reservation table
 			String sqlInsertNonfinalReservation = "INSERT INTO reservations (reservation_id,id,showtime_id,bookingtime,finalized,confirmationnumber) "+
 												"VALUES (?,?,?,?,?,?)";
@@ -144,9 +144,10 @@ public class JdbcReservationDao implements ReservationDao {
 	public boolean confirmAvailability(Showtime showtime,Seat[] seats) {
 		boolean isReservable = true;
 		for(Seat seat : seats) {
-			String sqlCheckSeatAvailability = "SELECT seat_id FROM tickets WHERE reservation_id "+
-											"IN (SELECT reservation_id FROM reservations WHERE showtime_id=?) "+
-											"AND seat_id = ?";
+			String sqlCheckSeatAvailability = "SELECT seat_id FROM tickets WHERE seat_id = ? AND reservation_id "+
+											"IN (SELECT reservation_id FROM reservations WHERE showtime_id=? "+
+											"AND reservations.finalized=true "+
+											"OR current_time::time without time zone -(interval '15 minutes')<reservations.bookingtime::time)";
 			SqlRowSet results = jdbcTemplate.queryForRowSet(sqlCheckSeatAvailability,showtime.getShowtimeId(),seat.getSeatId());
 			if(results.next()) {
 				isReservable=false;

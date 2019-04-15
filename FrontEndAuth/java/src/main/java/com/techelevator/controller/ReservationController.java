@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.techelevator.authentication.RequestAuthProvider;
+import com.techelevator.authentication.UnauthorizedException;
 import com.techelevator.authentication.UserCreationException;
 import com.techelevator.model.user.User;
 import com.techelevator.model.movie.Movie;
@@ -54,21 +55,22 @@ public class ReservationController {
 		return showtimeData;
 		
 	}
-//	@RequestMapping(path="/seats/book",method=RequestMethod.POST)
-//	public String bookSeats(@RequestBody int showtime,
-//			@RequestBody Seat[] seats,
-//		    BindingResult result, HttpServletRequest request
-//		    ) throws UserCreationException {
-//        if(result.hasErrors()) {
-//            String errorMessages = "";
-//            for(ObjectError error : result.getAllErrors()) {
-//                errorMessages += error.getDefaultMessage() + "\n";
-//            }
-//            throw new UserCreationException(errorMessages);
-//        }
-//		User currentUser = (User) request.getAttribute(RequestAuthProvider.USER_KEY);
-//		
-//		return "";
-//	}
+	@RequestMapping(path="/seats/book",method=RequestMethod.POST)
+	public String bookSeats(@RequestBody int showtime,
+			@RequestBody Seat[] seats,
+		    HttpServletRequest request
+		    ) throws UnauthorizedException {
+        
+		User currentUser = (User) request.getAttribute(RequestAuthProvider.USER_KEY);
+		Showtime theShowtime = showtimeDao.getShowtimeById(showtime);
+		
+		Reservation placedRes = reservationDao.requestSeats(seats,currentUser,theShowtime);
+		
+		if(placedRes.getReservationId()==0) {
+			throw new UnauthorizedException();
+		} 
+		
+		return "success";
+	}
 	
 }
