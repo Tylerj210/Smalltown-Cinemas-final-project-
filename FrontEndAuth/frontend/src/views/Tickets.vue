@@ -25,26 +25,26 @@
                 <form id="paymentForm" class="formLayout">
                     <div id="name" class="section">
                         <label for="firstName">First Name: </label>
-                        <input type="text" name="firstName" id="firstName" v-model="paymentForm.firstName" placeholder="first">
+                        <input type="text" name="firstName" id="firstName" v-model="paymentForm.firstName" placeholder="First">
                         <label for="lastName">Last Name: </label>
-                        <input type="text" name="lastName" id="lastName" v-model="paymentForm.lastName" placeholder="last">
+                        <input type="text" name="lastName" id="lastName" v-model="paymentForm.lastName" placeholder="Last">
                     </div>
                     <div id="address" class="section">
                         <label class="row" for="streetAddress">Street Address: </label>
-                        <input class="row" type="text" name="streetAddress" id="streetAddress" v-model="paymentForm.streetAddress" placeholder="street">
+                        <input class="row" type="text" name="streetAddress" id="streetAddress" v-model="paymentForm.streetAddress" placeholder="Street">
                         <label class="row" for="city">City: </label>
-                        <input class="row" type="text" name="city" id="city" v-model="paymentForm.city" placeholder="city">
+                        <input class="row" type="text" name="city" id="city" v-model="paymentForm.city" placeholder="City">
                         <label class="row" for="city">State: </label>
                         <input class="row" type="text" name="state" id="state" v-model="paymentForm.state" placeholder="ST">
                         <label class="row" for="zipCode">Zip Code: </label>
-                        <input class="row" type="text" name="zipCode" id="zipCode" v-model="paymentForm.zipCode" placeholder="1234">
+                        <input class="row" type="text" name="zipCode" id="zipCode" v-model="paymentForm.zipCode" placeholder="12345">
                     </div>
                     <div id="card" class="section">
                         <label class="row" for="number">Card Number: </label>
                         <input class="row" type="text" name="number" id="number" v-model="paymentForm.cardNum" placeholder="****-****-****-****">
                         <Label class="row" for="exp"> Exp: </Label>
                         <input class="row" type="text" name="exp" id="exp" v-model="paymentForm.exp" placeholder="MM/YY">
-                        <Label class="row" for="secNum"> Sec.Num: </Label>
+                        <Label class="row" for="secNum"> CVV: </Label>
                         <input class="row" type="text" name="secNum" id="secNum" v-model="paymentForm.secNum" placeholder="123">
                     </div>                    
                 </form>
@@ -93,7 +93,7 @@
                         <input class="row" type="text" name="number" id="number" v-model="paymentForm.cardNum" disabled>
                         <Label class="row" for="exp"> Exp: </Label>
                         <input class="row" type="text" name="exp" id="exp" v-model="paymentForm.exp" disabled>
-                        <Label class="row" for="secNum"> Sec.Num: </Label>
+                        <Label class="row" for="secNum"> CCV: </Label>
                         <input class="row" type="text" name="secNum" id="secNum" v-model="paymentForm.secNum" disabled>
                     </div> 
                 </div>    
@@ -103,6 +103,17 @@
             <div v-show="views[3].show" id="completed">
                 <span id="heading"> Purchase Completed! </span>
                 <p>You will recieve an email containing your purchase number</p>
+                <p>Enjoy the show!</p>
+                
+                <div id="printableReceipt">
+                    <p>{{paymentForm.firstName}} {{paymentForm.lastName}}</p>
+                    <p>{{showtime.showtime.movieId}}</p>
+                    <p>Tickets Selected: {{selectedSeats.length}}</p>
+                    <p>Seat Numbers:</p>
+                    <p v-for="ticket in selectedSeatNumbers()" v-bind:key="ticket">
+                      {{ticket}} - ${{showtime.showtime.price}} </p>
+                    <p> Total Price: ${{selectedSeats.length*showtime.showtime.price}}</p>
+                </div>
             </div>
         </div>
     </div>
@@ -265,6 +276,21 @@ methods: {
     }
 
 },
+getPurchasedMovie(){
+      fetch(`${process.env.VUE_APP_REMOTE_API}/movie/movies/${this.showtime.showtime.movieId}`, {
+      method: "GET",
+      headers: {
+        // A Header with our authentication token.
+        "Content-Type": "application/json",
+        // Authorization: "Bearer " + auth.getToken()
+      }, 
+    })
+    .then(response => response.json())
+    .then(movieJSON => {
+        this.movie = movieJSON;
+        console.log(movieJSON);
+    })
+    }, 
 computed: {
     
 },
@@ -288,6 +314,13 @@ created() {
 
 <style>
 
+#printableReceipt {
+    background-color: white;
+    margin-right: 400px;
+    margin-left: 400px;
+    color: black;
+}
+
 #tickets {
     margin-top: 30px;
     text-align: center;
@@ -299,7 +332,7 @@ created() {
   min-height: 500px;
   margin: 20px auto;
   margin-bottom: 60px;
-  padding: 40px none;
+  padding: 30px 0px;
   border: 3px solid #800020;
   border-radius: 12px;
   box-shadow: 5px 10px 20px 4px rgba(255,215,0,80%);
@@ -339,7 +372,7 @@ created() {
 /**************** Progress Bar **************/
 .progress-bar {
   display: flex;
-  margin: 8% auto;
+  margin: 5% auto;
   max-width: 50%;
   justify-content: space-between;
 }
@@ -352,7 +385,7 @@ created() {
   width: 25px;
   height: 25px;
   margin-bottom: 30px;
-  border: 4px solid #fff;
+  border: 4px solid gold;
   border-radius: 50%;
   background-color: #efefef;
 }
@@ -380,33 +413,39 @@ created() {
 }
  
 .step.active {
-  background-color: #f62f5e;
+  background-color: #800020;
 }
 .step.active:after {
-  background-color: #f62f5e;
+  background-color: #800020;
 }
 .step.completed:before {
-  color: #f62f5e;
+  color: #800020;
+}
+
+.step.completed::after {
+    color: #800020;
 }
 
 .step.active + .step:before {
-  color: #f62f5e;
+  color: #800020;
+  /*#f62f5e if preferred*/
 }
 
  
 .step:nth-child(1):before {
   content: 'Seats';
+  left: -1px;
 }
 .step:nth-child(2):before {
-  right: -10px;
+  right: -9px;
   content: 'Payment';
 }
 .step:nth-child(3):before {
-  right: -20px;
+  right: -15px;
   content: 'Confirmation';
 }
 .step:nth-child(4):before {
-  right: 0;
+  right: -2px;
   content: 'Finish';
 }
 
@@ -420,8 +459,7 @@ created() {
 
 #seatChart {
     width: 100%;
-    /* border: 1px solid white; */
-    /* border-radius: 5px; */
+    position: relative;
 }
 
 #seats {
@@ -450,6 +488,7 @@ created() {
 
 .notAvailable {
     background-color: white;
+    cursor: default !important;
 }
 
 .selected {
@@ -499,9 +538,6 @@ input::placeholder {
     font-size: 1.5em;
 }
 
-/* #confirmForm input {
-    
-} */
 
 @media screen and (min-width: 592px) {
 
@@ -510,14 +546,7 @@ input::placeholder {
     }
 
     .seat {
-        /* flex: 1 1 9%; */
-        /* font-size: .6em; */
-        /* border: 1px solid white; */
-        /* border-bottom-left-radius: 10px; */
-        /* border-bottom-right-radius: 10px; */
-        /* margin: .5%; */
         padding: 1% .5%;
-
     }
 
 }
@@ -525,25 +554,30 @@ input::placeholder {
 @media screen and (min-width: 768px) {
 
     .seat {
-        /* flex: 1 1 9%; */
-        /* font-size: .6em; */
-        /* border: 1px solid white; */
-        /* border-bottom-left-radius: 10px; */
-        /* border-bottom-right-radius: 10px; */
-        margin: .2%;
-        padding: 1% .5%;
+        font-size: 1em;
+        margin: 2px;
+        padding: 2px;
 
     }
 
     #heading {
-        /* display: block; */
         width: 90%;
         margin: 20px auto 5px auto;
         padding-top: 2%;
         border-top: 3px solid white;
         border-radius: 40%;
         font-size: 3em;
+    }
+
 }
+
+@media screen and (min-width: 992px) {
+
+    .progress-bar {
+        max-width: 700px;
+        margin: 2% auto;
+    }
+
 
 }
 </style>
