@@ -12,7 +12,7 @@ import com.techelevator.model.movie.Movie;
 @RequestMapping(path="/admin")
 public class AdminController {
 
-	@RequestMapping(path="/add",method=RequestMethod.GET)
+	@RequestMapping(path="/add",method=RequestMethod.POST)
 	public Movie addMovie() {
 		Movie movie = new Movie();
 		
