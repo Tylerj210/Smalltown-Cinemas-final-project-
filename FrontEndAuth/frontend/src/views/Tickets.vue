@@ -40,12 +40,12 @@
                         <input class="row" type="text" name="zipCode" id="zipCode" v-model="paymentForm.zipCode" placeholder="12345">
                     </div>
                     <div id="card" class="section">
-                        <label class="row" for="number">Card Number: </label>
-                        <input class="row" type="text" name="number" id="number" v-model="paymentForm.cardNum" placeholder="****-****-****-****">
-                        <Label class="row" for="exp"> Exp: </Label>
-                        <input class="row" type="text" name="exp" id="exp" v-model="paymentForm.exp" placeholder="MM/YY">
-                        <Label class="row" for="secNum"> CVV: </Label>
-                        <input class="row" type="text" name="secNum" id="secNum" v-model="paymentForm.secNum" placeholder="123">
+                        <label class="row" for="number">Email </label>
+                        <input class="row" type="text" name="email" id="email" v-model="paymentForm.email" placeholder="example@gmail.com">
+                        <Label class="row" for="exp"> Phone </Label>
+                        <input class="row" type="text" name="phone" id="phone" v-model="paymentForm.phoneNum" placeholder="(000) 000 - 0000">
+                        <!--<Label class="row" for="secNum"> CVV: </Label>
+                        <input class="row" type="text" name="secNum" id="secNum" v-model="paymentForm.secNum" placeholder="123"> -->
                     </div>                    
                 </form>
                 <!-- </div> -->
@@ -56,20 +56,28 @@
             <div v-show="views[2].show" id="confirmation">
                 <span id="heading"> Confirmation </span>
                 <div id="ticketData">
+                    <div id="ticketsSelected">
                     <p>
                         Tickets Selected: {{selectedSeats.length}}
                     </p>
+                    </div>
+                    <div id="seatNum">
                     <p>
-                        Seat Numbers:
+                        Seat Number(s):
                     </p>
+                    </div>
+                    <div id="seatId">
                     <ul>
                         <li v-for="ticket in selectedSeatNumbers()" v-bind:key="ticket">
                             {{ticket}} - ${{showtime.showtime.price}}
                         </li>
                     </ul>
+                    </div>
+                    <div id="totalPrice">
                     <p>
                         Total Price: ${{selectedSeats.length*showtime.showtime.price}}
                     </p>
+                    </div>
                 </div>
                 <div id="confirmForm" class="formLayout">
                     <div id="name" class="section">
@@ -89,13 +97,11 @@
                         <input class="row" type="text" name="zipCode" id="zipCode" v-model="paymentForm.zipCode" disabled>
                     </div>
                     <div id="card" class="section">
-                        <label class="row" for="number">Card Number: </label>
-                        <input class="row" type="text" name="number" id="number" v-model="paymentForm.cardNum" disabled>
-                        <Label class="row" for="exp"> Exp: </Label>
-                        <input class="row" type="text" name="exp" id="exp" v-model="paymentForm.exp" disabled>
-                        <Label class="row" for="secNum"> CCV: </Label>
-                        <input class="row" type="text" name="secNum" id="secNum" v-model="paymentForm.secNum" disabled>
-                    </div> 
+                       <label class="row" for="number">Email </label>
+                        <input class="row" type="text" name="email" id="email" v-model="paymentForm.email" placeholder="example@gmail.com" disabled>
+                        <Label class="row" for="exp"> Phone </Label>
+                        <input class="row" type="text" name="phone" id="phone" v-model="paymentForm.phoneNum" placeholder="(000) 000 - 0000" disabled>
+                    </div>
                 </div>    
                 <button class="btn" v-on:click="getView(backView)">Edit</button>
                 <button class="btn" v-on:click="getView(3)">Finish</button>              
@@ -161,9 +167,8 @@ return {
         city: '',
         state: '',
         zipCode: '',
-        cardNum: '',
-        exp: '',
-        secNum: ''
+        email: '',
+        phoneNum: ''
     }, 
     message: '',
     reservation:[]
@@ -319,6 +324,12 @@ created() {
     margin-right: 400px;
     margin-left: 400px;
     color: black;
+}
+
+#ticketData {
+    background-color: black;
+    border-radius: 50px;
+    border-width:
 }
 
 #tickets {
@@ -522,6 +533,10 @@ input {
     font-size: 100%;
     padding-left: 20px;
     border-radius: 25px;
+}
+
+#seatId {
+    left: 5px;
 }
 
 input::placeholder {
