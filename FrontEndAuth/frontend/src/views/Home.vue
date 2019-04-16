@@ -114,7 +114,7 @@ export default {
       if(hour < showtime.hour){
         return true;
       }
-      if(hour == showtime.hour && minutes < showtime.minutes){
+      if(hour === showtime.hour && minutes < showtime.minute){
         return true;
       }
       return false;
