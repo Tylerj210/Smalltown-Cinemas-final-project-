@@ -329,10 +329,6 @@ export default {
     display: none;
   }
 
-  .mainShowtimes h3 {
-    text-decoration: underline;
-  }
-
   .showtimesList {
     padding: 0;
     display: flex;
@@ -370,8 +366,6 @@ export default {
     border-top: 1px solid white;
     border-bottom: 1px solid white;
   }
-
-   
 
   .movie-main-details,
   .image {

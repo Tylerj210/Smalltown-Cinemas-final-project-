@@ -299,7 +299,7 @@ created() {
   min-height: 500px;
   margin: 20px auto;
   margin-bottom: 60px;
-  padding: 40px none;
+  padding: 30px 0px;
   border: 3px solid #800020;
   border-radius: 12px;
   box-shadow: 5px 10px 20px 4px rgba(255,215,0,80%);
@@ -420,8 +420,7 @@ created() {
 
 #seatChart {
     width: 100%;
-    /* border: 1px solid white; */
-    /* border-radius: 5px; */
+    position: relative;
 }
 
 #seats {
@@ -450,6 +449,7 @@ created() {
 
 .notAvailable {
     background-color: white;
+    cursor: default !important;
 }
 
 .selected {
@@ -526,12 +526,9 @@ input::placeholder {
 
     .seat {
         /* flex: 1 1 9%; */
-        /* font-size: .6em; */
-        /* border: 1px solid white; */
-        /* border-bottom-left-radius: 10px; */
-        /* border-bottom-right-radius: 10px; */
-        margin: .2%;
-        padding: 1% .5%;
+        font-size: 1em;
+        margin: 2px;
+        padding: 2px;
 
     }
 
