@@ -12,6 +12,10 @@ public class Viewing {
 		this.showtimes=showtimes;
 		this.theaterNum=theaterNum;
 	}
+	
+	public Viewing() {
+		
+	}
 
 	/**
 	 * @return the theMovie
