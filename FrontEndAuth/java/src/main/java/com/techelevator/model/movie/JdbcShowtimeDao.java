@@ -18,13 +18,29 @@ import org.springframework.stereotype.Component;
 @Component
 public class JdbcShowtimeDao implements ShowtimeDao {
 
-private JdbcTemplate jdbcTemplate;
-	
+	private JdbcTemplate jdbcTemplate;
+
 	@Autowired
     public JdbcShowtimeDao(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 	
+	/* (non-Javadoc)
+	 * @see com.techelevator.model.movie.ShowtimeDao#getViewingByTheaterAndDay(int, java.time.LocalDate)
+	 */
+	@Override
+	public Viewing getViewingByTheaterAndDay(int theaterId, LocalDate day, MovieDao movieDao) {
+		Viewing viewing;
+		List<Showtime> showtimes = getShowtimesByTheaterAndDay(theaterId,day);
+		if(showtimes.size()>0) {
+			
+			viewing=new Viewing(movieDao.getMovieById(showtimes.get(0).getMovieId()),showtimes,theaterId);
+		} else {
+			viewing=new Viewing(new Movie(0, "", LocalDate.ofYearDay(1900, 1), "", 0, "", "No description available", "", "https://image.flaticon.com/icons/png/512/21/21174.png", "", new ArrayList<String>(), new ArrayList<String>()),showtimes,theaterId);
+		}
+		return viewing;
+	}
+
 	@Override
 	public List<Showtime> getAllShowtimes() {
 		List<Showtime> showtimes = new ArrayList<Showtime>();
