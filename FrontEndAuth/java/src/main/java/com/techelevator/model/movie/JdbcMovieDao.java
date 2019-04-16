@@ -49,6 +49,22 @@ public class JdbcMovieDao implements MovieDao {
         return movie;
     }
 	
+	
+	
+	/* (non-Javadoc)
+	 * @see com.techelevator.model.movie.MovieDao#getAllIds()
+	 */
+	@Override
+	public List<Integer> getAllIds() {
+		List<Integer> ids = new ArrayList<Integer>();
+		String sqlGetAllIds = "SELECT movie_id FROM movies ORDER BY movie_id";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetAllIds);
+		while(results.next()) {
+			ids.add(results.getInt("movie_id"));
+		}
+		return ids;
+	}
+
 	private Movie mapResultToMovie(SqlRowSet results) {
         Movie movie = new Movie();
         movie.setId(results.getInt("movie_id"));

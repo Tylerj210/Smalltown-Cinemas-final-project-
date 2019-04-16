@@ -12,4 +12,6 @@ public interface MovieDao {
 	
 	public List<String> getActorList(int id);
 	
+	public List<Integer> getAllIds();
+	
 }

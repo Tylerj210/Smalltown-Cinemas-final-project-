@@ -20,6 +20,8 @@ import com.techelevator.model.movie.MovieDao;
 import com.techelevator.model.movie.Showtime;
 import com.techelevator.model.movie.ShowtimeDao;
 import com.techelevator.model.movie.ShowtimeSchedule;
+import com.techelevator.model.movie.SimpleHourMinTime;
+import com.techelevator.model.movie.SimpleResTime;
 import com.techelevator.model.movie.Viewing;
 
 @RestController
@@ -66,9 +68,13 @@ public class MovieController {
 		return viewing;
 	}
 	@RequestMapping(path="/update-times",method=RequestMethod.POST)
-	public String updateShowtimesForShowing(@RequestBody Viewing viewing) {
-		
+	public String updateShowtimesForShowing(@RequestBody SimpleResTime resTime) {
+		showtimeDao.changeShowtimesByTheaterAndDay(resTime.getTheaterId(), resTime.getMovieId(), LocalDate.now().plusDays(resTime.getDays()), resTime.getTimes());
 		return "success";
 	}
-	
+	@RequestMapping(path="/ids",method=RequestMethod.GET)
+	public List<Integer> getListOfMovieIds() {
+		List<Integer> ids = movieDao.getAllIds();
+		return ids;
+	}
 }

@@ -10,7 +10,12 @@
                         <select v-model="theaterNum" v-on:change="loadShowtimes">
                             <option v-for="n in 6" v-bind:key="n">{{n}}</option>
                         </select>
+                        <label>TITLE</label>
                         <input v-model="theViewing.movie.title">
+                        <label>ID</label>
+                        <select v-model="theViewing.movie.id" v-on:change="localMovieById">
+                            <option v-for="id in localMovieIds" v-bind:key="id">{{id}}</option>
+                        </select>
                         <table>
                             <th>Time</th><th>Hour</th><th>Minute</th><th>Remove?</th>
                             <tr v-for="(showtime,n) in theViewing.showtimes" v-bind:key="n" class="time-list">
@@ -68,10 +73,17 @@ export default {
         return{
             searchString: '',
             searchYear: '',
+            localMovieIds: [],
             movieResults: [],
             MOVIE_DB_API: 'https://api.themoviedb.org/3',
             MOVIE_DB_KEY: '8d04c38ec89333dce4c70f77712eb41d',
             selectedMovie: {},
+            returnObj: {
+                movieId:'',
+                theaterId:'',
+                days:'',
+                times:[]
+            },
             theViewing: {movie:{title:'',
                                 actors:[],
                                 description:'',
@@ -111,6 +123,20 @@ export default {
                 })
             }
         },
+        localMovieById(){
+            fetch(`${process.env.VUE_APP_REMOTE_API}/movie/movies/${this.theViewing.movie.id}`, {
+                method: "GET",
+                headers: {
+                    // A Header with our authentication token.
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + auth.getToken()
+                }
+                })
+                .then(response => response.json())
+                .then(movieJSON => {
+                    this.theViewing.movie = movieJSON;
+                })
+        },
         loadShowtimes(){
             if(new Date(this.viewDate).getTime()>Date.now()-(1000*24*60*60)){
                 const showDate = Math.ceil((new Date(this.viewDate).getTime()-Date.now())/(1000*24*60*60));
@@ -139,9 +165,13 @@ export default {
             this.theViewing.showtimes.push({time:{hour:Number,minute:Number}})
         },
         updateViewings(){
-            console.log(JSON.stringify(this.theViewing))
-            const date = new Date;
-            console.log(date.setDate('2019-01-01'))
+            this.returnObj.movieId=this.theViewing.movie.id;
+            this.theViewing.showtimes.forEach(showtime=>{
+                this.returnObj.times.push({hour:showtime.time.hour,minute:showtime.time.minute})
+            })
+            this.returnObj.days=Math.ceil((new Date(this.viewDate).getTime()-Date.now())/(1000*24*60*60));
+            this.returnObj.theaterId=this.theaterNum;
+            
             if(this.theViewing.movie.id!=''){
                 fetch(`${process.env.VUE_APP_REMOTE_API}/movie/update-times/`, {
                 method: "POST",
@@ -150,7 +180,7 @@ export default {
                     "Content-Type": "application/json",
                     Authorization: "Bearer " + auth.getToken()
                 }, 
-                //body:JSON.stringify(this.theViewing)
+                body:JSON.stringify(this.returnObj)
                 })
                 .catch(error=>{
 
@@ -162,6 +192,22 @@ export default {
         adminUser(){
             return auth.getUser().rol=='admin';
         }
+    },
+    created() {
+
+            fetch(`${process.env.VUE_APP_REMOTE_API}/movie/ids/`, {
+                method: "GET",
+                headers: {
+                    // A Header with our authentication token.
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + auth.getToken()
+                }
+                })
+                .then(response => response.json())
+                .then(idsJSON => {
+                    this.localMovieIds = idsJSON;
+                })
+
     }
 }
 </script>
