@@ -372,7 +372,7 @@ created() {
 /**************** Progress Bar **************/
 .progress-bar {
   display: flex;
-  margin: 8% auto;
+  margin: 5% auto;
   max-width: 50%;
   justify-content: space-between;
 }
@@ -538,9 +538,6 @@ input::placeholder {
     font-size: 1.5em;
 }
 
-/* #confirmForm input {
-    
-} */
 
 @media screen and (min-width: 592px) {
 
@@ -549,14 +546,7 @@ input::placeholder {
     }
 
     .seat {
-        /* flex: 1 1 9%; */
-        /* font-size: .6em; */
-        /* border: 1px solid white; */
-        /* border-bottom-left-radius: 10px; */
-        /* border-bottom-right-radius: 10px; */
-        /* margin: .5%; */
         padding: 1% .5%;
-
     }
 
 }
@@ -564,7 +554,6 @@ input::placeholder {
 @media screen and (min-width: 768px) {
 
     .seat {
-        /* flex: 1 1 9%; */
         font-size: 1em;
         margin: 2px;
         padding: 2px;
@@ -572,14 +561,23 @@ input::placeholder {
     }
 
     #heading {
-        /* display: block; */
         width: 90%;
         margin: 20px auto 5px auto;
         padding-top: 2%;
         border-top: 3px solid white;
         border-radius: 40%;
         font-size: 3em;
+    }
+
 }
+
+@media screen and (min-width: 992px) {
+
+    .progress-bar {
+        max-width: 700px;
+        margin: 2% auto;
+    }
+
 
 }
 </style>

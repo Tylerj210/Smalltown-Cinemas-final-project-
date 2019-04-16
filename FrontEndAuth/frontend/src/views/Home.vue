@@ -36,7 +36,7 @@
                 </ul>
               </section>
               <section>
-                <h4>Genres:</h4>
+                <h4>Genre(s):</h4>
                 <ul>
                   <li v-for="genre in viewing.movie.genres">{{genre}}</li>
                 </ul>
@@ -49,7 +49,8 @@
               <h3>Showtimes</h3>
               <ul class="showtimesList">
                 <li v-for="showtime in viewing.showtimes" v-bind:key="showtime.showtimeId" class="showtime">
-                  <a v-bind:href="'/tickets/' + showtime.showtimeId" class="showTimeAnchor">{{setTime(showtime.time)}}</a>
+                  <a v-if="compareTime(showtime.time)" v-bind:href="'/tickets/' + showtime.showtimeId" class="showTimeAnchor">{{setTime(showtime.time)}}</a>
+                  <p v-else class="showtimeP">{{setTime(showtime.time)}}</p>
                 </li>
               </ul>
             </div>
@@ -105,6 +106,18 @@ export default {
         return hour + ":" + minutes + " pm";
       }
       return hour + ":" + minutes + " am";
+    },
+    compareTime(showtime){
+      let today = new Date();
+      let hour = today.getHours();
+      let minutes = today.getMinutes();
+      if(hour < showtime.hour){
+        return true;
+      }
+      if(hour == showtime.hour && minutes < showtime.minutes){
+        return true;
+      }
+      return false;
     }, 
     getDates(){
       let theDates = [];
@@ -344,6 +357,14 @@ export default {
     padding: 7px;
     font-size: .6em;
   }
+
+  .showtimeP {
+    display: inline-block;
+    margin: 0px;
+  }
+
+  
+
 
   .showtime:hover {
     background-color: #800020;
