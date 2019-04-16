@@ -48,8 +48,8 @@
             <div class="mainShowtimes">
               <h3>Showtimes</h3>
               <ul class="showtimesList">
-                <li v-for="showtime in viewing.showtimes" v-bind:key="showtime.showtimeId" class="showtime">
-                  <a v-if="compareTime(showtime.time)" v-bind:href="'/tickets/' + showtime.showtimeId" class="showTimeAnchor">{{setTime(showtime.time)}}</a>
+                <li v-for="showtime in viewing.showtimes" v-bind:key="showtime.showtimeId" class="showtime" v-bind:class="{ pastShow: !compareTime(showtime)}">
+                  <a v-if="compareTime(showtime)" v-bind:href="'/tickets/' + showtime.showtimeId" class="showTimeAnchor">{{setTime(showtime.time)}}</a>
                   <p v-else class="showtimeP">{{setTime(showtime.time)}}</p>
                 </li>
               </ul>
@@ -97,7 +97,7 @@ export default {
       let hour = showtime.hour;
       let minutes = showtime.minute;
       if(minutes < 10){
-        minutes = minutes + "0";
+        minutes = "0" + minutes;
       }
       if(hour >= 12){
         if(hour > 12){
@@ -108,16 +108,14 @@ export default {
       return hour + ":" + minutes + " am";
     },
     compareTime(showtime){
-      let today = new Date();
-      let hour = today.getHours();
-      let minutes = today.getMinutes();
-      if(hour < showtime.hour){
-        return true;
-      }
-      if(hour === showtime.hour && minutes < showtime.minute){
-        return true;
-      }
-      return false;
+  
+      let currentTime = Date.now();
+      let compareTime = new Date;
+          compareTime.setFullYear(showtime.date.year ,showtime.date.monthValue - 1 , showtime.date.dayOfMonth);
+          compareTime.setHours(showtime.time.hour, showtime.time.minute);
+
+      return currentTime < Date.parse(compareTime);
+
     }, 
     getDates(){
       let theDates = [];
@@ -361,10 +359,8 @@ export default {
   .showtimeP {
     display: inline-block;
     margin: 0px;
+    color: black;
   }
-
-  
-
 
   .showtime:hover {
     background-color: #800020;
@@ -373,6 +369,14 @@ export default {
   .showtime a:hover {
     text-decoration: none;
     /* font-weight: 800; */
+  }
+
+  .pastShow {
+    background-color: darkgray !important;
+  }
+
+  .pastShow:hover {
+    background-color: darkgray !important;
   }
 
 @media screen and (min-width: 768px) {
