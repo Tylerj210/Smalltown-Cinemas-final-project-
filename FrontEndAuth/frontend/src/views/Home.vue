@@ -108,49 +108,14 @@ export default {
       return hour + ":" + minutes + " am";
     },
     compareTime(showtime){
-      let today = new Date();
-      let year = today.getFullYear();
-      let month = today.getMonth()+1;
-      let day = today.getDate();
-      let hour = today.getHours();
-      let minutes = today.getMinutes();
-      // switch (day) {
-      //   case 0:
-      //     day = "SUNDAY";
-      //     break;
-      //   case 1:
-      //     day = "MONDAY";
-      //     break;
-      //   case 2:
-      //     day = "TUESDAY";
-      //     break;
-      //   case 3:
-      //     day = "WEDNESDAY";
-      //     break;
-      //   case 4:
-      //     day = "THURSDAY";
-      //     break;
-      //   case 5:
-      //     day = "FRIDAY";
-      //     break;
-      //   case 6:
-      //     day = "SATURDAY";
-      // }
-      // console.log(day);
-      // console.log(showtime.date.dayOfMonth);
-      // if(year <= showtime.date.year){
-      //   if(month <= showtime.date.month){
-      //     if(day <= showtime.date.dayOfMonth){
-            if(hour < showtime.time.hour){
-              return true;
-            }
-            if(hour === showtime.time.hour && minutes < showtime.time.minute){
-              return true;
-            }
-      //     }
-      //   }
-      // }
-      return false;
+  
+      let currentTime = Date.now();
+      let compareTime = new Date;
+          compareTime.setFullYear(showtime.date.year ,showtime.date.monthValue - 1 , showtime.date.dayOfMonth);
+          compareTime.setHours(showtime.time.hour, showtime.time.minute);
+
+      return currentTime < Date.parse(compareTime);
+
     }, 
     getDates(){
       let theDates = [];
