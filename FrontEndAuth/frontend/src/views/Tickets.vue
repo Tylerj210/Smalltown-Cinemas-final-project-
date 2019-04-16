@@ -25,26 +25,26 @@
                 <form id="paymentForm" class="formLayout">
                     <div id="name" class="section">
                         <label for="firstName">First Name: </label>
-                        <input type="text" name="firstName" id="firstName" v-model="paymentForm.firstName" placeholder="first">
+                        <input type="text" name="firstName" id="firstName" v-model="paymentForm.firstName" placeholder="First">
                         <label for="lastName">Last Name: </label>
-                        <input type="text" name="lastName" id="lastName" v-model="paymentForm.lastName" placeholder="last">
+                        <input type="text" name="lastName" id="lastName" v-model="paymentForm.lastName" placeholder="Last">
                     </div>
                     <div id="address" class="section">
                         <label class="row" for="streetAddress">Street Address: </label>
-                        <input class="row" type="text" name="streetAddress" id="streetAddress" v-model="paymentForm.streetAddress" placeholder="street">
+                        <input class="row" type="text" name="streetAddress" id="streetAddress" v-model="paymentForm.streetAddress" placeholder="Street">
                         <label class="row" for="city">City: </label>
-                        <input class="row" type="text" name="city" id="city" v-model="paymentForm.city" placeholder="city">
+                        <input class="row" type="text" name="city" id="city" v-model="paymentForm.city" placeholder="City">
                         <label class="row" for="city">State: </label>
                         <input class="row" type="text" name="state" id="state" v-model="paymentForm.state" placeholder="ST">
                         <label class="row" for="zipCode">Zip Code: </label>
-                        <input class="row" type="text" name="zipCode" id="zipCode" v-model="paymentForm.zipCode" placeholder="1234">
+                        <input class="row" type="text" name="zipCode" id="zipCode" v-model="paymentForm.zipCode" placeholder="12345">
                     </div>
                     <div id="card" class="section">
                         <label class="row" for="number">Card Number: </label>
                         <input class="row" type="text" name="number" id="number" v-model="paymentForm.cardNum" placeholder="****-****-****-****">
                         <Label class="row" for="exp"> Exp: </Label>
                         <input class="row" type="text" name="exp" id="exp" v-model="paymentForm.exp" placeholder="MM/YY">
-                        <Label class="row" for="secNum"> Sec.Num: </Label>
+                        <Label class="row" for="secNum"> CVV: </Label>
                         <input class="row" type="text" name="secNum" id="secNum" v-model="paymentForm.secNum" placeholder="123">
                     </div>                    
                 </form>
@@ -103,6 +103,7 @@
             <div v-show="views[3].show" id="completed">
                 <span id="heading"> Purchase Completed! </span>
                 <p>You will recieve an email containing your purchase number</p>
+                <p>Enjoy the show!</p>
             </div>
         </div>
     </div>
@@ -352,7 +353,7 @@ created() {
   width: 25px;
   height: 25px;
   margin-bottom: 30px;
-  border: 4px solid #fff;
+  border: 4px solid gold;
   border-radius: 50%;
   background-color: #efefef;
 }
@@ -380,33 +381,39 @@ created() {
 }
  
 .step.active {
-  background-color: #f62f5e;
+  background-color: #800020;
 }
 .step.active:after {
-  background-color: #f62f5e;
+  background-color: #800020;
 }
 .step.completed:before {
-  color: #f62f5e;
+  color: #800020;
+}
+
+.step.completed::after {
+    color: #800020;
 }
 
 .step.active + .step:before {
-  color: #f62f5e;
+  color: #800020;
+  /*#f62f5e if preferred*/
 }
 
  
 .step:nth-child(1):before {
   content: 'Seats';
+  left: -1px;
 }
 .step:nth-child(2):before {
-  right: -10px;
+  right: -9px;
   content: 'Payment';
 }
 .step:nth-child(3):before {
-  right: -20px;
+  right: -15px;
   content: 'Confirmation';
 }
 .step:nth-child(4):before {
-  right: 0;
+  right: -2px;
   content: 'Finish';
 }
 
