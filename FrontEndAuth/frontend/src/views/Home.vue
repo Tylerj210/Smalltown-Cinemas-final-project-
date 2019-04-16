@@ -48,8 +48,8 @@
             <div class="mainShowtimes">
               <h3>Showtimes</h3>
               <ul class="showtimesList">
-                <li v-for="showtime in viewing.showtimes" v-bind:key="showtime.showtimeId" class="showtime">
-                  <a v-if="compareTime(showtime.time)" v-bind:href="'/tickets/' + showtime.showtimeId" class="showTimeAnchor">{{setTime(showtime.time)}}</a>
+                <li v-for="showtime in viewing.showtimes" v-bind:key="showtime.showtimeId" class="showtime" v-bind:class="{ pastShow: !compareTime(showtime)}">
+                  <a v-if="compareTime(showtime)" v-bind:href="'/tickets/' + showtime.showtimeId" class="showTimeAnchor">{{setTime(showtime.time)}}</a>
                   <p v-else class="showtimeP">{{setTime(showtime.time)}}</p>
                 </li>
               </ul>
@@ -97,7 +97,7 @@ export default {
       let hour = showtime.hour;
       let minutes = showtime.minute;
       if(minutes < 10){
-        minutes = minutes + "0";
+        minutes = "0" + minutes;
       }
       if(hour >= 12){
         if(hour > 12){
@@ -109,14 +109,47 @@ export default {
     },
     compareTime(showtime){
       let today = new Date();
+      let year = today.getFullYear();
+      let month = today.getMonth()+1;
+      let day = today.getDate();
       let hour = today.getHours();
       let minutes = today.getMinutes();
-      if(hour < showtime.hour){
-        return true;
-      }
-      if(hour === showtime.hour && minutes < showtime.minute){
-        return true;
-      }
+      // switch (day) {
+      //   case 0:
+      //     day = "SUNDAY";
+      //     break;
+      //   case 1:
+      //     day = "MONDAY";
+      //     break;
+      //   case 2:
+      //     day = "TUESDAY";
+      //     break;
+      //   case 3:
+      //     day = "WEDNESDAY";
+      //     break;
+      //   case 4:
+      //     day = "THURSDAY";
+      //     break;
+      //   case 5:
+      //     day = "FRIDAY";
+      //     break;
+      //   case 6:
+      //     day = "SATURDAY";
+      // }
+      // console.log(day);
+      // console.log(showtime.date.dayOfMonth);
+      // if(year <= showtime.date.year){
+      //   if(month <= showtime.date.month){
+      //     if(day <= showtime.date.dayOfMonth){
+            if(hour < showtime.time.hour){
+              return true;
+            }
+            if(hour === showtime.time.hour && minutes < showtime.time.minute){
+              return true;
+            }
+      //     }
+      //   }
+      // }
       return false;
     }, 
     getDates(){
@@ -361,10 +394,8 @@ export default {
   .showtimeP {
     display: inline-block;
     margin: 0px;
+    color: black;
   }
-
-  
-
 
   .showtime:hover {
     background-color: #800020;
@@ -373,6 +404,14 @@ export default {
   .showtime a:hover {
     text-decoration: none;
     /* font-weight: 800; */
+  }
+
+  .pastShow {
+    background-color: darkgray !important;
+  }
+
+  .pastShow:hover {
+    background-color: darkgray !important;
   }
 
 @media screen and (min-width: 768px) {
