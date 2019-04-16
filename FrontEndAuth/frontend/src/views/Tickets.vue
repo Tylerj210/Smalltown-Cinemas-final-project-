@@ -93,7 +93,7 @@
                         <input class="row" type="text" name="number" id="number" v-model="paymentForm.cardNum" disabled>
                         <Label class="row" for="exp"> Exp: </Label>
                         <input class="row" type="text" name="exp" id="exp" v-model="paymentForm.exp" disabled>
-                        <Label class="row" for="secNum"> Sec.Num: </Label>
+                        <Label class="row" for="secNum"> CCV: </Label>
                         <input class="row" type="text" name="secNum" id="secNum" v-model="paymentForm.secNum" disabled>
                     </div> 
                 </div>    
@@ -104,6 +104,16 @@
                 <span id="heading"> Purchase Completed! </span>
                 <p>You will recieve an email containing your purchase number</p>
                 <p>Enjoy the show!</p>
+                
+                <div id="printableReceipt">
+                    <p>{{paymentForm.firstName}} {{paymentForm.lastName}}</p>
+                    <p>{{showtime.showtime.movieId}}</p>
+                    <p>Tickets Selected: {{selectedSeats.length}}</p>
+                    <p>Seat Numbers:</p>
+                    <p v-for="ticket in selectedSeatNumbers()" v-bind:key="ticket">
+                      {{ticket}} - ${{showtime.showtime.price}} </p>
+                    <p> Total Price: ${{selectedSeats.length*showtime.showtime.price}}</p>
+                </div>
             </div>
         </div>
     </div>
@@ -266,6 +276,21 @@ methods: {
     }
 
 },
+getPurchasedMovie(){
+      fetch(`${process.env.VUE_APP_REMOTE_API}/movie/movies/${this.showtime.showtime.movieId}`, {
+      method: "GET",
+      headers: {
+        // A Header with our authentication token.
+        "Content-Type": "application/json",
+        // Authorization: "Bearer " + auth.getToken()
+      }, 
+    })
+    .then(response => response.json())
+    .then(movieJSON => {
+        this.movie = movieJSON;
+        console.log(movieJSON);
+    })
+    }, 
 computed: {
     
 },
@@ -288,6 +313,13 @@ created() {
 </script>
 
 <style>
+
+#printableReceipt {
+    background-color: white;
+    margin-right: 400px;
+    margin-left: 400px;
+    color: black;
+}
 
 #tickets {
     margin-top: 30px;
