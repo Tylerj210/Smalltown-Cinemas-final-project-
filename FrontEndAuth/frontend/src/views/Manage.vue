@@ -1,21 +1,20 @@
 <template>
-    <div>
+    <div class="manage">
         <div id="manage-wrapper" v-if="adminUser">
             <div id="movie-scheduler">
                 <div id="viewing-form">
-                    <form v-on:submit.prevent="updateViewings">
-                        <label>SHOW DATE (YYYY-MM-DD): </label>
+                    <form v-on:submit.prevent="updateViewings" id="update-form">
+                        <label>SHOW DATE: </label>
                         <input type="date" v-model="viewDate" v-on:change="loadShowtimes">
-                        <label>THEATER NUMBER</label>
+                        <label>THEATER:</label>
                         <select v-model="theaterNum" v-on:change="loadShowtimes">
                             <option v-for="n in 6" v-bind:key="n">{{n}}</option>
                         </select>
-                        <label>TITLE</label>
-                        <input v-model="theViewing.movie.title">
-                        <label>ID</label>
+                        <label>MOVIE</label>
                         <select v-model="theViewing.movie.id" v-on:change="localMovieById">
-                            <option v-for="id in localMovieIds" v-bind:key="id">{{id}}</option>
+                            <option v-for="movie in localMovieIds" v-bind:value="movie.id" v-bind:key="movie.id">{{movie.id}} -- {{movie.title}}</option>
                         </select>
+                        <span><div id="removeShowing" v-on:click="removeShowing">REMOVE</div></span>
                         <table>
                             <th>Time</th><th>Hour</th><th>Minute</th><th>Remove?</th>
                             <tr v-for="(showtime,n) in theViewing.showtimes" v-bind:key="n" class="time-list">
@@ -27,7 +26,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Add</td><td><div v-on:click="addTime" class="add-time">+</div></td>
+                                <td></td><td></td><td>Add</td><td><div v-on:click="addTime" class="add-time">+</div></td>
                             </tr>
                         </table>
                         <div>{{message}}</div>
@@ -169,7 +168,6 @@ export default {
             this.theViewing.showtimes.forEach(showtime=>{
                 this.returnObj.times.push({hour:showtime.time.hour.valueOf(),minute:showtime.time.minute.valueOf()})
             })
-            console.table(this.returnObj.times);
             this.returnObj.days=Math.ceil((new Date(this.viewDate).getTime()-Date.now())/(1000*24*60*60));
             this.returnObj.theaterId=this.theaterNum;
             
@@ -193,6 +191,27 @@ export default {
                 days:'',
                 times:[]
             };
+        },
+        removeShowing(){
+            this.returnObj.days=Math.ceil((new Date(this.viewDate).getTime()-Date.now())/(1000*24*60*60));
+            this.returnObj.theaterId=this.theaterNum;
+            fetch(`${process.env.VUE_APP_REMOTE_API}/movie/showtimes/`, {
+                method: "DELETE",
+                headers: {
+                    // A Header with our authentication token.
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + auth.getToken()
+                }, 
+                body:JSON.stringify(this.returnObj)
+            })
+            .catch(error=>{
+            })
+            this.returnObj={
+                movieId:'',
+                theaterId:'',
+                days:'',
+                times:[]
+            };
         }
     },
     computed:{
@@ -202,30 +221,34 @@ export default {
     },
     created() {
 
-            fetch(`${process.env.VUE_APP_REMOTE_API}/movie/ids/`, {
-                method: "GET",
-                headers: {
-                    // A Header with our authentication token.
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + auth.getToken()
-                }
-                })
-                .then(response => response.json())
-                .then(idsJSON => {
-                    this.localMovieIds = idsJSON;
-                })
+        fetch(`${process.env.VUE_APP_REMOTE_API}/movie/movies/`, {
+            method: "GET",
+            headers: {
+                // A Header with our authentication token.
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + auth.getToken()
+            }
+            })
+            .then(response => response.json())
+            .then(idsJSON => {
+                this.localMovieIds = idsJSON;
+            })
 
     }
 }
 </script>
 
-<style>
+<style scoped>
+
 div{
-    max-width:100%;
+    width:100%;
+    color:gold;
 }
 table{
     width:100%;
+    margin:auto;
 }
+
 .movie-results{
     margin-bottom:5px;
     width:100%;
@@ -236,6 +259,16 @@ table{
 #viewing-form form *{
     padding:0px;
     margin:10px;
+}
+#update-form{
+    width:50%;
+    margin:auto;
+}
+#removeShowing{
+    display:inline;
+    border-radius:50%;
+    background-color:red;
+    cursor:pointer;
 }
 td{
     text-align: center;

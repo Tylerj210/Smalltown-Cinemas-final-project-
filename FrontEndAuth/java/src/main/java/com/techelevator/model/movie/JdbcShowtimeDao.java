@@ -107,12 +107,25 @@ public class JdbcShowtimeDao implements ShowtimeDao {
 				jdbcTemplate.update(sqlInsertShowtimes,showtimeId,theaterId,movieId,dateTime,time.getHour()<12?8:10);
 				showtimeId++;
 			}
-		} catch(PSQLException e) {
-			
-		}
+		} finally {}
 		
 						
 		return getShowtimesByTheaterAndDay(theaterId,day);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.techelevator.model.movie.ShowtimeDao#removeShowtimeById(int)
+	 */
+	@Override
+	public Showtime removeShowtimeByTheaterAndDay(int id,LocalDate date) {
+		System.out.println("outside");
+		try {
+			String sqlDeleteShowtimes ="DELETE FROM showtime WHERE theater_id=? AND datetime > ? AND datetime < ?";
+			jdbcTemplate.update(sqlDeleteShowtimes,id,date,date.plusDays(1));
+			System.out.println("inside");
+			
+		} finally {}
+		return getShowtimeById(id);
 	}
 
 	@Override

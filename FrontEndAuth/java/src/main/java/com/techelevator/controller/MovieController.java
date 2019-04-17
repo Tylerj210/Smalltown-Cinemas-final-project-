@@ -39,7 +39,6 @@ public class MovieController {
 	 	List<Movie> movies = new ArrayList<Movie>();
 	 	
 	 	movies = movieDao.getAllMovies();
-	 	System.out.print(movies.size());
 	 	return movies;
 	}
 	 
@@ -67,6 +66,13 @@ public class MovieController {
 		Viewing viewing=showtimeDao.getViewingByTheaterAndDay(showtime.getTheaterId(), LocalDate.now().plusDays(showtime.getDays()), movieDao);
 		return viewing;
 	}
+	@RequestMapping(path="/showtimes",method=RequestMethod.DELETE)
+	public String removeAShowtime(@RequestBody SimpleResTime resTime) {
+		showtimeDao.removeShowtimeByTheaterAndDay(resTime.getTheaterId(),LocalDate.now().plusDays(resTime.getDays()));
+		return "success";
+	}
+	
+	
 	@RequestMapping(path="/update-times",method=RequestMethod.POST)
 	public String updateShowtimesForShowing(@RequestBody SimpleResTime resTime) {
 		showtimeDao.changeShowtimesByTheaterAndDay(resTime.getTheaterId(), resTime.getMovieId(), LocalDate.now().plusDays(resTime.getDays()), resTime.getTimes());
