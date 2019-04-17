@@ -163,7 +163,7 @@ public class JdbcReservationDao implements ReservationDao {
 	public Reservation confirmReservation(Reservation theReservation) {
 		String sqlFinalizeReservation = "UPDATE reservations SET finalized=true "+
 										"WHERE reservation_id=?";
-		jdbcTemplate.update(sqlFinalizeReservation);
+		jdbcTemplate.update(sqlFinalizeReservation,theReservation.getReservationId());
 		
 		return getReservationByResId(theReservation.getReservationId());
 	}
@@ -174,7 +174,7 @@ public class JdbcReservationDao implements ReservationDao {
 	@Override
 	public Reservation removeSeats(Reservation theReservation) {
 		String sqlRemoveSeats = "DELETE FROM tickets WHERE reservation_id IN (SELECT reservation_id FROM reservations WHERE reservation_id=? AND finalized=false";
-		jdbcTemplate.execute(sqlRemoveSeats);
+		jdbcTemplate.update(sqlRemoveSeats,theReservation.getReservationId());
 		
 		return getReservationByResId(theReservation.getReservationId());
 	}
