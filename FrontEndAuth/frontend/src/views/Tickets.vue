@@ -384,7 +384,7 @@ created() {
 
         
     })
-    document.addEventListener('beforeunload', this.releaseSeats());
+    //document.addEventListener('beforeunload', this.releaseSeats());
 },
 }
 </script>
