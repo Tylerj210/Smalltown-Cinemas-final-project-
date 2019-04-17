@@ -322,25 +322,27 @@ methods: {
     },
     releaseSeats() {
         const res = {reservationId:this.reservation.reservationId};
+        if(this.currentView !=3){
+            console.log(res);
+            fetch(`${process.env.VUE_APP_REMOTE_API}/seats/book`, {
+                method: "DELETE",
+                body: JSON.stringify(res),
+                headers: {
+                // A Header with our authentication token.
+                Authorization: "Bearer " + auth.getToken(),
+                "Content-Type":"application/json"
+                }
+                
+            })
+            .then(response => response.json())
+            .then(reservationJSON => {
+                this.reservation = reservationJSON;
+            })
+            .catch(error => {
+                console.error(error)
+            })
+        }
         
-        console.log(res);
-        fetch(`${process.env.VUE_APP_REMOTE_API}/seats/book`, {
-            method: "DELETE",
-            body: JSON.stringify(res),
-            headers: {
-            // A Header with our authentication token.
-            Authorization: "Bearer " + auth.getToken(),
-            "Content-Type":"application/json"
-            }
-            
-        })
-        .then(response => response.json())
-        .then(reservationJSON => {
-            this.reservation = reservationJSON;
-        })
-        .catch(error => {
-            console.error(error)
-        })
     },
     confirmSeats() {
         const res = {reservationId:this.reservation.reservationId};
@@ -384,7 +386,7 @@ created() {
 
         
     })
-    //document.addEventListener('beforeunload', this.releaseSeats());
+    document.addEventListener('beforeunload', this.releaseSeats());
 },
 }
 </script>
