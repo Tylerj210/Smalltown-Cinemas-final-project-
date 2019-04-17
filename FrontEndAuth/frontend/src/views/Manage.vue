@@ -36,7 +36,7 @@
             </div>
             <hr>
             <hr>
-            <div id="movie-search">
+            <div id="movie-search" v-if="false">
                 <div>
                     <form v-on:submit.prevent="query">
                         <label>Movie Title: </label>
@@ -267,7 +267,7 @@ table{
 #removeShowing{
     display:inline;
     border-radius:50%;
-    background-color:red;
+    background-color:#d01c8b;
     cursor:pointer;
 }
 td{
@@ -275,7 +275,7 @@ td{
 }
 .remove-time{
     cursor:pointer;
-    background-color:red;
+    background-color:#d01c8b;
     border-radius:50%;
     color:white;
     width:2em;
@@ -283,7 +283,7 @@ td{
 }
 .add-time{
     cursor:pointer;
-    background-color:green;
+    background-color:#4dac26;
     border-radius:50%;
     color:white;
     width:2em;
