@@ -14,6 +14,7 @@ public interface ShowtimeDao {
 	public List<Integer> getTheaterIds();
 	public List<Viewing> groupTimesWithMovies(LocalDate day,MovieDao movieDao);
 	public Showtime getShowtimeById(int id);
+	public Showtime removeShowtimeByTheaterAndDay(int id,LocalDate date);
 	public Viewing getViewingByTheaterAndDay(int theaterId,LocalDate day,MovieDao movieDao);
 	
 }

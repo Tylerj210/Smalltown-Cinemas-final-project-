@@ -144,7 +144,7 @@ data() {
 return {
     currentView: 0,
     selectedSeats: [],
-    showtime: {seats:[]},
+    showtime: {seats:[],showtime:{}},
     views: [
         {
           name: 'seats',
@@ -228,7 +228,6 @@ methods: {
         .then(response => response.json())
         .then(movieJSON => {
             this.theMovie = movieJSON;
-            console.log("Hello");
         })
     },
     getView(nextView){
@@ -322,25 +321,26 @@ methods: {
     },
     releaseSeats() {
         const res = {reservationId:this.reservation.reservationId};
+            console.log("releasing seats");
+            fetch(`${process.env.VUE_APP_REMOTE_API}/seats/book`, {
+                method: "DELETE",
+                body: JSON.stringify(res),
+                headers: {
+                // A Header with our authentication token.
+                Authorization: "Bearer " + auth.getToken(),
+                "Content-Type":"application/json"
+                }
+                
+            })
+            .then(response => response.json())
+            .then(reservationJSON => {
+                this.reservation = reservationJSON;
+                
+            })
+            .catch(error => {
+                console.error(error)
+            })
         
-        console.log(res);
-        fetch(`${process.env.VUE_APP_REMOTE_API}/seats/book`, {
-            method: "DELETE",
-            body: JSON.stringify(res),
-            headers: {
-            // A Header with our authentication token.
-            Authorization: "Bearer " + auth.getToken(),
-            "Content-Type":"application/json"
-            }
-            
-        })
-        .then(response => response.json())
-        .then(reservationJSON => {
-            this.reservation = reservationJSON;
-        })
-        .catch(error => {
-            console.error(error)
-        })
     },
     confirmSeats() {
         const res = {reservationId:this.reservation.reservationId};
@@ -381,11 +381,9 @@ created() {
     .then(showtimeJSON => {
         this.showtime = showtimeJSON;
             this.localMovieById();
-
-        
     })
-    document.addEventListener('beforeunload', this.releaseSeats());
-},
+    window.onbeforeunload=this.releaseSeats();
+}
 }
 </script>
 
