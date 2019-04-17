@@ -167,8 +167,9 @@ export default {
         updateViewings(){
             this.returnObj.movieId=this.theViewing.movie.id;
             this.theViewing.showtimes.forEach(showtime=>{
-                this.returnObj.times.push({hour:showtime.time.hour,minute:showtime.time.minute})
+                this.returnObj.times.push({hour:showtime.time.hour.valueOf(),minute:showtime.time.minute.valueOf()})
             })
+            console.table(this.returnObj.times);
             this.returnObj.days=Math.ceil((new Date(this.viewDate).getTime()-Date.now())/(1000*24*60*60));
             this.returnObj.theaterId=this.theaterNum;
             
@@ -186,6 +187,12 @@ export default {
 
                 })
             }
+            this.returnObj={
+                movieId:'',
+                theaterId:'',
+                days:'',
+                times:[]
+            };
         }
     },
     computed:{
