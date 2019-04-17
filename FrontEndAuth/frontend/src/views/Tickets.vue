@@ -8,8 +8,11 @@
             <div class="step"></div>
         </div>
         <div id="ticket-wrapper">
-            <!-- <seats v-show="views[0].show"></seats> -->
-            <!-- <payments v-show="views[1].show"></payments> -->
+            <div>
+                <p>Theater: {{this.showtime.showtime.theaterId}}</p>
+                <p>Movie: {{this.theMovie.title}}</p>
+                <p>Total Price: ${{selectedSeats.length*showtime.showtime.price}}</p>
+            </div>
             <div v-show="views[0].show" id="seatChart">
                 <span id="heading"> Seats </span>
                 <div id="seats">
@@ -141,7 +144,7 @@ data() {
 return {
     currentView: 0,
     selectedSeats: [],
-    showtime: [],
+    showtime: {seats:[]},
     views: [
         {
           name: 'seats',
@@ -171,7 +174,8 @@ return {
         phoneNum: ''
     }, 
     message: '',
-    reservation:[]
+    reservation:[],
+    theMovie: {title: ""}
     };
 
 },
@@ -212,22 +216,46 @@ methods: {
             this.getView(2);
         }
     },
+    localMovieById(){
+      fetch(`${process.env.VUE_APP_REMOTE_API}/movie/movies/${this.showtime.showtime.movieId}`, {
+        method: "GET",
+        headers: {
+        // A Header with our authentication token.
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth.getToken()
+        }
+        })
+        .then(response => response.json())
+        .then(movieJSON => {
+            this.theMovie = movieJSON;
+            console.log("Hello");
+        })
+    },
     getView(nextView){
         this.message = '';
         let steps = document.getElementsByClassName('step');
         if(nextView == 0){
+            this.releaseSeats();
             this.lastView = this.currentView;
             this.currentView = nextView;
             this.backView = 0;
             this.views[this.lastView].show = false;
             this.views[this.currentView].show = true;
-        } else {
+        } else if(nextView == 3){
+            this.confirmSeats();
+            this.lastView = this.currentView;
+            this.backView = nextView-1;
+            this.currentView = nextView;
+            this.views[this.lastView].show = false;
+            this.views[this.currentView].show = true;
+        }   else {
             this.lastView = this.currentView;
             this.backView = nextView-1;
             this.currentView = nextView;
             this.views[this.lastView].show = false;
             this.views[this.currentView].show = true;
         }
+    
         for(let i = 0; i < steps.length; i++){
             if(i <= this.currentView){
                 steps[i].classList.add('active');
@@ -239,14 +267,15 @@ methods: {
                     steps[i].classList.remove('completed');
             }
         }
+        window.scrollTo(0,0);
     },
     claimSeats() {
-        const reservation = this.seatData();
+        const res = this.seatData();
         
-        console.log(reservation);
+        console.log(res);
         fetch(`${process.env.VUE_APP_REMOTE_API}/seats/book`, {
             method: "POST",
-            body: JSON.stringify(reservation),
+            body: JSON.stringify(res),
             headers: {
             // A Header with our authentication token.
             Authorization: "Bearer " + auth.getToken(),
@@ -270,32 +299,72 @@ methods: {
     },
     selectedSeatNumbers(){
         let selected=[];
-        this.showtime.seats.forEach(seat=>{
-            this.selectedSeats.forEach(inList=>{
-                if(seat.seatId==inList){
-                    selected.push(seat.seatNumber)
-                }
+        if (this.showtime.seats.length > 0) {
+            this.showtime.seats.forEach(seat=>{
+                this.selectedSeats.forEach(inList=>{
+                    if(seat.seatId==inList){
+                        selected.push(seat.seatNumber)
+                    }
+                })
             })
-        })
+        }
         return selected;  
+    },
+    getPurchasedMovie(){
+        fetch(`${process.env.VUE_APP_REMOTE_API}/movie/movies/${this.showtime.showtime.movieId}`, {
+            method: "GET",
+            headers: {
+                // A Header with our authentication token.
+                "Content-Type": "application/json",
+                // Authorization: "Bearer " + auth.getToken()
+            } 
+        })
+    },
+    releaseSeats() {
+        const res = {reservationId:this.reservation.reservationId};
+        
+        console.log(res);
+        fetch(`${process.env.VUE_APP_REMOTE_API}/seats/book`, {
+            method: "DELETE",
+            body: JSON.stringify(res),
+            headers: {
+            // A Header with our authentication token.
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type":"application/json"
+            }
+            
+        })
+        .then(response => response.json())
+        .then(reservationJSON => {
+            this.reservation = reservationJSON;
+        })
+        .catch(error => {
+            console.error(error)
+        })
+    },
+    confirmSeats() {
+        const res = {reservationId:this.reservation.reservationId};
+        
+        console.log(res);
+        fetch(`${process.env.VUE_APP_REMOTE_API}/seats/book`, {
+            method: "PUT",
+            body: JSON.stringify(res),
+            headers: {
+            // A Header with our authentication token.
+            Authorization: "Bearer " + auth.getToken(),
+            "Content-Type":"application/json"
+            }
+            
+        })
+        .then(response => response.json())
+        .then(reservationJSON => {
+            this.reservation = reservationJSON;
+        })
+        .catch(error => {
+            console.error(error)
+        })
     }
-
 },
-getPurchasedMovie(){
-      fetch(`${process.env.VUE_APP_REMOTE_API}/movie/movies/${this.showtime.showtime.movieId}`, {
-      method: "GET",
-      headers: {
-        // A Header with our authentication token.
-        "Content-Type": "application/json",
-        // Authorization: "Bearer " + auth.getToken()
-      }, 
-    })
-    .then(response => response.json())
-    .then(movieJSON => {
-        this.movie = movieJSON;
-        console.log(movieJSON);
-    })
-    }, 
 computed: {
     
 },
@@ -311,8 +380,11 @@ created() {
     .then(response => response.json())
     .then(showtimeJSON => {
         this.showtime = showtimeJSON;
+            this.localMovieById();
+
         
     })
+    document.addEventListener('beforeunload', this.releaseSeats());
 },
 }
 </script>
@@ -320,16 +392,16 @@ created() {
 <style>
 
 #printableReceipt {
-    background-color: white;
-    margin-right: 400px;
-    margin-left: 400px;
+    background-color: white !important;
+    margin-right: 20px;
+    margin-left: 20px;
     color: black;
 }
 
 #ticketData {
     background-color: black;
     border-radius: 50px;
-    border-width:
+    border-width:0px;
 }
 
 #tickets {

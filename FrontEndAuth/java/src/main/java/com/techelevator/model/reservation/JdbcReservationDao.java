@@ -173,7 +173,7 @@ public class JdbcReservationDao implements ReservationDao {
 	 */
 	@Override
 	public Reservation removeSeats(Reservation theReservation) {
-		String sqlRemoveSeats = "DELETE FROM tickets WHERE reservation_id IN (SELECT reservation_id FROM reservations WHERE reservation_id=? AND finalized=false";
+		String sqlRemoveSeats = "DELETE FROM tickets WHERE reservation_id IN (SELECT reservation_id FROM reservations WHERE reservation_id=? AND finalized=false)";
 		jdbcTemplate.update(sqlRemoveSeats,theReservation.getReservationId());
 		
 		return getReservationByResId(theReservation.getReservationId());
