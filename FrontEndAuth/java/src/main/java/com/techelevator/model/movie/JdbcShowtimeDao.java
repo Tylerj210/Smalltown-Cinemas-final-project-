@@ -1,5 +1,6 @@
 package com.techelevator.model.movie;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.postgresql.util.PSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -88,23 +90,27 @@ public class JdbcShowtimeDao implements ShowtimeDao {
 	 */
 	@Override
 	public List<Showtime> changeShowtimesByTheaterAndDay(int theaterId, int movieId, LocalDate day, List<SimpleHourMinTime> times) {
-		
-		String sqlDeleteShowtimes ="DELETE FROM showtime WHERE theater_id=? AND datetime > ? AND datetime < ?";
-		jdbcTemplate.update(sqlDeleteShowtimes,theaterId,day,day.plusDays(1));
-		String sqlHighestKey = "SELECT max(showtime_id) FROM showtime";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlHighestKey);
-		int showtimeId = 0;
-		if(results.next()) {
-			showtimeId=results.getInt("max")+1;
-		}
-		for(SimpleHourMinTime time : times) {
-			String sqlInsertShowtimes ="INSERT INTO showtime (showtime_id,theater_id,movie_id,dateTime,price) VALUES (?, ?, ?, ?,?)";
-			LocalTime localTime = LocalTime.of(time.getHour(), time.getMinute());
+		try {
+			String sqlDeleteShowtimes ="DELETE FROM showtime WHERE theater_id=? AND datetime > ? AND datetime < ?";
+			jdbcTemplate.update(sqlDeleteShowtimes,theaterId,day,day.plusDays(1));
+			String sqlHighestKey = "SELECT max(showtime_id) FROM showtime";
+			SqlRowSet results = jdbcTemplate.queryForRowSet(sqlHighestKey);
+			int showtimeId = 0;
+			if(results.next()) {
+				showtimeId=results.getInt("max")+1;
+			}
+			for(SimpleHourMinTime time : times) {
+				String sqlInsertShowtimes ="INSERT INTO showtime (showtime_id,theater_id,movie_id,dateTime,price) VALUES (?, ?, ?, ?,?)";
+				LocalTime localTime = LocalTime.of(time.getHour(), time.getMinute());
+				
+				LocalDateTime dateTime = LocalDateTime.of(day, localTime);
+				jdbcTemplate.update(sqlInsertShowtimes,showtimeId,theaterId,movieId,dateTime,time.getHour()<12?8:10);
+				showtimeId++;
+			}
+		} catch(PSQLException e) {
 			
-			LocalDateTime dateTime = LocalDateTime.of(day, localTime);
-			jdbcTemplate.update(sqlInsertShowtimes,showtimeId,theaterId,movieId,dateTime,time.getHour()<12?8:10);
-			showtimeId++;
 		}
+		
 						
 		return getShowtimesByTheaterAndDay(theaterId,day);
 	}
