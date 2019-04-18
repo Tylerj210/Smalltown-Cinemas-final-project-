@@ -38,8 +38,7 @@ public class JwtTokenHandler {
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 
         // Let's set the JWT Claims
-        JwtBuilder builder = Jwts.builder().setIssuedAt(now).setSubject(username).claim("rol", role).signWith(signatureAlgorithm,
-                signingKey);
+        JwtBuilder builder = Jwts.builder().setIssuedAt(now).setSubject(username).claim("rol", role).signWith(signingKey,signatureAlgorithm);
 
         // if it has been specified, let's add the expiration
 
