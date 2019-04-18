@@ -109,32 +109,14 @@
                 <p>Enjoy the show!</p>
                 
                 <div class="ticket-wrapper">
-                    <table class="ticketStub" v-for="ticket in selectedSeatNumbers()" v-bind:key="ticket">
-                        <tr>
-                            <td>{{theMovie.title}}</td>
-                        </tr>
-                        <tr>
-                            <td>Theater</td>
-                            <td>Seat #</td>
-                            <td>Price</td>
-                        </tr>
-                        <tr>
-                            <td>{{showtime.showtime.movieId}}</td>
-                            <td>{{ticket}}</td>
-                            <td>${{showtime.showtime.price}}</td>
-                        </tr>
-                    </table>
-                </div>  
-
-                <!-- <div id="printableReceipt">
-                    <p>{{paymentForm.firstName}} {{paymentForm.lastName}}</p>
-                    <p>{{showtime.showtime.movieId}}</p>
-                    <p>Tickets Selected: {{selectedSeats.length}}</p>
-                    <p>Seat Numbers:</p>
-                    <p v-for="ticket in selectedSeatNumbers()" v-bind:key="ticket">
-                      {{ticket}} - ${{showtime.showtime.price}} </p>
-                    <p> Total Price: ${{selectedSeats.length*showtime.showtime.price}}</p>
-                </div> -->
+                    <div class="ticketStub" v-for="ticket in selectedSeatNumbers()" v-bind:key="ticket">
+                        <div class="ticketTitle">Smalltown Cinemas</div>
+                        <div>{{theMovie.title}}</div>
+                        <div>{{setTime(showtime.showtime.time)}}</div>
+                        <div>Seat#{{ticket}} - ${{showtime.showtime.price}}</div>
+                        <img class="qrCode" src="@/assets/qrCode.png" alt="QR Code">
+                    </div>
+                </div> 
             </div>
         </div>
     </div>
@@ -143,14 +125,10 @@
 
 <script>
 import auth from "@/shared/auth.js";
-// import Seats from "@/components/checkout/seats.vue";
-// import Payments from "@/components/checkout/payments.vue";
 
 export default {
     name:"tickets",
     components: {
-        // Seats,
-        // Payments
 },
 data() {
 return {
@@ -244,6 +222,20 @@ methods: {
         .then(movieJSON => {
             this.theMovie = movieJSON;
         })
+    },
+    setTime(showtime){
+      let hour = showtime.hour;
+      let minutes = showtime.minute;
+      if(minutes < 10){
+        minutes = "0" + minutes;
+      }
+      if(hour >= 12){
+        if(hour > 12){
+        hour = hour - 12;
+        }
+        return hour + ":" + minutes + " pm";
+      }
+      return hour + ":" + minutes + " am";
     },
     getView(nextView){
         this.message = '';
@@ -692,30 +684,27 @@ input::placeholder {
     background-color: white;
     margin: auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-around;
 }
 
 .ticketStub {
-    width: 96%;
+    width: 50%;
+    max-width: 150px;
     min-height: 50px;
     margin: 3px auto;
     background-color: white;
     border: 1px dashed black;
     color: black !important;
+    font-size: 1.1em;
 }
 
-.ticketStub td {
-    width: 30%;
+.ticketTitle {
+    font-weight: 800;
 }
 
-.ticketStub td:first-child {
-    border-right: 1px solid black;
-}
 
-.ticketStub td:last-child {
-    border-left: 1px solid black;
-}
 
 
 @media screen and (min-width: 600px) {
