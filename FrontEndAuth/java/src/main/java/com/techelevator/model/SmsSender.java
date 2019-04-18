@@ -6,18 +6,17 @@ public class SmsSender {
 
 	    // Find your Account Sid and Token at twilio.com/console
 	    // DANGER! This is insecure. See http://twil.io/secure
-	    public static final String ACCOUNT_SID = "ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
-	    public static final String AUTH_TOKEN = "your_auth_token";
+	    public static final String ACCOUNT_SID = "AC7ea97872e521af796502945e6299b3f3";
+	    public static final String AUTH_TOKEN = "0dd822678e5f66c20c1ff0118a8c79bf";
 
-	    public static void main(String[] args) {
-	        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-	        Message message = Message.creator(
-	                new com.twilio.type.PhoneNumber("+15558675310"),
-	                new com.twilio.type.PhoneNumber("+15017122661"),
-	                "This is the ship that made the Kessel Run in fourteen parsecs?")
+	    
+	    public static void message(String phoneNumber, String message) {
+	    	Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+	        Message body = Message.creator(
+	                new com.twilio.type.PhoneNumber(phoneNumber),
+	                new com.twilio.type.PhoneNumber("+12162422287"),
+	                message)
 	            .create();
-
-	        System.out.println(message.getSid());
 	    }
 	}
 
