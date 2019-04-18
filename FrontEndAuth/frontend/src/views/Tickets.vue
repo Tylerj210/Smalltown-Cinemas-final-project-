@@ -31,8 +31,8 @@
                         {{seat.seatNumber}}
                     </span>
                 </div>
-                <p v-show="message != ''">{{message}}</p>
-                <button class="btn" v-on:click="verifySeats()">Next</button>
+                <p >{{message}}</p>
+                <button class="btn" v-on:click="claimSeats()">Next</button>
             </div>
             <div v-show="views[1].show" id="payment">
                 <span id="heading">Payment</span>
@@ -127,6 +127,7 @@ export default {
 data() {
 return {
     currentView: 0,
+    seatsAvailable: true,
     selectedSeats: [],
     showtime: {seats:[],showtime:{}},
     views: [
@@ -182,10 +183,26 @@ methods: {
     verifySeats(){
         let seats = document.getElementsByClassName("selected");
         if(seats.length > 0){
-            this.claimSeats();
-            if(this.message!="Sorry, those seats are not available!"){
+            if(this.seatsAvailable){
                 this.message = '';
                 this.getView(1);
+            } else{ 
+                console.log("in the else block");
+                const showtimeId = this.$route.params.showtime;
+                fetch(`${process.env.VUE_APP_REMOTE_API}/seats/${showtimeId}`, {
+                    method: "GET",
+                    headers: {
+                        // A Header with our authentication token.
+                        Authorization: "Bearer " + auth.getToken()
+                    }
+                })
+                .then(response => response.json())
+                .then(showtimeJSON => {
+                    this.showtime = showtimeJSON;
+                        this.localMovieById();
+                })
+                this.seatsAvailable=true;
+                this.selectedSeats = [];
             }
             
         } else {
@@ -284,10 +301,13 @@ methods: {
         .then(response => response.json())
         .then(reservationJSON => {
             this.reservation = reservationJSON;
+            this.verifySeats();
         })
         .catch(error => {
             this.message="Sorry, those seats are not available!";
+            this.seatsAvailable=false;
             console.log("in catch");
+            this.verifySeats();
         })
     },
     seatData(){

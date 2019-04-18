@@ -143,17 +143,21 @@ public class JdbcReservationDao implements ReservationDao {
 
 	public boolean confirmAvailability(Showtime showtime,List<Integer> seats) {
 		boolean isReservable = true;
+		
 		for(int seat : seats) {
 			String sqlCheckSeatAvailability = "SELECT seat_id FROM tickets WHERE seat_id = ? AND reservation_id "+
 											"IN (SELECT reservation_id FROM reservations WHERE showtime_id=? "+
 											"AND (reservations.finalized=true "+
 											"OR current_time::time without time zone -(interval '15 minutes')<reservations.bookingtime::time))";
-			SqlRowSet results = jdbcTemplate.queryForRowSet(sqlCheckSeatAvailability,showtime.getShowtimeId(),seat);
+			SqlRowSet results = jdbcTemplate.queryForRowSet(sqlCheckSeatAvailability,seat,showtime.getShowtimeId());
+			
 			if(results.next()) {
+				
 				isReservable=false;
 				break;
 			}
 		}
+		
 		return isReservable;
 	}
 	/* (non-Javadoc)
