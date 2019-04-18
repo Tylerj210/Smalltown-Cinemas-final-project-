@@ -111,7 +111,7 @@
                 <div class="ticket-wrapper">
                     <table class="ticketStub" v-for="ticket in selectedSeatNumbers()" v-bind:key="ticket">
                         <tr>
-                            <!-- <td>${{this.theMovie.title}}</td> -->
+                            <td>{{theMovie.title}}</td>
                         </tr>
                         <tr>
                             <td>Theater</td>
@@ -176,13 +176,13 @@ return {
     lastView: 0,
     backView: 0,
     paymentForm: {
-        firstName: 'Brett',
-        lastName: 'Jensen',
-        streetAddress: '2542 North Long',
-        city: 'Avon',
-        state: 'OH',
-        zipCode: '44011',
-        email: 'bjensen119@gmail.com',
+        firstName: '',
+        lastName: '',
+        streetAddress: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        email: '',
         phoneNum: ''
     }, 
     message: '',
@@ -221,7 +221,7 @@ methods: {
     verifyPayment(){
         let payment = this.paymentForm;
         if(payment.firstName == '' || payment.lastName == '' || payment.streetAddress == '' || payment.city == '' || payment.state == ''
-        || payment.zipCode == '' || (payment.email == '' && payment.phone == '')){
+        || payment.zipCode == '' || (payment.email == '' && payment.phoneNum == '')){
             this.message = "Please fill in all fields \n";
         }  else {
             this.message = '';
