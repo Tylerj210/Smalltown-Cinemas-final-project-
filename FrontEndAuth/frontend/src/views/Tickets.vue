@@ -212,8 +212,11 @@ methods: {
         let seats = document.getElementsByClassName("selected");
         if(seats.length > 0){
             this.claimSeats();
-            this.message = '';
-            this.getView(1);
+            if(this.message!="Sorry, those seats are not available!"){
+                this.message = '';
+                this.getView(1);
+            }
+            
         } else {
             this.message = "Please choose a seat";
         }
@@ -299,7 +302,8 @@ methods: {
             this.reservation = reservationJSON;
         })
         .catch(error => {
-            console.error(error)
+            this.message="Sorry, those seats are not available!";
+            console.log("in catch");
         })
     },
     seatData(){
