@@ -8,10 +8,21 @@
             <div class="step"></div>
         </div>
         <div id="ticket-wrapper">
-            <div>
-                <p>Theater: {{this.showtime.showtime.theaterId}}</p>
-                <p>Movie: {{this.theMovie.title}}</p>
-                <p>Total Price: ${{selectedSeats.length*showtime.showtime.price}}</p>
+            <div id="selectedMovie">
+                <img v-bind:src="this.theMovie.image" id="movieImage">
+                <div id="movieInfo">
+                    <p>Theater: {{this.showtime.showtime.theaterId}}</p>
+                    <p>Tickets Selected: {{selectedSeats.length}}</p>
+                    <p>Seats:</p>
+                    <div id="seatId">
+                        <ul>
+                            <li v-for="ticket in selectedSeatNumbers()" v-bind:key="ticket">
+                                {{ticket}} - ${{showtime.showtime.price}}
+                            </li>
+                        </ul>
+                    </div>               
+                    <p>Total Price: ${{selectedSeats.length*showtime.showtime.price}}</p>
+                </div>
             </div>
             <div v-show="views[0].show" id="seatChart">
                 <span id="heading"> Seats </span>
@@ -47,65 +58,48 @@
                         <input class="row" type="text" name="email" id="email" v-model="paymentForm.email" placeholder="example@gmail.com">
                         <Label class="row" for="exp"> Phone </Label>
                         <input class="row" type="text" name="phone" id="phone" v-model="paymentForm.phoneNum" placeholder="(000) 000 - 0000">
-                        <!--<Label class="row" for="secNum"> CVV: </Label>
-                        <input class="row" type="text" name="secNum" id="secNum" v-model="paymentForm.secNum" placeholder="123"> -->
                     </div>                    
                 </form>
-                <!-- </div> -->
                 <p v-show="message != ''">{{message}}</p>
                 <button class="btn"  v-on:click="getView(backView)">Back</button>
                 <button class="btn"  v-on:click="verifyPayment()">Next</button>
             </div>
-            <div v-show="views[2].show" id="confirmation">
+            <div v-show="views[2].show" id="comfirmation">
                 <span id="heading"> Confirmation </span>
-                <div id="ticketData">
-                    <div id="ticketsSelected">
-                    <p>
-                        Tickets Selected: {{selectedSeats.length}}
-                    </p>
-                    </div>
-                    <div id="seatNum">
-                    <p>
-                        Seat Number(s):
-                    </p>
-                    </div>
-                    <div id="seatId">
-                    <ul>
-                        <li v-for="ticket in selectedSeatNumbers()" v-bind:key="ticket">
-                            {{ticket}} - ${{showtime.showtime.price}}
-                        </li>
-                    </ul>
-                    </div>
-                    <div id="totalPrice">
-                    <p>
-                        Total Price: ${{selectedSeats.length*showtime.showtime.price}}
-                    </p>
-                    </div>
-                </div>
-                <div id="confirmForm" class="formLayout">
-                    <div id="name" class="section">
-                        <label for="firstName">First Name: </label>
-                        <input type="text" name="firstName" id="firstName" v-model="paymentForm.firstName" disabled>
-                        <label for="lastName">Last Name: </label>
-                        <input type="text" name="lastName" id="lastName" v-model="paymentForm.lastName" disabled>
-                    </div>
-                    <div id="address" class="section">
-                        <label class="row" for="streetAddress">Street Address: </label>
-                        <input class="row" name="streetAddress" id="streetAddress" v-model="paymentForm.streetAddress" disabled>
-                        <label class="row" for="city">City: </label>
-                        <input class="row" type="text" name="city" id="city" v-model="paymentForm.city" disabled>
-                        <label class="row" for="city">State: </label>
-                        <input class="row" type="text" name="state" id="state" v-model="paymentForm.state" disabled>
-                        <label class="row" for="zipCode">Zip Code: </label>
-                        <input class="row" type="text" name="zipCode" id="zipCode" v-model="paymentForm.zipCode" disabled>
-                    </div>
-                    <div id="card" class="section">
-                       <label class="row" for="number">Email </label>
-                        <input class="row" type="text" name="email" id="email" v-model="paymentForm.email" placeholder="example@gmail.com" disabled>
-                        <Label class="row" for="exp"> Phone </Label>
-                        <input class="row" type="text" name="phone" id="phone" v-model="paymentForm.phoneNum" placeholder="(000) 000 - 0000" disabled>
-                    </div>
-                </div>    
+                <table id="comfirmTable">
+                    <tr>
+                        <td>First Name:</td>
+                        <td>{{paymentForm.firstName}}</td>
+                    </tr>
+                    <tr>
+                        <td>Last Name:</td>
+                        <td>{{paymentForm.lastName}}</td>
+                    </tr>
+                    <tr>
+                        <td>Street Address:</td>
+                        <td>{{paymentForm.streetAddress}}</td>
+                    </tr>
+                    <tr>
+                        <td>City:</td>
+                        <td>{{paymentForm.city}}</td>
+                    </tr>
+                    <tr>
+                        <td>State:</td>
+                        <td>{{paymentForm.state}}</td>
+                    </tr>
+                    <tr>
+                        <td>Zip Code:</td>
+                        <td>{{paymentForm.zipCode}}</td>
+                    </tr>
+                    <tr v-if="this.paymentForm.email.length != 0">
+                        <td>Email:</td>
+                        <td>{{paymentForm.email}}</td>
+                    </tr>
+                    <tr v-if="this.paymentForm.phoneNum.length != 0">
+                        <td>Phone:</td>
+                        <td>{{paymentForm.phoneNum}}</td>
+                    </tr>
+                </table>    
                 <button class="btn" v-on:click="getView(backView)">Edit</button>
                 <button class="btn" v-on:click="getView(3)">Finish</button>              
             </div>
@@ -114,7 +108,25 @@
                 <p>You will recieve an email containing your purchase number</p>
                 <p>Enjoy the show!</p>
                 
-                <div id="printableReceipt">
+                <div class="ticket-wrapper">
+                    <table class="ticketStub" v-for="ticket in selectedSeatNumbers()" v-bind:key="ticket">
+                        <tr>
+                            <!-- <td>${{this.theMovie.title}}</td> -->
+                        </tr>
+                        <tr>
+                            <td>Theater</td>
+                            <td>Seat #</td>
+                            <td>Price</td>
+                        </tr>
+                        <tr>
+                            <td>{{showtime.showtime.movieId}}</td>
+                            <td>{{ticket}}</td>
+                            <td>${{showtime.showtime.price}}</td>
+                        </tr>
+                    </table>
+                </div>  
+
+                <!-- <div id="printableReceipt">
                     <p>{{paymentForm.firstName}} {{paymentForm.lastName}}</p>
                     <p>{{showtime.showtime.movieId}}</p>
                     <p>Tickets Selected: {{selectedSeats.length}}</p>
@@ -122,7 +134,7 @@
                     <p v-for="ticket in selectedSeatNumbers()" v-bind:key="ticket">
                       {{ticket}} - ${{showtime.showtime.price}} </p>
                     <p> Total Price: ${{selectedSeats.length*showtime.showtime.price}}</p>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -164,13 +176,13 @@ return {
     lastView: 0,
     backView: 0,
     paymentForm: {
-        firstName: '',
-        lastName: '',
-        streetAddress: '',
-        city: '',
-        state: '',
-        zipCode: '',
-        email: '',
+        firstName: 'Brett',
+        lastName: 'Jensen',
+        streetAddress: '2542 North Long',
+        city: 'Avon',
+        state: 'OH',
+        zipCode: '44011',
+        email: 'bjensen119@gmail.com',
         phoneNum: ''
     }, 
     message: '',
@@ -209,8 +221,8 @@ methods: {
     verifyPayment(){
         let payment = this.paymentForm;
         if(payment.firstName == '' || payment.lastName == '' || payment.streetAddress == '' || payment.city == '' || payment.state == ''
-        || payment.zipCode == '' || payment.cardNum == '' || payment.exp == '' || payment.secNum == ''){
-            this.message = "Please fill in all fields";
+        || payment.zipCode == '' || (payment.email == '' && payment.phone == '')){
+            this.message = "Please fill in all fields \n";
         }  else {
             this.message = '';
             this.getView(2);
@@ -578,13 +590,21 @@ created() {
 
 /**************** Payment **************/
 
-#payment, #confirmation {
+#payment {
     background-color: rgba(128,0,32,.9);
     width: 90%;
     min-height: 1000px;
-    margin: 10% auto;
+    margin: 2% auto;
     padding: 2%;
     border-radius: 5%;   
+}
+
+#comfirmation {
+    background-color: rgba(128,0,32,.9);
+    width: 90%;
+    margin: 2% auto;
+    padding: 2%;
+    border-radius: 5%;
 }
 
 .formLayout {
@@ -612,19 +632,89 @@ input {
 input::placeholder {
   color: rgba(145,145,145,.4);
   font-size: 100%;
-  /* padding-left: 10px; */
 }
 
 .formLayout .section {
-    flex-basis: 1 2 1;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     font-size: 1.5em;
 }
 
+#comfirmTable {
+    width: 90%;
+    margin: 30px auto;
+    text-align: left;
+    color: white !important;
+}
 
-@media screen and (min-width: 592px) {
+#comfirmTable td {
+    text-align: left;
+}
+
+#comfirmForm span {
+    display: block;
+    max-width: 50%;
+    font-size: .6em;
+}
+
+#selectedMovie {
+    max-width: 90%;
+    max-height: 200px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+#movieInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: left;
+    margin-left: 30px;
+}
+
+#movieInfo * {
+    margin: 0px;
+}
+
+#movieImage {
+    max-width: 160px;
+    height: auto;
+}
+
+.ticket-wrapper {
+    max-width: 90%;
+    background-color: white;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.ticketStub {
+    width: 96%;
+    min-height: 50px;
+    margin: 3px auto;
+    background-color: white;
+    border: 1px dashed black;
+    color: black !important;
+}
+
+.ticketStub td {
+    width: 30%;
+}
+
+.ticketStub td:first-child {
+    border-right: 1px solid black;
+}
+
+.ticketStub td:last-child {
+    border-left: 1px solid black;
+}
+
+
+@media screen and (min-width: 600px) {
 
     .progress-bar {
         margin: 5% auto;
@@ -634,7 +724,12 @@ input::placeholder {
         padding: 1% .5%;
     }
 
+    .ticket-wrapper {
+    max-width: 600px;
+
+    }
 }
+
 
 @media screen and (min-width: 768px) {
 
@@ -652,6 +747,17 @@ input::placeholder {
         border-top: 3px solid white;
         border-radius: 40%;
         font-size: 3em;
+    }
+
+    #comfirmTable {
+        max-width: 600px;
+        margin-left: 15%;
+        
+    }
+
+    #comfirmTable td {
+        width: 50%;
+        font-size: 1.5em;
     }
 
 }
