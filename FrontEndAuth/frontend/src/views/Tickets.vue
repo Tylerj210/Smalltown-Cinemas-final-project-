@@ -54,8 +54,6 @@
                         <input class="row" type="text" name="zipCode" id="zipCode" v-model="paymentForm.zipCode" placeholder="12345">
                     </div>
                     <div id="card" class="section">
-                        <label class="row" for="number">Email </label>
-                        <input class="row" type="text" name="email" id="email" v-model="paymentForm.email" placeholder="example@gmail.com">
                         <Label class="row" for="exp"> Phone </Label>
                         <input class="row" type="text" name="phone" id="phone" v-model="paymentForm.phoneNum" placeholder="(000) 000 - 0000">
                     </div>                    
@@ -91,11 +89,7 @@
                         <td>Zip Code:</td>
                         <td>{{paymentForm.zipCode}}</td>
                     </tr>
-                    <tr v-if="this.paymentForm.email.length != 0">
-                        <td>Email:</td>
-                        <td>{{paymentForm.email}}</td>
-                    </tr>
-                    <tr v-if="this.paymentForm.phoneNum.length != 0">
+                    <tr>
                         <td>Phone:</td>
                         <td>{{paymentForm.phoneNum}}</td>
                     </tr>
@@ -160,7 +154,6 @@ return {
         city: '',
         state: '',
         zipCode: '',
-        email: '',
         phoneNum: ''
     }, 
     message: '',
@@ -202,7 +195,7 @@ methods: {
     verifyPayment(){
         let payment = this.paymentForm;
         if(payment.firstName == '' || payment.lastName == '' || payment.streetAddress == '' || payment.city == '' || payment.state == ''
-        || payment.zipCode == '' || (payment.email == '' && payment.phoneNum == '')){
+        || payment.zipCode == '' || payment.phoneNum == ''){
             this.message = "Please fill in all fields \n";
         }  else {
             this.message = '';
@@ -278,7 +271,6 @@ methods: {
     claimSeats() {
         const res = this.seatData();
         
-        console.log(res);
         fetch(`${process.env.VUE_APP_REMOTE_API}/seats/book`, {
             method: "POST",
             body: JSON.stringify(res),
@@ -352,8 +344,6 @@ methods: {
     },
     confirmSeats() {
         const res = {reservationId:this.reservation.reservationId};
-        
-        console.log(res);
         fetch(`${process.env.VUE_APP_REMOTE_API}/seats/book`, {
             method: "PUT",
             body: JSON.stringify(res),
@@ -367,6 +357,7 @@ methods: {
         .then(response => response.json())
         .then(reservationJSON => {
             this.reservation = reservationJSON;
+            this.sendSms();
         })
         .catch(error => {
             console.error(error)
