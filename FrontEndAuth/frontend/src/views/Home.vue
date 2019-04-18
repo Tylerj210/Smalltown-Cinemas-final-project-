@@ -19,7 +19,7 @@
           </div>
           <div class="movie-main-details">
             <div class="movieHead">
-              <a v-bind:href="viewing.movie.officialSite"><h3>{{viewing.movie.title}}</h3></a>
+              <a v-bind:href="viewing.movie.officialSite" target="_blank"><h3>{{viewing.movie.title}}</h3></a>
               <div class="rating">
                 <p>{{viewing.movie.rating}}</p>
               </div>
