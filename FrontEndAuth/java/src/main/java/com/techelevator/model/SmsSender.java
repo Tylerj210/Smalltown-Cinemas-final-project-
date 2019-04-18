@@ -9,15 +9,14 @@ public class SmsSender {
 	    public static final String ACCOUNT_SID = "AC7ea97872e521af796502945e6299b3f3";
 	    public static final String AUTH_TOKEN = "0dd822678e5f66c20c1ff0118a8c79bf";
 
-	    public static void main(String[] args) {
-	        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-	        Message message = Message.creator(
-	                new com.twilio.type.PhoneNumber("+14405520189"),
+	    
+	    public static void message(String phoneNumber, String message) {
+	    	Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+	        Message body = Message.creator(
+	                new com.twilio.type.PhoneNumber(phoneNumber),
 	                new com.twilio.type.PhoneNumber("+12162422287"),
-	                "Hi, Nick ;) wanna date?")
+	                message)
 	            .create();
-
-	        System.out.println(message.getSid());
 	    }
 	}
 
